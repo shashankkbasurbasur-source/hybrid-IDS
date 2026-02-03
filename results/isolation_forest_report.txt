@@ -1,0 +1,9 @@
+Isolation Forest Sanity Check
+              precision    recall  f1-score   support
+
+           0       0.87      0.90      0.88     40103
+           1       0.52      0.44      0.48      9897
+
+    accuracy                           0.81     50000
+   macro avg       0.70      0.67      0.68     50000
+weighted avg       0.80      0.81      0.80     50000
