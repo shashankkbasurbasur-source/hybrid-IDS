@@ -1,0 +1,9 @@
+May 10 10:12:10 server sshd[132]: Accepted password for root from 192.168.1.10 port 22 ssh2
+May 10 11:01:01 server sshd[201]: Failed password for admin from 192.168.1.50 port 22 ssh2
+May 10 11:01:05 server sshd[202]: Failed password for guest from 192.168.1.50 port 22 ssh2
+May 10 11:01:10 server sshd[203]: Failed password for user from 192.168.1.50 port 22 ssh2
+May 10 11:01:15 server sshd[204]: Failed password for test from 192.168.1.50 port 22 ssh2
+May 10 11:01:20 server sshd[205]: Failed password for oracle from 192.168.1.50 port 22 ssh2
+May 10 11:01:25 server sshd[206]: Failed password for backup from 192.168.1.50 port 22 ssh2
+May 10 11:01:30 server sshd[207]: Failed password for finance from 192.168.1.50 port 22 ssh2
+May 10 11:01:35 server sshd[208]: Failed password for hr from 192.168.1.50 port 22 ssh2
