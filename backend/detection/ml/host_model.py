@@ -1,34 +1,22 @@
-"""
-Host Intrusion Detection Model Wrapper (HIDS)
-"""
-
+"""backend/detection/ml/host_model.py"""
 import numpy as np
 from backend.detection.ml.model_loader import models
+from backend.core.logger import get_logger
+from backend.core.exceptions import PredictionError
 
+logger = get_logger(__name__)
 
 def predict_host(features: list) -> float:
-    """
-    Predicts probability of intrusion using HIDS model.
-
-    Args:
-        features (list): Extracted host feature vector
-
-    Returns:
-        float: Intrusion probability (0-1)
-    """
-
-    if not isinstance(features, list):
-        raise ValueError("Host features must be a list")
-
-    if len(features) == 0:
-        raise ValueError("Host features list cannot be empty")
-
     try:
-        feature_array = np.array(features).reshape(1, -1)
-
-        probability = models.hids_model.predict_proba(feature_array)[0][1]
-
-        return float(probability)
-
+        if not features or sum(abs(x) for x in features) == 0:
+            return 0.0
+            
+        n   = int(models.hids_model.n_features_in_)
+        vec = list(features)
+        if len(vec) > n:   vec = vec[:n]
+        elif len(vec) < n: vec = vec + [0.0] * (n - len(vec))
+        arr   = np.array(vec, dtype=float).reshape(1, -1)
+        proba = models.hids_model.predict_proba(arr)[0]
+        return float(proba[1]) if len(proba) > 1 else float(proba[0])
     except Exception as e:
-        raise RuntimeError(f"HIDS prediction failed: {e}")
+        raise PredictionError(f"HIDS prediction failed: {e}") from e

@@ -1,0 +1,621 @@
+[2026-06-08 13:23:08] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:23:09] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:23:09] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:23:09] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:23:09] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:23:43] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:23:43] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:23:43] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:23:43] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:23:43] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:23:44] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:24:01] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:24:02] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:24:02] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:24:02] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:24:02] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:24:02] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:24:02] INFO     backend.api.detect_api — detect_api: NIDS feature size = 77
+[2026-06-08 13:24:41] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:24:41] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:24:41] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:24:41] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:24:41] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:24:41] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:24:41] INFO     backend.api.detect_api — detect_api: NIDS feature size = 77
+[2026-06-08 13:25:08] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:25:08] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:25:08] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:25:08] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:25:08] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:25:08] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:25:08] INFO     backend.api.detect_api — detect_api: NIDS feature size = 77
+[2026-06-08 13:25:38] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:25:38] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:25:38] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:25:38] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:25:38] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:25:38] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:25:38] INFO     backend.api.detect_api — detect_api: NIDS feature size = 77
+[2026-06-08 13:25:56] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:25:57] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:25:57] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:25:57] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:25:57] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:25:57] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:25:57] INFO     backend.api.detect_api — detect_api: NIDS feature size = 77
+[2026-06-08 13:26:25] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:26:26] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:26:26] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:26:26] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:26:26] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:26:26] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:26:26] INFO     backend.api.detect_api — detect_api: NIDS feature size = 77
+[2026-06-08 13:27:14] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:27:14] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:27:14] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:27:14] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:27:14] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:27:14] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:27:14] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 13:27:54] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:27:54] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:27:54] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:27:54] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:27:54] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:27:54] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:27:54] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 13:28:14] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:28:15] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:28:15] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:28:15] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:28:15] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:28:15] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:28:15] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 13:28:45] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:28:45] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:28:45] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:28:45] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:28:45] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:28:45] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:28:45] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 13:29:19] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:29:19] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:29:19] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:29:19] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:29:19] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:29:19] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 13:29:19] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 22:46:04] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 22:46:06] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 22:46:06] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 22:46:06] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 22:46:06] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 22:46:06] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 22:46:06] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 22:46:35] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0204 hids=1.0000 fusion=0.4122
+[2026-06-08 22:47:03] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0204 hids=1.0000 fusion=0.4122
+[2026-06-08 22:47:09] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0204 hids=1.0000 fusion=0.4122
+[2026-06-08 22:47:28] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0204 hids=1.0000 fusion=0.4122
+[2026-06-08 22:49:56] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0204 hids=1.0000 fusion=0.4122
+[2026-06-08 23:01:47] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 23:01:49] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 23:01:49] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 23:01:49] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 23:01:49] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 23:01:49] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 23:01:49] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 23:02:00] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 23:02:00] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 23:02:00] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 23:02:00] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 23:02:00] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 23:02:00] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 23:02:00] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 23:02:07] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 23:02:10] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 23:02:10] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 23:02:10] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 23:02:10] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 23:02:10] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 23:02:10] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 23:02:49] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 23:02:51] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 23:02:51] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 23:02:51] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 23:02:51] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 23:02:51] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-08 23:02:51] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-08 23:03:11] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0200 hids=0.9133 fusion=0.3773
+[2026-06-08 23:03:19] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0200 hids=0.9133 fusion=0.3773
+[2026-06-08 23:04:02] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0200 hids=0.9133 fusion=0.3773
+[2026-06-08 23:04:10] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0204 hids=1.0000 fusion=0.4122
+[2026-06-08 23:04:25] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0200 hids=0.9133 fusion=0.3773
+[2026-06-08 23:04:34] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0204 hids=1.0000 fusion=0.4122
+[2026-06-09 00:58:26] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 00:58:28] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 00:58:28] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 00:58:28] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 00:58:28] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 00:58:28] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 00:58:28] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 00:58:54] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-09 00:58:54] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 10.184.111.62 (timeout 10s)
+[2026-06-09 00:58:56] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-09 00:58:56] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '10.184.111.62' not found !), trying raw socket
+[2026-06-09 00:58:56] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-09 00:58:56] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-09 00:58:56] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1683 hids=0.9433 fusion=0.4783
+[2026-06-09 00:59:29] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-09 00:59:29] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 10.184.111.62 (timeout 10s)
+[2026-06-09 00:59:29] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-09 00:59:29] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '10.184.111.62' not found !), trying raw socket
+[2026-06-09 00:59:29] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-09 00:59:29] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-09 00:59:29] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1683 hids=0.9433 fusion=0.4783
+[2026-06-09 00:59:52] INFO     backend.scenarios.attack_generators — [NORMAL] Generated 50 normal traffic events
+[2026-06-09 00:59:52] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.2213 hids=0.9433 fusion=0.5101
+[2026-06-09 01:01:27] ERROR    backend.api.packet_api — Scenario test error
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 115, in test_scenario
+    net_events = generate_port_scan(req.packet_count)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 68, in generate_port_scan
+    for i, port in enumerate(port_range * (count // len(port_range) + 1))[:count]:
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+TypeError: 'enumerate' object is not subscriptable
+[2026-06-09 01:01:32] INFO     backend.scenarios.attack_generators — [DDoS] Generated 50 DDoS flood events to 10.0.0.100:53
+[2026-06-09 01:01:33] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1416 hids=0.9433 fusion=0.4623
+[2026-06-09 01:01:45] INFO     backend.scenarios.attack_generators — [BRUTE FORCE] Generated 51 SSH auth logs from 192.168.4.97
+[2026-06-09 01:01:45] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0200 hids=0.9467 fusion=0.3907
+[2026-06-09 01:01:53] ERROR    backend.api.packet_api — Scenario test error
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 122, in test_scenario
+    net_events, log_lines = generate_hybrid_attack()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 163, in generate_hybrid_attack
+    scan_events = generate_port_scan(count=30)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 68, in generate_port_scan
+    for i, port in enumerate(port_range * (count // len(port_range) + 1))[:count]:
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+TypeError: 'enumerate' object is not subscriptable
+[2026-06-09 09:24:35] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 09:24:41] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 09:24:41] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 09:24:41] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 09:24:41] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 09:24:42] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 09:24:42] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 09:25:00] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-09 09:25:00] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 192.168.23.59 (timeout 10s)
+[2026-06-09 09:25:04] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-09 09:25:04] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '192.168.23.59' not found !), trying raw socket
+[2026-06-09 09:25:04] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-09 09:25:04] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-09 09:25:05] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1683 hids=0.9433 fusion=0.4783
+[2026-06-09 09:26:22] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-09 09:26:22] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 192.168.23.59 (timeout 10s)
+[2026-06-09 09:26:22] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-09 09:26:22] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '192.168.23.59' not found !), trying raw socket
+[2026-06-09 09:26:22] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-09 09:26:22] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-09 09:26:23] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1683 hids=0.9433 fusion=0.4783
+[2026-06-09 09:26:33] ERROR    backend.api.packet_api — Scenario test error
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 122, in test_scenario
+    net_events, log_lines = generate_hybrid_attack()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 163, in generate_hybrid_attack
+    scan_events = generate_port_scan(count=30)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 68, in generate_port_scan
+    for i, port in enumerate(port_range * (count // len(port_range) + 1))[:count]:
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+TypeError: 'enumerate' object is not subscriptable
+[2026-06-09 09:27:15] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-09 09:27:15] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 192.168.23.59 (timeout 10s)
+[2026-06-09 09:27:15] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-09 09:27:15] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '192.168.23.59' not found !), trying raw socket
+[2026-06-09 09:27:15] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-09 09:27:15] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-09 09:27:16] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1683 hids=0.9433 fusion=0.4783
+[2026-06-09 09:27:40] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-09 09:27:40] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 192.168.23.59 (timeout 10s)
+[2026-06-09 09:27:40] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-09 09:27:40] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '192.168.23.59' not found !), trying raw socket
+[2026-06-09 09:27:40] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-09 09:27:40] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-09 09:27:40] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1683 hids=0.9433 fusion=0.4783
+[2026-06-09 09:29:09] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-09 09:29:09] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 192.168.23.59 (timeout 10s)
+[2026-06-09 09:29:09] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-09 09:29:09] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '192.168.23.59' not found !), trying raw socket
+[2026-06-09 09:29:09] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-09 09:29:09] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-09 09:29:09] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1683 hids=0.9433 fusion=0.4783
+[2026-06-09 09:29:15] INFO     backend.scenarios.attack_generators — [NORMAL] Generated 50 normal traffic events
+[2026-06-09 09:29:16] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.2110 hids=0.9433 fusion=0.5039
+[2026-06-09 09:29:32] ERROR    backend.api.packet_api — Scenario test error
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 115, in test_scenario
+    net_events = generate_port_scan(req.packet_count)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 68, in generate_port_scan
+    for i, port in enumerate(port_range * (count // len(port_range) + 1))[:count]:
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+TypeError: 'enumerate' object is not subscriptable
+[2026-06-09 09:30:15] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-09 09:30:15] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 192.168.23.59 (timeout 10s)
+[2026-06-09 09:30:15] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-09 09:30:15] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '192.168.23.59' not found !), trying raw socket
+[2026-06-09 09:30:15] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-09 09:30:15] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-09 09:30:15] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1683 hids=0.9433 fusion=0.4783
+[2026-06-09 09:30:21] ERROR    backend.api.packet_api — Scenario test error
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 115, in test_scenario
+    net_events = generate_port_scan(req.packet_count)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 68, in generate_port_scan
+    for i, port in enumerate(port_range * (count // len(port_range) + 1))[:count]:
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+TypeError: 'enumerate' object is not subscriptable
+[2026-06-09 09:30:24] INFO     backend.scenarios.attack_generators — [DDoS] Generated 50 DDoS flood events to 10.0.0.100:53
+[2026-06-09 09:30:24] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1416 hids=0.9433 fusion=0.4623
+[2026-06-09 09:30:29] INFO     backend.scenarios.attack_generators — [BRUTE FORCE] Generated 51 SSH auth logs from 192.168.4.74
+[2026-06-09 09:30:30] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0200 hids=0.9467 fusion=0.3907
+[2026-06-09 09:30:48] ERROR    backend.api.packet_api — Scenario test error
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 122, in test_scenario
+    net_events, log_lines = generate_hybrid_attack()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 163, in generate_hybrid_attack
+    scan_events = generate_port_scan(count=30)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/scenarios/attack_generators.py", line 68, in generate_port_scan
+    for i, port in enumerate(port_range * (count // len(port_range) + 1))[:count]:
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+TypeError: 'enumerate' object is not subscriptable
+[2026-06-09 09:33:30] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.5.52
+[2026-06-09 09:33:37] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 30 port scan events from 10.10.8.128
+[2026-06-09 09:33:37] INFO     backend.scenarios.attack_generators — [BRUTE FORCE] Generated 21 SSH auth logs from 192.168.5.134
+[2026-06-09 09:33:37] INFO     backend.scenarios.attack_generators — [HYBRID] Generated 3-phase hybrid attack: recon + brute-force + lateral movement
+[2026-06-09 09:33:38] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 09:33:40] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 09:33:40] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 09:33:40] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 09:33:40] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 09:33:40] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 09:33:40] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 09:35:16] INFO     backend.scenarios.attack_generators — [NORMAL] Generated 50 normal traffic events
+[2026-06-09 09:35:16] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.2185 hids=0.9433 fusion=0.5084
+[2026-06-09 09:35:20] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.3.34
+[2026-06-09 09:35:20] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1732 hids=0.9433 fusion=0.4813
+[2026-06-09 09:35:29] INFO     backend.scenarios.attack_generators — [DDoS] Generated 50 DDoS flood events to 10.0.0.100:161
+[2026-06-09 09:35:29] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1416 hids=0.9433 fusion=0.4623
+[2026-06-09 09:35:42] INFO     backend.scenarios.attack_generators — [BRUTE FORCE] Generated 50 SSH auth logs from 192.168.5.78
+[2026-06-09 09:35:42] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.0200 hids=0.9767 fusion=0.4027
+[2026-06-09 09:35:49] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 30 port scan events from 10.10.9.251
+[2026-06-09 09:35:49] INFO     backend.scenarios.attack_generators — [BRUTE FORCE] Generated 21 SSH auth logs from 192.168.1.94
+[2026-06-09 09:35:49] INFO     backend.scenarios.attack_generators — [HYBRID] Generated 3-phase hybrid attack: recon + brute-force + lateral movement
+[2026-06-09 09:35:49] INFO     backend.detection.service — decision=Intrusion severity=CRITICAL nids=0.1827 hids=0.9467 fusion=0.4883
+[2026-06-09 09:54:26] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 09:54:26] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 09:54:26] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 09:54:26] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 09:54:26] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 09:54:26] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 09:54:26] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 09:54:54] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 09:54:54] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 09:54:54] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 09:54:54] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 09:54:54] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 09:54:54] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 09:54:54] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 09:55:43] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 09:55:43] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 09:55:43] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 09:55:43] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 09:55:43] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 09:55:43] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 09:55:43] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 09:56:12] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 09:56:12] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 09:56:12] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 09:56:12] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 09:56:12] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 09:56:12] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 09:56:12] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:01:12] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:01:12] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:01:13] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:01:13] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:01:13] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:01:13] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:01:13] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:03:25] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:03:27] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:03:27] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:03:27] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:03:27] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:03:27] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:03:27] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:05:59] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:05:59] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:05:59] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:05:59] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:05:59] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:05:59] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:05:59] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:12:36] ERROR    backend.api.packet_api — Stats retrieval failed
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 181, in packet_stats
+    "timestamp": str(pd.Timestamp.now()),
+                     ^^
+NameError: name 'pd' is not defined
+[2026-06-09 10:16:53] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:16:53] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:16:53] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:16:53] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:16:53] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:16:54] INFO     backend.detection.ml.network_model — NIDS: score=0.0200, attack_type='Normal Traffic'
+[2026-06-09 10:17:12] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.5.43
+[2026-06-09 10:17:41] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.800, HIDS=0.800
+[2026-06-09 10:17:41] CRITICAL backend.detection.fusion — HYBRID ATTACK: Network + Host combined! Score=0.800
+[2026-06-09 10:23:40] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:23:40] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:23:40] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:23:40] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:23:40] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:23:41] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:23:41] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:24:09] ERROR    backend.api.packet_api — Stats retrieval failed
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 181, in packet_stats
+    "timestamp": str(pd.Timestamp.now()),
+                     ^^
+NameError: name 'pd' is not defined
+[2026-06-09 10:24:23] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.2.154
+[2026-06-09 10:24:23] INFO     backend.detection.ml.network_model — NIDS: score=0.1494, attack_type='Normal Traffic'
+[2026-06-09 10:24:23] INFO     backend.detection.service — ▶ NIDS Result: score=0.1494, attack='Normal Traffic'
+[2026-06-09 10:24:23] INFO     backend.detection.service — ▶ HIDS Result: score=0.9433
+[2026-06-09 10:24:23] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.149, HIDS=0.943
+[2026-06-09 10:24:23] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.943)
+[2026-06-09 10:24:23] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-09 10:24:24] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:24:24] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.4669 | Severity=LOW
+[2026-06-09 10:24:24] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:28:46] ERROR    backend.api.packet_api — Stats retrieval failed
+Traceback (most recent call last):
+  File "/home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/backend/api/packet_api.py", line 181, in packet_stats
+    "timestamp": str(pd.Timestamp.now()),
+                     ^^
+NameError: name 'pd' is not defined
+[2026-06-09 10:29:09] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.4.103
+[2026-06-09 10:29:09] INFO     backend.detection.ml.network_model — NIDS: score=0.1494, attack_type='Normal Traffic'
+[2026-06-09 10:29:09] INFO     backend.detection.service — ▶ NIDS Result: score=0.1494, attack='Normal Traffic'
+[2026-06-09 10:29:09] INFO     backend.detection.service — ▶ HIDS Result: score=0.9433
+[2026-06-09 10:29:09] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.149, HIDS=0.943
+[2026-06-09 10:29:09] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.943)
+[2026-06-09 10:29:09] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-09 10:29:09] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:29:09] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.4669 | Severity=LOW
+[2026-06-09 10:29:09] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:32:46] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:32:47] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:32:47] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:32:47] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:32:47] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:32:47] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:32:47] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:43:04] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:43:05] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:43:05] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:43:05] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:43:05] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:43:05] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:43:05] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:47:34] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:47:34] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:47:34] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:47:34] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:47:34] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:47:34] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:47:34] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:47:58] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:48:00] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:48:00] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:48:00] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:48:00] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:48:00] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:48:00] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.10.218
+[2026-06-09 10:48:01] INFO     backend.detection.ml.network_model — NIDS: score=0.1494, attack_type='Normal Traffic'
+[2026-06-09 10:48:01] INFO     backend.detection.service — ▶ NIDS Result: score=0.1494, attack='Normal Traffic'
+[2026-06-09 10:48:01] INFO     backend.detection.service — ▶ HIDS Result: score=0.9433
+[2026-06-09 10:48:01] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.149, HIDS=0.943
+[2026-06-09 10:48:01] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.943)
+[2026-06-09 10:48:01] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-09 10:48:02] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:48:02] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.4669 | Severity=LOW
+[2026-06-09 10:48:02] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:49:49] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:49:50] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:49:50] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:49:50] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:49:50] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:49:50] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:49:50] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:50:09] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:50:09] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:50:09] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:50:09] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:50:09] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:50:09] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:50:09] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.9.55
+[2026-06-09 10:50:09] INFO     backend.detection.ml.network_model — NIDS: score=0.1494, attack_type='Normal Traffic'
+[2026-06-09 10:50:09] INFO     backend.detection.service — ▶ NIDS Result: score=0.1494, attack='Normal Traffic'
+[2026-06-09 10:50:09] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-09 10:50:09] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.149, HIDS=0.000)
+[2026-06-09 10:50:09] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-09 10:50:10] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:50:10] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0896 | Severity=LOW
+[2026-06-09 10:50:10] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:51:07] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:51:08] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:51:08] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:51:08] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:51:08] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:51:08] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:51:08] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 10:58:39] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 10:58:41] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 10:58:41] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 10:58:41] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 10:58:41] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 10:58:41] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 10:58:42] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.9.13
+[2026-06-09 10:58:42] INFO     backend.detection.ml.network_model — NIDS: score=0.2124, attack_type='Normal Traffic'
+[2026-06-09 10:58:42] INFO     backend.detection.service — ▶ NIDS Result: score=0.2124, attack='Normal Traffic'
+[2026-06-09 10:58:42] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-09 10:58:42] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.212, HIDS=0.000)
+[2026-06-09 10:58:42] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-09 10:58:42] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 10:58:42] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.1274 | Severity=LOW
+[2026-06-09 10:58:42] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 11:22:40] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:22:44] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:22:44] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:22:44] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:22:44] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:22:46] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 11:22:48] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.10.216
+[2026-06-09 11:22:59] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.2.223
+[2026-06-09 11:23:58] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:23:58] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:23:58] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:23:58] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:23:58] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:23:58] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 11:23:58] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 11:24:34] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:24:35] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:24:35] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:24:35] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:24:35] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:24:35] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 11:24:35] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.6.119
+[2026-06-09 11:24:35] INFO     backend.detection.ml.network_model — NIDS: score=0.0429, attack_type='Normal Traffic'
+[2026-06-09 11:24:35] INFO     backend.detection.service — ▶ NIDS Result: score=0.0429, attack='Normal Traffic'
+[2026-06-09 11:24:35] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-09 11:24:35] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.043, HIDS=0.000)
+[2026-06-09 11:24:35] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-09 11:24:38] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 11:24:38] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0257 | Severity=LOW
+[2026-06-09 11:24:38] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 11:25:02] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:25:02] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:25:02] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:25:02] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:25:02] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:25:02] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.5.125
+[2026-06-09 11:27:09] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:27:20] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:27:21] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:27:21] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:27:21] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:27:21] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 1 port scan events from 10.10.8.206
+[2026-06-09 11:27:21] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 2 port scan events from 10.10.6.176
+[2026-06-09 11:27:22] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 5 port scan events from 10.10.6.180
+[2026-06-09 11:27:22] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 10 port scan events from 10.10.6.116
+[2026-06-09 11:27:22] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 20 port scan events from 10.10.9.70
+[2026-06-09 11:27:22] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.1.121
+[2026-06-09 11:35:19] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.4.15
+[2026-06-09 11:35:20] INFO     backend.detection.ml.network_model — NIDS: score=0.0429, attack_type='Normal Traffic'
+[2026-06-09 11:35:20] INFO     backend.detection.service — ▶ NIDS Result: score=0.0429, attack='Normal Traffic'
+[2026-06-09 11:35:20] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-09 11:35:20] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.043, HIDS=0.000)
+[2026-06-09 11:35:20] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-09 11:35:21] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 11:35:21] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0257 | Severity=LOW
+[2026-06-09 11:35:21] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 11:52:17] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:52:19] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:52:19] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:52:19] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:52:19] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:52:19] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 11:52:19] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 11:53:22] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generated 50 port scan events from 10.10.3.10
+[2026-06-09 11:53:22] INFO     backend.detection.ml.network_model — NIDS: score=0.0429, attack_type='Normal Traffic'
+[2026-06-09 11:53:22] INFO     backend.detection.service — ▶ NIDS Result: score=0.0429, attack='Normal Traffic'
+[2026-06-09 11:53:22] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-09 11:53:22] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.043, HIDS=0.000)
+[2026-06-09 11:53:22] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-09 11:53:23] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 11:53:23] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0257 | Severity=LOW
+[2026-06-09 11:53:23] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 11:56:30] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:56:32] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:56:32] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:56:32] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:56:32] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:56:33] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 11:56:33] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 11:58:55] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:58:58] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:58:58] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:58:58] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:58:58] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:58:59] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 11:58:59] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 11:59:09] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 11:59:09] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 11:59:09] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 11:59:09] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 11:59:09] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 11:59:09] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 11:59:09] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 11:59:49] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generating 100 port scan events with HIGH ENTROPY
+[2026-06-09 11:59:49] INFO     backend.scenarios.attack_generators — [✓ PORT SCAN] Generated 100 port scan events (entropy=100 unique ports)
+[2026-06-09 11:59:49] INFO     backend.detection.ml.network_model — NIDS: score=0.0554, attack_type='Normal Traffic'
+[2026-06-09 11:59:49] INFO     backend.detection.service — ▶ NIDS Result: score=0.0554, attack='Normal Traffic'
+[2026-06-09 11:59:49] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-09 11:59:49] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.055, HIDS=0.000)
+[2026-06-09 11:59:49] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-09 11:59:49] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 11:59:49] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0332 | Severity=LOW
+[2026-06-09 11:59:49] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 12:02:44] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 12:02:46] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 12:02:46] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 12:02:46] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 12:02:46] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 12:02:46] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 12:02:46] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 12:09:30] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 12:09:33] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 12:09:33] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 12:09:33] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 12:09:33] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 12:09:33] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-09 12:09:33] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-09 12:10:20] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generating 50 port scan events with HIGH ENTROPY
+[2026-06-09 12:10:20] INFO     backend.scenarios.attack_generators — [✓ PORT SCAN] Generated 50 port scan events (entropy=50 unique ports)
+[2026-06-09 12:10:20] INFO     backend.detection.ml.network_model — NIDS: score=0.0554, attack_type='Normal Traffic'
+[2026-06-09 12:10:20] INFO     backend.detection.service — ▶ NIDS Result: score=0.0554, attack='Normal Traffic'
+[2026-06-09 12:10:20] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-09 12:10:20] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.055, HIDS=0.000)
+[2026-06-09 12:10:20] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-09 12:10:21] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 12:10:21] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0332 | Severity=LOW
+[2026-06-09 12:10:21] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-09 12:26:00] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generating 100 port scan events with HIGH ENTROPY
+[2026-06-09 12:26:00] INFO     backend.scenarios.attack_generators — [✓ PORT SCAN] Generated 100 port scan events (entropy=100 unique ports)
+[2026-06-09 12:26:13] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-09 12:26:16] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-09 12:26:16] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-09 12:26:16] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-09 12:26:16] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-09 12:26:16] INFO     backend.detection.ml.network_model — NIDS: score=0.0554, attack_type='Normal Traffic'

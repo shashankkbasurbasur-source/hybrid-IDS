@@ -1,0 +1,227 @@
+[2026-06-07 23:31:43] INFO     backend.detection.ml.model_loader — NIDS model loaded
+[2026-06-07 23:31:43] INFO     backend.detection.ml.model_loader — HIDS model loaded (vocab: yes)
+[2026-06-07 23:31:43] INFO     backend.detection.ml.model_loader — Scaler loaded
+[2026-06-07 23:31:43] INFO     backend.detection.ml.model_loader — [✓] All ML models loaded successfully
+[2026-06-07 23:31:44] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:31:44] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:32:28] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:32:28] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:32:49] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:32:49] INFO     backend.ingestions.log_ingest — [HIDS] Parsed 9 events from 9 lines
+[2026-06-07 23:32:49] DEBUG    backend.detection.ml.host_model — HIDS: direct feature path (100 dims)
+[2026-06-07 23:32:49] DEBUG    backend.detection.ml.host_model — HIDS score: 0.5344
+[2026-06-07 23:32:49] INFO     backend.detection.service — ML scores  →  NIDS: 0.0150  HIDS: 0.5344
+[2026-06-07 23:32:49] INFO     backend.detection.service — Rule layer fired 1 alert(s)
+[2026-06-07 23:32:49] DEBUG    backend.alerts.alert_builder — Alert built: ALT-1780855369500
+[2026-06-07 23:32:49] INFO     backend.detection.service — Decision: Intrusion  |  Score: 0.2828  |  Severity: MEDIUM
+[2026-06-07 23:32:49] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:18] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:18] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:23] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:23] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:28] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:28] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:33] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:33] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:38] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:38] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:41] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:41] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:44] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:44] INFO     backend.ingestions.log_ingest — [HIDS] Parsed 9 events from 9 lines
+[2026-06-07 23:33:45] DEBUG    backend.detection.ml.host_model — HIDS: direct feature path (100 dims)
+[2026-06-07 23:33:45] DEBUG    backend.detection.ml.host_model — HIDS score: 0.5344
+[2026-06-07 23:33:45] INFO     backend.detection.service — ML scores  →  NIDS: 0.0150  HIDS: 0.5344
+[2026-06-07 23:33:45] INFO     backend.detection.service — Rule layer fired 1 alert(s)
+[2026-06-07 23:33:45] DEBUG    backend.alerts.alert_builder — Alert built: ALT-1780855425099
+[2026-06-07 23:33:45] INFO     backend.detection.service — Decision: Intrusion  |  Score: 0.2828  |  Severity: MEDIUM
+[2026-06-07 23:33:45] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:54] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:54] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:57] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:33:57] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:34:02] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:34:02] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:34:03] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:34:03] DEBUG    backend.detection.ml.host_model — HIDS: direct feature path (100 dims)
+[2026-06-07 23:34:03] DEBUG    backend.detection.ml.host_model — HIDS score: 0.9724
+[2026-06-07 23:34:03] INFO     backend.detection.service — ML scores  →  NIDS: 0.0150  HIDS: 0.9724
+[2026-06-07 23:34:03] DEBUG    backend.alerts.alert_builder — Alert built: ALT-1780855443360
+[2026-06-07 23:34:03] INFO     backend.detection.service — Decision: Intrusion  |  Score: 0.3980  |  Severity: CRITICAL
+[2026-06-07 23:34:03] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:19] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:19] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:25] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:25] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:30] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:30] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:35] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:35] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:40] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:40] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:45] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:45] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:47] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:47] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:49] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:49] DEBUG    backend.detection.ml.host_model — HIDS: direct feature path (100 dims)
+[2026-06-07 23:39:49] DEBUG    backend.detection.ml.host_model — HIDS score: 0.9724
+[2026-06-07 23:39:49] INFO     backend.detection.service — ML scores  →  NIDS: 0.0150  HIDS: 0.9724
+[2026-06-07 23:39:49] DEBUG    backend.alerts.alert_builder — Alert built: ALT-1780855789281
+[2026-06-07 23:39:49] INFO     backend.detection.service — Decision: Intrusion  |  Score: 0.3980  |  Severity: CRITICAL
+[2026-06-07 23:39:49] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:54] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:54] DEBUG    backend.detection.ml.host_model — HIDS: direct feature path (100 dims)
+[2026-06-07 23:39:54] DEBUG    backend.detection.ml.host_model — HIDS score: 0.9724
+[2026-06-07 23:39:54] INFO     backend.detection.service — ML scores  →  NIDS: 0.0150  HIDS: 0.9724
+[2026-06-07 23:39:54] DEBUG    backend.alerts.alert_builder — Alert built: ALT-1780855794378
+[2026-06-07 23:39:54] INFO     backend.detection.service — Decision: Intrusion  |  Score: 0.3980  |  Severity: CRITICAL
+[2026-06-07 23:39:54] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:59] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:39:59] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:40:00] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:40:00] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:40:04] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:40:04] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:40:09] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:40:09] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:40:10] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-07 23:40:10] DEBUG    backend.detection.ml.host_model — HIDS: direct feature path (100 dims)
+[2026-06-07 23:40:10] DEBUG    backend.detection.ml.host_model — HIDS score: 0.9724
+[2026-06-07 23:40:10] INFO     backend.detection.service — ML scores  →  NIDS: 0.0150  HIDS: 0.9724
+[2026-06-07 23:40:10] DEBUG    backend.alerts.alert_builder — Alert built: ALT-1780855810466
+[2026-06-07 23:40:10] INFO     backend.detection.service — Decision: Intrusion  |  Score: 0.3980  |  Severity: CRITICAL
+[2026-06-07 23:40:10] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:14:40] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 02:14:40] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 02:14:40] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 02:14:40] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 02:14:40] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 02:14:41] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:14:41] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:08] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:08] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:24] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:24] INFO     backend.ingestions.log_ingest — [HIDS] Parsed 9 events from 9 lines
+[2026-06-08 02:15:24] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 02:15:24] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:32] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:32] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:33] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:33] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 02:15:33] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:36] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:36] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 02:15:36] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:47] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:47] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:52] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:52] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:54] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:54] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:56] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:56] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:58] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 02:15:58] INFO     backend.ingestions.log_ingest — [HIDS] Parsed 9 events from 9 lines
+[2026-06-08 02:15:58] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 02:15:58] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 12:57:38] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 12:57:41] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 12:57:41] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 12:57:41] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 12:57:41] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 12:57:41] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 12:57:41] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:43] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:43] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:48] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:48] INFO     backend.ingestions.log_ingest — [HIDS] Parsed 9 events from 9 lines
+[2026-06-08 13:02:48] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:02:48] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:54] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:54] INFO     backend.ingestions.log_ingest — [HIDS] Parsed 9 events from 9 lines
+[2026-06-08 13:02:54] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:02:54] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:56] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:56] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:57] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:57] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:02:57] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:59] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:59] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:02:59] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:59] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:02:59] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:02:59] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:01] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:01] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:03:01] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:01] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:01] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:03:01] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:02] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:02] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:03:02] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:02] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:02] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:03:02] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:05] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:05] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:10] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:10] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:10] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:10] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:29] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:29] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:03:29] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:31] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:31] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:32] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:03:32] INFO     backend.ingestions.log_ingest — [HIDS] Parsed 9 events from 9 lines
+[2026-06-08 13:03:32] ERROR    backend.detection.ml.network_model — NIDS prediction failed: X has 78 features, but RandomForestClassifier is expecting 77 features as input.
+[2026-06-08 13:03:32] INFO     backend.storage.db_store — DB initialised at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/storage/alerts.db
+[2026-06-08 13:09:28] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:09:30] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:09:30] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:09:30] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:09:30] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:09:51] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:09:51] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:09:51] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:09:51] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:09:51] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:10:50] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:10:50] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:10:50] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:10:50] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:10:50] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:11:13] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:11:13] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:11:13] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:11:13] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:11:13] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:11:42] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:11:42] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:11:42] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:11:42] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:11:42] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:13:07] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:13:08] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:13:08] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:13:08] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:13:08] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:15:27] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:15:27] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:15:27] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:15:27] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:15:27] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:16:18] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:16:18] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:16:18] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:16:18] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:16:18] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-08 13:22:49] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-08 13:22:49] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-08 13:22:49] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-08 13:22:49] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-08 13:22:49] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh

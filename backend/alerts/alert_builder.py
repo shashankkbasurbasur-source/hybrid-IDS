@@ -1,44 +1,34 @@
-"""
-Alert Builder Module
-Creates structured security alerts.
-"""
+"""backend/alerts/alert_builder.py"""
+import uuid
+from datetime import datetime, timezone
+from backend.alerts.severity import classify_severity
 
-from datetime import datetime
-from backend.core.constants import (
-    HIGH_SEVERITY_THRESHOLD,
-    MEDIUM_SEVERITY_THRESHOLD,
-)
+_MITRE = {
+    "Brute Force / Unauthorized Access": "T1110 - Brute Force",
+    "Network Attack (DoS / Scan)":        "T1498 - Network DoS",
+    "Multi-Stage Hybrid Attack":          "T1021 - Remote Services",
+    "Reconnaissance / Port Scan":         "T1046 - Network Service Scanning",
+    "Suspicious Activity":                "T1071 - Application Layer Protocol",
+}
 
-
-def build_alert(decision: str, score: float) -> dict:
-    """
-    Builds structured alert object.
-
-    Args:
-        decision (str): "Intrusion" or "Normal"
-        score (float): Final fusion confidence score
-
-    Returns:
-        dict: Structured alert data
-    """
-
-    if decision not in ["Intrusion", "Normal"]:
-        raise ValueError("Invalid decision type")
-
-    if decision == "Normal":
-        severity = "LOW"
-    else:
-        if score >= HIGH_SEVERITY_THRESHOLD:
-            severity = "HIGH"
-        elif score >= MEDIUM_SEVERITY_THRESHOLD:
-            severity = "MEDIUM"
-        else:
-            severity = "LOW"
-
+def build_alert(decision: str, score: float, fusion_result: dict = None) -> dict:
+    fr          = fusion_result or {}
+    attack_type = fr.get("attack_type", "None")
+    severity    = classify_severity(score, decision)
     return {
-        "timestamp": datetime.utcnow().isoformat(),
-        "type": decision,
-        "severity": severity,
-        "confidence": round(score, 4),
-        "source": "Hybrid IDS",
+        "alert_id":      str(uuid.uuid4()),
+        "timestamp":     datetime.now(timezone.utc).isoformat(),
+        "type":          decision,
+        "severity":      severity,
+        "confidence":    round(score, 4),
+        "source":        "Hybrid IDS",
+        "attack_type":   attack_type,
+        "attack_domain": fr.get("attack_domain", "None"),
+        "location":      fr.get("location",      "None"),
+        "triggered_by":  fr.get("triggered_by",  []),
+        "reason":        fr.get("reason",         ["No anomaly detected"]),
+        "mitre":         _MITRE.get(attack_type, "N/A") if decision == "Intrusion" else "N/A",
+        "network_score": fr.get("network_score",  0.0),
+        "host_score":    fr.get("host_score",     0.0),
+        "final_score":   fr.get("final_score",    score),
     }

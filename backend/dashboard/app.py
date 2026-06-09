@@ -1,128 +1,137 @@
+# backend/dashboard/app.py
+
+"""
+Streamlit SOC Dashboard — Hybrid IDS
+Real pipeline: file → ingest → features → API → display
+"""
+
 import streamlit as st
 import requests
+import json
 import time
+from pathlib import Path
 
-API_URL = "http://127.0.0.1:8000/detect/"
+API_BASE = "http://127.0.0.1:8000"
 
-# -----------------------------
-# Page Config
-# -----------------------------
-st.set_page_config(page_title="Hybrid IDS", layout="wide")
+st.set_page_config(page_title="Hybrid IDS — SOC Dashboard", layout="wide", page_icon="🛡️")
 
-st.title("🔐 Hybrid Intrusion Detection System")
-st.markdown("Real-time Network + Host-based Intrusion Detection")
+# ── Sidebar ─────────────────────────────────────────────────────────────────
+st.sidebar.title("🛡️ Hybrid IDS")
+st.sidebar.markdown("---")
+mode       = st.sidebar.radio("Detection mode", ["Log file", "Manual features"])
+log_file   = st.sidebar.text_input("Log file path", "sample_logs.txt")
+auto_mode  = st.sidebar.checkbox("⏵ Auto-refresh (5s)")
+run_btn    = st.sidebar.button("▶ Run detection now")
 
-# -----------------------------
-# Sidebar Controls
-# -----------------------------
-st.sidebar.header("Controls")
+st.title("🔐 Hybrid IDS — SOC Dashboard")
+st.caption("NIDS · HIDS · Fusion Engine · Real-time Threat Analysis")
 
-run_btn = st.sidebar.button("Run Detection")
-auto_mode = st.sidebar.checkbox("Auto Refresh (5s)")
+# ── Metric row ───────────────────────────────────────────────────────────────
+col1, col2, col3, col4, col5 = st.columns(5)
 
-# -----------------------------
-# UI Containers
-# -----------------------------
-decision_box = st.empty()
-
-col1, col2, col3 = st.columns(3)
-
-analysis_box = st.container()
-alert_box = st.container()
-
-# -----------------------------
-# API Call
-# -----------------------------
-def get_detection():
-    payload = {
-        "network_features": [0.05] * 78,
-        "host_features": [0.1] * 100
-    }
-
+def load_stats():
     try:
-        response = requests.post(API_URL, json=payload)
+        r = requests.get(f"{API_BASE}/alerts/stats", timeout=3)
+        return r.json() if r.status_code == 200 else {}
+    except Exception:
+        return {}
 
-        if response.status_code == 200:
-            return response.json()
-        else:
-            st.error(f"{response.status_code}: {response.text}")
-            return None
+stats = load_stats()
+col1.metric("Total Events",  stats.get("total",    "—"))
+col2.metric("🔴 Critical",   stats.get("CRITICAL", "—"))
+col3.metric("🟠 High",       stats.get("HIGH",     "—"))
+col4.metric("🟡 Medium",     stats.get("MEDIUM",   "—"))
+col5.metric("🟢 Normal",     stats.get("NORMAL",   "—"))
 
-    except Exception as e:
-        st.error(f"Connection Error: {e}")
+st.markdown("---")
+
+# ── Main columns ─────────────────────────────────────────────────────────────
+left, right = st.columns([2, 1])
+
+# ── Detection function ────────────────────────────────────────────────────────
+def run_detection():
+    if mode == "Log file" and Path(log_file).exists():
+        with open(log_file, "r") as f:
+            lines = f.readlines()
+        payload = {"log_lines": lines, "source": "ssh"}
+        r = requests.post(f"{API_BASE}/ingest/logs", json=payload, timeout=10)
+        if r.status_code == 200:
+            return r.json()
+        st.error(f"Ingest API error: {r.text}")
         return None
 
+    elif mode == "Manual features":
+        payload = {
+            "network_features": [0.05] * 78,
+            "host_features"   : [0.10] * 100,
+        }
+        r = requests.post(f"{API_BASE}/detect/", json=payload, timeout=10)
+        return r.json() if r.status_code == 200 else None
 
-# -----------------------------
-# Display Result
-# -----------------------------
-def show_result(result):
-
-    decision = result.get("decision", "Unknown")
-    final_score = result.get("final_score", 0)
-    nids = result.get("network_score", 0)
-    hids = result.get("host_score", 0)
-
-    attack_type = result.get("attack_type", "None")
-    location = result.get("location", "Unknown")
-    reason = result.get("reason", [])
-    severity = result.get("severity", "LOW")
-
-    # -----------------------------
-    # Decision Banner
-    # -----------------------------
-    if decision.lower() in ["intrusion", "attack"]:
-        decision_box.error(f"🚨 INTRUSION DETECTED ({final_score:.2f})")
     else:
-        decision_box.success(f"✅ SYSTEM NORMAL ({final_score:.2f})")
+        st.warning(f"Log file not found: {log_file}")
+        return None
 
-    # -----------------------------
-    # Metrics
-    # -----------------------------
-    col1.metric("NIDS Score", f"{nids:.3f}")
-    col2.metric("HIDS Score", f"{hids:.3f}")
-    col3.metric("Final Score", f"{final_score:.3f}")
+# ── Show result ───────────────────────────────────────────────────────────────
+def show_result(result):
+    decision     = result.get("decision", "Unknown")
+    final_score  = result.get("final_score", 0)
+    nids         = result.get("network_score", 0)
+    hids         = result.get("host_score", 0)
+    attack_type  = result.get("attack_type", "None")
+    location     = result.get("location", "None")
+    severity     = result.get("severity", "LOW")
+    reason       = result.get("reason", [])
+    triggered_by = result.get("triggered_by", [])
 
-    # -----------------------------
-    # Attack Analysis
-    # -----------------------------
-    with analysis_box:
-        st.markdown("### 🔍 Attack Analysis")
+    with left:
+        if decision.lower() == "intrusion":
+            st.error(f"🚨 INTRUSION DETECTED — {severity}  |  Score: {final_score:.4f}")
+        else:
+            st.success(f"✅ Normal Traffic  |  Score: {final_score:.4f}")
 
-        st.write(f"**Type:** {attack_type}")
-        st.write(f"**Location:** {location}")
-        st.write(f"**Severity:** {severity}")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("NIDS Score",  f"{nids:.4f}")
+        c2.metric("HIDS Score",  f"{hids:.4f}")
+        c3.metric("Fusion Score", f"{final_score:.4f}")
 
-        st.write("**Reason:**")
-        for r in reason:
-            st.write(f"- {r}")
+        with st.expander("🔍 Attack Analysis", expanded=True):
+            st.write(f"**Type:** {attack_type}")
+            st.write(f"**Location:** {location}")
+            st.write(f"**Severity:** {severity}")
+            st.write(f"**Triggered by:** {', '.join(triggered_by) if triggered_by else 'None'}")
+            st.write("**Reasons:**")
+            for r in reason:
+                st.write(f"  • {r}")
 
-    # -----------------------------
-    # Alert Details
-    # -----------------------------
-    with alert_box:
-        st.markdown("### 🚨 Alert Details")
+    with right:
+        st.subheader("🚨 Alert Details")
+        alert = result.get("alert", {})
+        st.json(alert)
 
-        st.write(f"Confidence: {final_score}")
-        st.write(f"Timestamp: {result.get('timestamp', 'N/A')}")
+# ── Alert history table ───────────────────────────────────────────────────────
+def show_alert_table():
+    try:
+        r = requests.get(f"{API_BASE}/alerts/?limit=50", timeout=3)
+        if r.status_code == 200:
+            alerts = r.json().get("alerts", [])
+            if alerts:
+                st.subheader("📋 Alert Log")
+                import pandas as pd
+                df = pd.DataFrame(alerts)[["id","timestamp","decision","attack_type","severity","confidence","network_score","host_score"]]
+                st.dataframe(df, use_container_width=True)
+    except Exception:
+        pass
 
-
-# -----------------------------
-# Run Once
-# -----------------------------
+# ── Run ───────────────────────────────────────────────────────────────────────
 if run_btn:
-    result = get_detection()
+    with st.spinner("Running detection pipeline..."):
+        result = run_detection()
     if result:
         show_result(result)
-    else:
-        st.error("❌ API not reachable")
 
-# -----------------------------
-# Auto Refresh Mode
-# -----------------------------
+show_alert_table()
+
 if auto_mode:
-    while True:
-        result = get_detection()
-        if result:
-            show_result(result)
-        time.sleep(5)
+    time.sleep(5)
+    st.rerun()

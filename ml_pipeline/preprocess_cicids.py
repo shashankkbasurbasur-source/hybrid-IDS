@@ -1,80 +1,73 @@
+# ml_pipeline/preprocess_cicids.py
+
 import pandas as pd
 import numpy as np
 import os
 
-# Project root (HYBRID-IDS)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR    = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MERGED_FILE = os.path.join(BASE_DIR, "datasets", "cicids2017", "merged", "cicids_merged.csv")
+CLEAN_DIR   = os.path.join(BASE_DIR, "datasets", "cicids2017", "cleaned")
+CLEAN_FILE  = os.path.join(CLEAN_DIR, "cicids_clean.csv")
 
-MERGED_FILE = os.path.join(
-    BASE_DIR, "datasets", "cicids2017", "merged", "cicids_merged.csv"
-)
-
-CLEAN_DIR = os.path.join(
-    BASE_DIR, "datasets", "cicids2017", "cleaned"
-)
-
-CLEAN_FILE = os.path.join(CLEAN_DIR, "cicids_clean.csv")
+# ── Attack type mapping (CICIDS2017 labels → canonical names) ─────────────────
+ATTACK_MAP = {
+    "BENIGN"                      : "BENIGN",
+    "DoS Hulk"                    : "DoS",
+    "DoS GoldenEye"               : "DoS",
+    "DoS slowloris"               : "DoS",
+    "DoS Slowhttptest"            : "DoS",
+    "DDoS"                        : "DDoS",
+    "PortScan"                    : "PortScan",
+    "FTP-Patator"                 : "BruteForce",
+    "SSH-Patator"                 : "BruteForce",
+    "Bot"                         : "Botnet",
+    "Web Attack \x96 Brute Force": "WebAttack",
+    "Web Attack – Brute Force"    : "WebAttack",
+    "Web Attack \x96 XSS"        : "WebAttack",
+    "Web Attack – XSS"            : "WebAttack",
+    "Web Attack \x96 Sql Injection": "WebAttack",
+    "Web Attack – Sql Injection"  : "WebAttack",
+    "Infiltration"                : "Infiltration",
+    "Heartbleed"                  : "Heartbleed",
+}
 
 print("[*] Loading merged dataset...")
 df = pd.read_csv(MERGED_FILE)
-
-# ✅ CRITICAL FIX: STRIP COLUMN NAMES
 df.columns = df.columns.str.strip()
 
-print("[*] Columns after strip:")
-print(df.columns.tolist())
+print("[*] Shape:", df.shape)
 
-print("[*] Original shape:", df.shape)
-
-# -------------------------------
-# Drop leakage columns (if present)
-# -------------------------------
-DROP_COLS = [
-    "Flow ID",
-    "Source IP",
-    "Destination IP",
-    "Timestamp"
-]
-
+DROP_COLS = ["Flow ID", "Source IP", "Destination IP", "Timestamp",
+             "Source Port", "Destination Port"]
 df.drop(columns=DROP_COLS, inplace=True, errors="ignore")
-print("[*] After dropping leakage columns:", df.shape)
 
-# -------------------------------
-# Convert labels to binary
-# -------------------------------
 if "Label" not in df.columns:
-    raise Exception("❌ Label column still not found after stripping")
+    raise Exception("Label column not found")
 
-print("[*] Converting labels to binary...")
+# ── Preserve attack_type BEFORE binarising ────────────────────────────────────
+df["Label"] = df["Label"].str.strip()
+df["attack_type"] = df["Label"].map(ATTACK_MAP).fillna("Unknown")
 
-df["Label"] = df["Label"].apply(
-    lambda x: 0 if str(x).strip().upper() == "BENIGN" else 1
-)
+print("[*] Attack type distribution:")
+print(df["attack_type"].value_counts())
 
-print("[*] Label distribution:")
+# ── Binary label ──────────────────────────────────────────────────────────────
+df["Label"] = (df["attack_type"] != "BENIGN").astype(int)
+
+print("[*] Binary label distribution:")
 print(df["Label"].value_counts())
 
-# -------------------------------
-# Handle Inf and NaN
-# -------------------------------
+# ── Clean ─────────────────────────────────────────────────────────────────────
 df.replace([np.inf, -np.inf], np.nan, inplace=True)
 df.dropna(inplace=True)
-print("[*] After NaN/Inf cleanup:", df.shape)
 
-# -------------------------------
-# Ensure numeric features
-# -------------------------------
 for col in df.columns:
-    if col != "Label":
+    if col not in ("Label", "attack_type"):
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
 df.dropna(inplace=True)
-print("[*] After numeric conversion:", df.shape)
+print("[*] Final shape:", df.shape)
 
-# -------------------------------
-# Save cleaned dataset
-# -------------------------------
 os.makedirs(CLEAN_DIR, exist_ok=True)
 df.to_csv(CLEAN_FILE, index=False)
-
-print("[✓] Clean dataset saved to:", CLEAN_FILE)
+print("[✓] Saved:", CLEAN_FILE)
