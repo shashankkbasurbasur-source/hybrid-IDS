@@ -1,196 +1,114 @@
 """
-backend/detection/fusion.py
-
-FIXED FOR PHASE 2:
- - Receives attack_type FROM NIDS
- - Detects HYBRID attacks (both NIDS + HIDS elevated)
- - Returns complete attack classification
- - CRITICAL: attack_type parameter must be used
+Intelligent Hybrid Fusion Engine
 """
 
-from backend.alerts.severity import classify_severity
-from backend.core.logger import get_logger
-
-logger = get_logger(__name__)
-
-# ──────────────────────────────────────────────────────────────────────────
-# THRESHOLDS
-# ──────────────────────────────────────────────────────────────────────────
-
-# Basic thresholds (moderate confidence)
-NETWORK_THRESHOLD = 0.40
-HOST_THRESHOLD = 0.40
-
-# Strong signal thresholds (high confidence - triggers immediate alert)
-STRONG_NETWORK = 0.75
-STRONG_HOST = 0.60
-
-# Hybrid detection threshold (both sources must be elevated)
-HYBRID_NETWORK_MIN = 0.50
-HYBRID_HOST_MIN = 0.50
+from backend.core.constants import (
+    FUSION_NETWORK_WEIGHT,
+    FUSION_HOST_WEIGHT,
+    DECISION_THRESHOLD,
+    CRITICAL_THRESHOLD,
+    HIGH_THRESHOLD,
+    MEDIUM_THRESHOLD,
+)
 
 
-def hybrid_fusion(network_score: float, host_score: float, 
-                  nids_attack_type: str = "Suspicious Activity") -> dict:
+def hybrid_fusion(network_score: float, host_score: float) -> dict:
     """
-    Fuse NIDS and HIDS signals to make final security decision.
-    
-    CRITICAL: nids_attack_type parameter is REQUIRED and MUST be used.
-    This is what communicates the attack classification to the dashboard.
+    Intelligent hybrid fusion with explainability
     
     Args:
-        network_score: NIDS confidence [0, 1]
-        host_score: HIDS confidence [0, 1]
-        nids_attack_type: Attack classification from NIDS (e.g., "Port Scan")
+        network_score: NIDS probability (0-1)
+        host_score: HIDS probability (0-1)
     
     Returns:
-        dict with:
-        - decision: "Normal" or "Intrusion"
-        - final_score: Weighted fusion score
-        - attack_type: Specific attack classification
-        - severity: CRITICAL / HIGH / MEDIUM / LOW
-        - triggered_by: ["NIDS"] or ["HIDS"] or ["NIDS", "HIDS"]
-        - reason: List of detection reasons
+        Fusion result with decision and reasoning
     """
     
-    # ──────────────────────────────────────────────────────────────────────
-    # WEIGHTED FUSION SCORE
-    # ──────────────────────────────────────────────────────────────────────
-    # 60% weight to NIDS, 40% to HIDS
-    final_score = (0.6 * network_score) + (0.4 * host_score)
+    # Validation
+    if not (0 <= network_score <= 1):
+        raise ValueError("Network score must be 0-1")
+    if not (0 <= host_score <= 1):
+        raise ValueError("Host score must be 0-1")
     
-    logger.debug("Fusion: NIDS=%.4f, HIDS=%.4f, weighted=%.4f",
-                 network_score, host_score, final_score)
+    # Weighted fusion
+    final_score = (
+        FUSION_NETWORK_WEIGHT * network_score +
+        FUSION_HOST_WEIGHT * host_score
+    )
+    final_score = round(final_score, 4)
     
-    # ──────────────────────────────────────────────────────────────────────
-    # SIGNAL DETECTION
-    # ──────────────────────────────────────────────────────────────────────
-    nids_basic = network_score >= NETWORK_THRESHOLD
-    hids_basic = host_score >= HOST_THRESHOLD
-    nids_strong = network_score >= STRONG_NETWORK
-    hids_strong = host_score >= STRONG_HOST
+    # Strong signal detection
+    strong_nids = network_score >= 0.75
+    strong_hids = host_score >= 0.65
     
-    # Hybrid detection: both sources elevated
-    is_hybrid = (network_score >= HYBRID_NETWORK_MIN and 
-                 host_score >= HYBRID_HOST_MIN)
-    
-    # ──────────────────────────────────────────────────────────────────────
-    # DECISION LOGIC
-    # ──────────────────────────────────────────────────────────────────────
-    
-    # CRITICAL: Any strong signal = Intrusion
-    if nids_strong or hids_strong:
+    # Decision logic
+    if strong_nids or strong_hids:
         decision = "Intrusion"
-        logger.warning("STRONG signal detected: NIDS=%.3f, HIDS=%.3f", 
-                      network_score, host_score)
-    
-    # Both moderate signals = Intrusion
-    elif nids_basic and hids_basic:
+    elif final_score >= DECISION_THRESHOLD:
         decision = "Intrusion"
-        logger.warning("Both NIDS and HIDS signals detected")
-    
-    # Either signal = Intrusion
-    elif nids_basic or hids_basic:
-        decision = "Intrusion"
-        if nids_basic:
-            logger.warning("NIDS signal: %.3f", network_score)
-        if hids_basic:
-            logger.warning("HIDS signal: %.3f", host_score)
-    
-    # No signals = Normal
     else:
         decision = "Normal"
-        logger.info("No intrusion detected (NIDS=%.3f, HIDS=%.3f)",
-                   network_score, host_score)
     
-    # ──────────────────────────────────────────────────────────────────────
-    # ATTACK TYPE CLASSIFICATION
-    # CRITICAL: nids_attack_type must be properly classified here
-    # ──────────────────────────────────────────────────────────────────────
+    # Triggered components
+    triggered_by = []
+    if network_score >= 0.5:
+        triggered_by.append("NIDS")
+    if host_score >= 0.5:
+        triggered_by.append("HIDS")
     
-    if decision == "Normal":
-        attack_type = "Normal Traffic"
-        attack_domain = "None"
-        triggered_by = []
-        
-    # HYBRID ATTACK: Both NIDS and HIDS strong (most serious)
-    elif nids_strong and hids_strong:
-        attack_type = "Multi-Stage Hybrid Attack"
-        attack_domain = "Network + Host"
-        triggered_by = ["NIDS", "HIDS"]
-        logger.critical("HYBRID ATTACK: Network + Host combined! Score=%.3f",
-                       final_score)
-    
-    # HYBRID ATTACK: Both moderate (possible early stages)
-    elif is_hybrid and nids_basic and hids_basic:
-        attack_type = "Multi-Stage Hybrid Attack"
-        attack_domain = "Network + Host"
-        triggered_by = ["NIDS", "HIDS"]
-        logger.warning("HYBRID ATTACK POTENTIAL: Both sources elevated")
-    
-    # PURE NETWORK ATTACK (NIDS only)
-    elif nids_strong:
-        # Use the classification from NIDS model
-        attack_type = nids_attack_type or "Network Attack (DoS / Flood)"
-        attack_domain = "Network"
-        triggered_by = ["NIDS"]
-        logger.warning("Network attack: %s (score=%.3f)", attack_type, network_score)
-    
-    # PURE HOST ATTACK (HIDS only)
-    elif hids_strong:
-        attack_type = "Brute Force / Unauthorized Access"
-        attack_domain = "Host"
-        triggered_by = ["HIDS"]
-        logger.warning("Host attack: %s (score=%.3f)", attack_type, host_score)
-    
-    # MODERATE NETWORK SIGNAL
-    elif nids_basic:
-        attack_type = nids_attack_type or "Reconnaissance / Port Scan"
-        attack_domain = "Network"
-        triggered_by = ["NIDS"]
-        logger.info("Network signal: %s (score=%.3f)", attack_type, network_score)
-    
-    # MODERATE HOST SIGNAL
-    elif hids_basic:
-        attack_type = "Suspicious Activity"
-        attack_domain = "Host"
-        triggered_by = ["HIDS"]
-        logger.info("Host signal (score=%.3f)", host_score)
-    
-    # FALLBACK
+    # Attack domain
+    if decision == "Intrusion":
+        if host_score > network_score:
+            attack_domain = "Host"
+            location = "Host System"
+        elif network_score > host_score:
+            attack_domain = "Network"
+            location = "Network Traffic"
+        else:
+            attack_domain = "Hybrid"
+            location = "Hybrid Environment"
     else:
-        attack_type = "Suspicious Activity"
-        attack_domain = "Unknown"
-        triggered_by = []
+        attack_domain = "None"
+        location = "None"
     
-    # ──────────────────────────────────────────────────────────────────────
-    # SEVERITY CLASSIFICATION
-    # ──────────────────────────────────────────────────────────────────────
-    severity = classify_severity(final_score, decision)
+    # Reasoning
+    reason = []
     
-    # ──────────────────────────────────────────────────────────────────────
-    # REASONING
-    # ──────────────────────────────────────────────────────────────────────
-    reasons = []
+    if decision == "Intrusion":
+        if host_score >= 0.70:
+            reason.append("Host-based anomaly detected")
+        
+        if network_score >= 0.70:
+            reason.append("Network-based anomaly detected")
+        
+        if strong_nids and strong_hids:
+            reason.append("Confirmed intrusion: Both NIDS and HIDS agree")
+        
+        if not reason:
+            reason.append("Suspicious activity detected by fusion engine")
+    else:
+        reason.append("No anomaly detected")
     
-    if nids_basic:
-        reasons.append(f"Network signal: {network_score:.3f} ({nids_attack_type})")
-    if hids_basic:
-        reasons.append(f"Host signal: {host_score:.3f}")
-    if not reasons:
-        reasons.append("Below detection thresholds")
+    # Severity mapping
+    max_score = max(network_score, host_score, final_score)
     
-    # ──────────────────────────────────────────────────────────────────────
-    # RETURN COMPLETE RESULT
-    # ──────────────────────────────────────────────────────────────────────
+    if max_score >= CRITICAL_THRESHOLD:
+        severity = "CRITICAL"
+    elif max_score >= HIGH_THRESHOLD:
+        severity = "HIGH"
+    elif max_score >= MEDIUM_THRESHOLD:
+        severity = "MEDIUM"
+    else:
+        severity = "LOW"
     
     return {
+        "network_score": round(network_score, 4),
+        "host_score": round(host_score, 4),
+        "final_score": final_score,
         "decision": decision,
-        "final_score": round(final_score, 4),
-        "attack_type": attack_type,  # CRITICAL: This value reaches dashboard
-        "attack_domain": attack_domain,
-        "severity": severity,
-        "location": "Network" if attack_domain == "Network" else "Host" if attack_domain == "Host" else "Unknown",
         "triggered_by": triggered_by,
-        "reason": reasons,
+        "attack_domain": attack_domain,
+        "location": location,
+        "severity": severity,
+        "reason": reason,
     }

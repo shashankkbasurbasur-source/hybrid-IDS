@@ -1,143 +1,158 @@
 """
-backend/detection/service.py
-
-FIXED FOR PHASE 2:
- - Receives attack_type FROM predict_network()
- - Passes attack_type TO hybrid_fusion()
- - CRITICAL: Ensures attack classification reaches dashboard
+Hybrid Detection Service - Orchestrates NIDS, HIDS, and Fusion
 """
 
-from typing import Tuple
+from typing import Dict, List, Tuple
 from backend.detection.ml.network_model import predict_network
 from backend.detection.ml.host_model import predict_host
 from backend.detection.fusion import hybrid_fusion
-from backend.alerts.alert_builder import build_alert
-from backend.storage.db_store import alert_store
-from backend.storage.file_store import file_logger
-from backend.core.logger import get_logger
-
-logger = get_logger(__name__)
+from backend.alerts.alert_builder import build_alert, enrich_alert_with_threat_intel
 
 
-def run_hybrid_detection(network_features: list, host_features: list) -> dict:
+class AttackClassifier:
+    """Classify attack types from scores"""
+    
+    @staticmethod
+    def classify_network_attack(score: float, features: Dict) -> Tuple[str, str]:
+        """Classify network attack type"""
+        
+        if score < 0.5:
+            return "Normal", "Normal"
+        
+        # Port scanning detection
+        unique_dports = features.get("unique_dports", 0)
+        if unique_dports > 10 or features.get("port_diversity", 0) > 0.7:
+            return "Port Scan", "Network"
+        
+        # DoS/DDoS detection
+        packet_rate = features.get("packet_rate", 0)
+        if packet_rate > 1000:
+            return "DoS / DDoS", "Network"
+        
+        # Generic network attack
+        if score > 0.75:
+            return "Network Attack", "Network"
+        
+        return "Suspicious Network Activity", "Network"
+    
+    @staticmethod
+    def classify_host_attack(score: float, features: Dict) -> Tuple[str, str]:
+        """Classify host attack type"""
+        
+        if score < 0.6:
+            return "Normal", "Normal"
+        
+        # Brute force detection
+        failed_logins = features.get("fail_count", 0)
+        if failed_logins > 5:
+            return "Brute Force", "Host"
+        
+        # Success after multiple failures
+        if features.get("success_after_fail", 0):
+            return "Brute Force", "Host"
+        
+        # Process anomaly
+        if features.get("anomaly_score", 0) > 0.8:
+            return "Anomalous System Activity", "Host"
+        
+        return "Suspicious Host Activity", "Host"
+
+
+def run_hybrid_detection(
+    network_features: List[float],
+    host_features: List[float],
+    network_context: Dict = None,
+    host_context: Dict = None
+) -> Dict:
     """
-    Full hybrid detection pipeline.
+    Main hybrid detection pipeline
     
-    CRITICAL FIXES:
-    1. predict_network() now returns BOTH (score, attack_type)
-    2. attack_type is passed to hybrid_fusion()
-    3. Fusion result includes attack classification
-    4. Dashboard receives complete attack information
+    Args:
+        network_features: NIDS feature vector
+        host_features: HIDS feature vector
+        network_context: Additional network metadata
+        host_context: Additional host metadata
+    
+    Returns:
+        Complete detection result with alerts and analysis
     """
     
-    # ──────────────────────────────────────────────────────────────────────
-    # STEP 1: NIDS (Network IDS) - Returns score AND attack type
-    # ──────────────────────────────────────────────────────────────────────
-    try:
-        network_score, nids_attack_type = predict_network(network_features)
-    except Exception as e:
-        logger.error("NIDS prediction failed: %s. Using zero score.", e)
-        network_score = 0.0
-        nids_attack_type = "Suspicious Activity"
+    network_context = network_context or {}
+    host_context = host_context or {}
     
-    logger.info("▶ NIDS Result: score=%.4f, attack='%s'", 
-                network_score, nids_attack_type)
+    # --- Step 1: Individual Model Predictions ---
+    network_score = predict_network(network_features)
+    host_score = predict_host(host_features)
     
-    # ──────────────────────────────────────────────────────────────────────
-    # STEP 2: HIDS (Host IDS) - Returns score only
-    # ──────────────────────────────────────────────────────────────────────
-    try:
-        host_score = predict_host(host_features)
-    except Exception as e:
-        logger.error("HIDS prediction failed: %s. Using zero score.", e)
-        host_score = 0.0
+    # --- Step 2: Attack Classification ---
+    network_attack, network_domain = AttackClassifier.classify_network_attack(
+        network_score,
+        network_context
+    )
     
-    logger.info("▶ HIDS Result: score=%.4f", host_score)
+    host_attack, host_domain = AttackClassifier.classify_host_attack(
+        host_score,
+        host_context
+    )
     
-    # ──────────────────────────────────────────────────────────────────────
-    # STEP 3: FUSION ENGINE - Correlates NIDS + HIDS with attack type
-    # CRITICAL: nids_attack_type must be passed here!
-    # ──────────────────────────────────────────────────────────────────────
-    try:
-        fusion_result = hybrid_fusion(
-            network_score=network_score,
-            host_score=host_score,
-            nids_attack_type=nids_attack_type  # CRITICAL: Pass attack type
-        )
-    except Exception as e:
-        logger.error("Fusion failed: %s. Using default result.", e)
-        fusion_result = {
-            "decision": "Normal",
-            "final_score": max(network_score, host_score),
-            "attack_type": "Suspicious Activity",
-            "attack_domain": "Unknown",
-            "severity": "LOW",
-            "location": "Unknown",
-            "triggered_by": [],
-            "reason": ["Fusion engine error"],
-        }
+    # --- Step 3: Hybrid Fusion ---
+    fusion_result = hybrid_fusion(network_score, host_score)
     
-    logger.info("▶ Fusion Result: decision=%s, severity=%s, attack='%s'",
-                fusion_result["decision"],
-                fusion_result.get("severity", "?"),
-                fusion_result.get("attack_type", "?"))
+    # Determine final attack type based on fusion
+    if fusion_result["decision"] == "Intrusion":
+        if network_score > host_score:
+            final_attack_type = network_attack
+            final_domain = "Network"
+        elif host_score > network_score:
+            final_attack_type = host_attack
+            final_domain = "Host"
+        else:
+            final_attack_type = "Hybrid Attack"
+            final_domain = "Hybrid"
+    else:
+        final_attack_type = "Normal"
+        final_domain = "None"
     
-    # ──────────────────────────────────────────────────────────────────────
-    # STEP 4: BUILD ALERT
-    # ──────────────────────────────────────────────────────────────────────
-    try:
-        alert = build_alert(
-            decision=fusion_result["decision"],
-            score=fusion_result["final_score"],
-            fusion_result={
-                **fusion_result,
-                "network_score": network_score,
-                "host_score": host_score,
-            },
-        )
-    except Exception as e:
-        logger.error("Alert building failed: %s", e)
-        alert = {
-            "alert_id": "error",
-            "timestamp": "unknown",
-            "type": "Error",
-            "severity": "LOW",
-            "confidence": 0.0,
-        }
+    # --- Step 4: Alert Generation ---
+    alert = build_alert(
+        decision=fusion_result["decision"],
+        score=fusion_result["final_score"],
+        attack_type=final_attack_type,
+        domain=final_domain,
+        source_ip=network_context.get("source_ip", "Unknown"),
+        destination_ip=network_context.get("destination_ip", "Unknown"),
+        severity_override=fusion_result.get("severity")
+    )
     
-    # ──────────────────────────────────────────────────────────────────────
-    # STEP 5: PERSIST ALERT
-    # ──────────────────────────────────────────────────────────────────────
-    try:
-        alert_store.save(alert)
-        file_logger.log(alert)
-        logger.debug("Alert persisted: %s", alert.get("alert_id", "?"))
-    except Exception as e:
-        logger.warning("Alert persistence failed: %s", e)
+    # --- Step 5: Threat Intelligence Enrichment ---
+    alert = enrich_alert_with_threat_intel(alert)
     
-    # ──────────────────────────────────────────────────────────────────────
-    # STEP 6: RETURN COMPLETE RESULT
-    # ──────────────────────────────────────────────────────────────────────
-    result = {
+    # --- Step 6: Final Response ---
+    return {
+        # Individual scores
         "network_score": round(network_score, 4),
         "host_score": round(host_score, 4),
+        
+        # Fusion results
         "final_score": fusion_result["final_score"],
         "decision": fusion_result["decision"],
-        "attack_type": fusion_result.get("attack_type", "Suspicious Activity"),
-        "attack_domain": fusion_result.get("attack_domain", "Unknown"),
-        "location": fusion_result.get("location", "Unknown"),
+        
+        # Attack information
+        "attack_type": final_attack_type,
+        "attack_domain": final_domain,
+        "location": fusion_result.get("location", "None"),
+        
+        # Severity and reasoning
         "severity": fusion_result.get("severity", "LOW"),
         "reason": fusion_result.get("reason", ["No anomaly detected"]),
-        "triggered_by": fusion_result.get("triggered_by", []),
-        "mitre": alert.get("mitre", "N/A"),
+        "confidence": round(fusion_result["final_score"], 4),
+        
+        # Structured alert
         "alert": alert,
+        
+        # Threat intelligence
+        "threat_intelligence": alert.get("threat_intelligence", {}),
+        
+        # Triggered components
+        "triggered_by": fusion_result.get("triggered_by", []),
     }
-    
-    logger.info("═" * 80)
-    logger.info("DETECTION COMPLETE: %s | Score=%.4f | Severity=%s",
-                result["decision"],
-                result["final_score"],
-                result["severity"])
-    logger.info("═" * 80)
-    
-    return result

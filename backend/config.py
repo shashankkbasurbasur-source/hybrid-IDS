@@ -1,30 +1,51 @@
-# backend/config.py
-
 """
-Runtime configuration — override via environment variables.
+Global Configuration for Hybrid IDS
 """
 
 import os
 from pathlib import Path
 
+# Project root
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-class Settings:
-    APP_NAME         : str  = "Hybrid IDS"
-    VERSION          : str  = "2.0.0"
-    DEBUG            : bool = os.getenv("IDS_DEBUG", "false").lower() == "true"
-    HOST             : str  = os.getenv("IDS_HOST", "127.0.0.1")
-    PORT             : int  = int(os.getenv("IDS_PORT", "8000"))
+# Model paths
+MODEL_DIR = BASE_DIR / "models"
+NIDS_MODEL_PATH = MODEL_DIR / "random_forest_model.pkl"
+HIDS_MODEL_PATH = MODEL_DIR / "hids_model.pkl"
+SCALER_PATH = MODEL_DIR / "scaler.pkl"
 
-    # Model paths (override via env if needed)
-    MODEL_DIR        : Path = BASE_DIR / "models"
+# Network settings
+NETWORK_INTERFACE = os.getenv("NETWORK_INTERFACE", None)  # Auto-detect if None
+PACKET_TIMEOUT = 30
+MIN_PACKETS_FOR_FLOW = 5
 
-    # Storage
-    STORAGE_DIR      : Path = BASE_DIR / "storage"
-    DB_PATH          : Path = STORAGE_DIR / "alerts.db"
+# Log monitoring
+ENABLE_LOG_MONITORING = True
+LOG_PATHS = [
+    "/var/log/auth.log",
+    "/var/log/secure",
+    "/var/log/syslog"
+]
 
-    # Live capture
-    PACKET_COUNT     : int  = int(os.getenv("IDS_PACKET_COUNT", "10"))
-    CAPTURE_INTERFACE: str  = os.getenv("IDS_INTERFACE", None)
+# Alert thresholds
+NIDS_THRESHOLD = 0.5
+HIDS_THRESHOLD = 0.6
+FUSION_THRESHOLD = 0.55
 
-settings = Settings()
+# Fusion weights
+FUSION_NETWORK_WEIGHT = 0.6
+FUSION_HOST_WEIGHT = 0.4
+
+# Severity thresholds
+CRITICAL_THRESHOLD = 0.85
+HIGH_THRESHOLD = 0.70
+MEDIUM_THRESHOLD = 0.40
+
+# API settings
+API_HOST = "0.0.0.0"
+API_PORT = 8000
+API_RELOAD = True
+
+# Feature vector sizes
+NIDS_FEATURE_SIZE = 78
+HIDS_FEATURE_SIZE = 100

@@ -1,63 +1,83 @@
-"""backend/api/detect_api.py"""
-import os, pickle
+"""
+Detection API - RESTful Interface for Hybrid IDS
+"""
+
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, field_validator
-from typing import List
-from datetime import datetime, timezone
+from pydantic import BaseModel, Field
+from typing import List, Optional
+from datetime import datetime
 
 from backend.detection.service import run_hybrid_detection
-from backend.core.logger import get_logger
-from backend.core.exceptions import PredictionError
 
-logger = get_logger(__name__)
 router = APIRouter()
-
-_BASE     = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_COLS_PKL = os.path.join(_BASE, "models", "network_feature_columns.pkl")
-
-def _nids_size() -> int:
-    try:
-        with open(_COLS_PKL, "rb") as f:
-            return len(pickle.load(f))
-    except Exception:
-        from backend.detection.ml.model_loader import models
-        return int(models.nids_model.n_features_in_)
-
-_N = _nids_size()
-logger.info("detect_api: NIDS=%d HIDS=100", _N)
 
 
 class DetectionRequest(BaseModel):
-    network_features: List[float]
-    host_features:    List[float]
-
-    @field_validator("network_features")
-    @classmethod
-    def align_network(cls, v):
-        v = list(v)
-        if len(v) > _N:   return v[:_N]
-        if len(v) < _N:   return v + [0.0] * (_N - len(v))
-        return v
-
-    @field_validator("host_features")
-    @classmethod
-    def align_host(cls, v):
-        v = list(v)
-        if len(v) > 100:  return v[:100]
-        if len(v) < 100:  return v + [0.0] * (100 - len(v))
-        return v
+    network_features: List[float] = Field(..., description="NIDS feature vector")
+    host_features: List[float] = Field(..., description="HIDS feature vector")
+    network_context: Optional[dict] = Field(None, description="Network metadata")
+    host_context: Optional[dict] = Field(None, description="Host metadata")
 
 
-@router.post("/", summary="Run Hybrid Intrusion Detection")
+class DetectionResponse(BaseModel):
+    network_score: float
+    host_score: float
+    final_score: float
+    decision: str
+    attack_type: str
+    attack_domain: str
+    location: str
+    severity: str
+    confidence: float
+    reason: List[str]
+    threat_intelligence: dict
+    triggered_by: List[str]
+    timestamp: str
+    alert: dict
+
+
+@router.post("/", response_model=DetectionResponse)
 def detect(request: DetectionRequest):
+    """Run hybrid intrusion detection"""
+    
     try:
         result = run_hybrid_detection(
-            list(request.network_features),
-            list(request.host_features),
+            request.network_features,
+            request.host_features,
+            request.network_context,
+            request.host_context
         )
-        return {**result, "timestamp": datetime.now(timezone.utc).isoformat()}
-    except PredictionError as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        
+        response = {
+            "network_score": result["network_score"],
+            "host_score": result["host_score"],
+            "final_score": result["final_score"],
+            "decision": result["decision"],
+            "attack_type": result["attack_type"],
+            "attack_domain": result["attack_domain"],
+            "location": result["location"],
+            "severity": result["severity"],
+            "confidence": result["confidence"],
+            "reason": result["reason"],
+            "threat_intelligence": result.get("threat_intelligence", {}),
+            "triggered_by": result["triggered_by"],
+            "timestamp": datetime.utcnow().isoformat(),
+            "alert": result["alert"]
+        }
+        
+        return response
+    
+    except ValueError as ve:
+        raise HTTPException(status_code=400, detail=str(ve))
     except Exception as e:
-        logger.exception("Detection pipeline error")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Detection failed: {str(e)}")
+
+
+@router.get("/health")
+def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "running",
+        "service": "Hybrid IDS Detection API",
+        "timestamp": datetime.utcnow().isoformat()
+    }

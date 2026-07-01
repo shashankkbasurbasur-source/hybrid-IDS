@@ -1,202 +1,150 @@
 """
-backend/features/network_features.py
-
-FIXED FOR PHASE 2:
- - Extracts EXACTLY 77 features (matches CICIDS2017 training)
- - Uses REAL packet timestamps (not fake IAT)
- - Properly handles inter-arrival times
- - Prevents zero-dimension issues
+Flow-based Network Feature Extraction for NIDS
 """
 
 import numpy as np
-from typing import List, Dict, Optional
-from backend.core.logger import get_logger
-
-logger = get_logger(__name__)
+from typing import List, Dict
 
 
-class NetworkFeatureExtractor:
-    """Extracts exactly 77 network features from packet events."""
+class NetworkFlowFeatureExtractor:
+    """Extracts features from network flows for ML detection"""
     
-    # 77 feature names matching CICIDS2017
-    FEATURE_NAMES = [
-        'Flow Duration', 'Total Fwd Packets', 'Total Backward Packets',
-        'Total Length of Fwd Packets', 'Total Length of Bwd Packets',
-        'Fwd Packet Length Max', 'Fwd Packet Length Min', 'Fwd Packet Length Mean',
-        'Fwd Packet Length Std', 'Bwd Packet Length Max', 'Bwd Packet Length Min',
-        'Bwd Packet Length Mean', 'Bwd Packet Length Std', 'Flow Bytes/s',
-        'Flow Packets/s', 'Flow IAT Mean', 'Flow IAT Std', 'Flow IAT Max',
-        'Flow IAT Min', 'Fwd IAT Total', 'Fwd IAT Mean', 'Fwd IAT Std',
-        'Fwd IAT Max', 'Fwd IAT Min', 'Bwd IAT Total', 'Bwd IAT Mean',
-        'Bwd IAT Std', 'Bwd IAT Max', 'Bwd IAT Min', 'Fwd PSH Flags',
-        'Bwd PSH Flags', 'Fwd URG Flags', 'Bwd URG Flags', 'Fwd Header Length',
-        'Bwd Header Length', 'Fwd Packets/s', 'Bwd Packets/s', 'Min Packet Length',
-        'Max Packet Length', 'Packet Length Mean', 'Packet Length Std',
-        'Packet Length Variance', 'FIN Flag Count', 'SYN Flag Count',
-        'RST Flag Count', 'PSH Flag Count', 'ACK Flag Count', 'URG Flag Count',
-        'CWE Flag Count', 'ECE Flag Count', 'Down/Up Ratio', 'Average Packet Size',
-        'Avg Fwd Segment Size', 'Avg Bwd Segment Size', 'Fwd Header Length.1',
-        'Fwd Avg Bytes/Bulk', 'Fwd Avg Packets/Bulk', 'Fwd Avg Bulk Rate',
-        'Bwd Avg Bytes/Bulk', 'Bwd Avg Packets/Bulk', 'Bwd Avg Bulk Rate',
-        'Subflow Fwd Packets', 'Subflow Fwd Bytes', 'Subflow Bwd Packets',
-        'Subflow Bwd Bytes', 'Init_Win_bytes_forward', 'Init_Win_bytes_backward',
-        'act_data_pkt_fwd', 'min_seg_size_forward', 'Active Mean', 'Active Std',
-        'Active Max', 'Active Min', 'Idle Mean', 'Idle Std', 'Idle Max', 'Idle Min'
-    ]
+    FEATURE_SIZE = 78
     
     def __init__(self):
-        """Initialize feature extractor."""
-        if len(self.FEATURE_NAMES) != 77:
-            logger.warning("Feature count mismatch: %d != 77. May cause errors.",
-                          len(self.FEATURE_NAMES))
+        self.port_knowledge = self._load_port_knowledge()
     
-    def extract(self, events: List[Dict]) -> List[float]:
-        """
-        Extract exactly 77 features from packet events.
-        """
-        if not events:
-            logger.warning("No events provided. Returning zero feature vector.")
-            return [0.0] * 77
+    def _load_port_knowledge(self) -> Dict:
+        """Well-known ports and their categories"""
+        return {
+            "well_known": list(range(0, 1024)),
+            "registered": list(range(1024, 49152)),
+            "ephemeral": list(range(49152, 65536)),
+            "dns": [53],
+            "http": [80, 8080],
+            "https": [443, 8443],
+            "ssh": [22],
+            "telnet": [23],
+            "smtp": [25, 587],
+            "pop3": [110],
+            "imap": [143],
+            "ntp": [123],
+            "snmp": [161]
+        }
+    
+    def extract_from_flow(self, flow: Dict) -> List[float]:
+        """Extract features from a single flow"""
         
-        try:
-            # Extract timestamps
-            timestamps = []
-            for evt in events:
-                ts_str = str(evt.get("timestamp", "0"))
-                try:
-                    ts = float(ts_str)
-                    timestamps.append(ts)
-                except (ValueError, TypeError):
-                    timestamps.append(float(len(timestamps)))
-            
-            # Calculate inter-arrival times
-            iats = []
-            for i in range(1, len(timestamps)):
-                iat = timestamps[i] - timestamps[i-1]
-                iats.append(max(iat, 0.0001))  # Avoid zero/negative IAT
-            
-            if not iats:
-                iats = [0.0001]
-            
-            total_packets = len(events)
-            
-            # Separate by direction (TCP/UDP forward, backward)
-            fwd_packets = [e for e in events if e.get("protocol") == "TCP"]
-            bwd_packets = [e for e in events if e.get("protocol") == "UDP"]
-            
-            fwd_lengths = [e.get("length", 0) for e in fwd_packets]
-            bwd_lengths = [e.get("length", 0) for e in bwd_packets]
-            all_lengths = [e.get("length", 0) for e in events]
-            
-            fwd_bytes = sum(fwd_lengths)
-            bwd_bytes = sum(bwd_lengths)
-            total_bytes = fwd_bytes + bwd_bytes
-            
-            fin_flags = sum(1 for e in events if e.get("flags", 0) & 0x01)
-            syn_flags = sum(1 for e in events if e.get("flags", 0) & 0x02)
-            rst_flags = sum(1 for e in events if e.get("flags", 0) & 0x04)
-            psh_flags = sum(1 for e in events if e.get("flags", 0) & 0x08)
-            ack_flags = sum(1 for e in events if e.get("flags", 0) & 0x10)
-            urg_flags = sum(1 for e in events if e.get("flags", 0) & 0x20)
-            
-            def safe_mean(lst):
-                return float(np.mean(lst)) if lst else 0.0
-            
-            def safe_std(lst):
-                return float(np.std(lst)) if lst and len(lst) > 1 else 0.0
-            
-            def safe_max(lst):
-                return float(max(lst)) if lst else 0.0
-            
-            def safe_min(lst):
-                return float(min(lst)) if lst else 0.0
-            
-            flow_duration = timestamps[-1] - timestamps[0] if len(timestamps) > 1 else 0.0
-            
-            feat_dict = {
-                'Flow Duration': flow_duration,
-                'Total Fwd Packets': float(len(fwd_packets)),
-                'Total Backward Packets': float(len(bwd_packets)),
-                'Total Length of Fwd Packets': float(fwd_bytes),
-                'Total Length of Bwd Packets': float(bwd_bytes),
-                'Fwd Packet Length Max': safe_max(fwd_lengths),
-                'Fwd Packet Length Min': safe_min(fwd_lengths),
-                'Fwd Packet Length Mean': safe_mean(fwd_lengths),
-                'Fwd Packet Length Std': safe_std(fwd_lengths),
-                'Bwd Packet Length Max': safe_max(bwd_lengths),
-                'Bwd Packet Length Min': safe_min(bwd_lengths),
-                'Bwd Packet Length Mean': safe_mean(bwd_lengths),
-                'Bwd Packet Length Std': safe_std(bwd_lengths),
-                'Flow Bytes/s': total_bytes / flow_duration if flow_duration > 0 else 0.0,
-                'Flow Packets/s': total_packets / flow_duration if flow_duration > 0 else 0.0,
-                'Flow IAT Mean': safe_mean(iats),
-                'Flow IAT Std': safe_std(iats),
-                'Flow IAT Max': safe_max(iats),
-                'Flow IAT Min': safe_min(iats),
-                'Fwd IAT Total': sum(iats) if fwd_packets else 0.0,
-                'Fwd IAT Mean': safe_mean(iats) if fwd_packets else 0.0,
-                'Fwd IAT Std': safe_std(iats) if fwd_packets else 0.0,
-                'Fwd IAT Max': safe_max(iats) if fwd_packets else 0.0,
-                'Fwd IAT Min': safe_min(iats) if fwd_packets else 0.0,
-                'Bwd IAT Total': sum(iats) if bwd_packets else 0.0,
-                'Bwd IAT Mean': safe_mean(iats) if bwd_packets else 0.0,
-                'Bwd IAT Std': safe_std(iats) if bwd_packets else 0.0,
-                'Bwd IAT Max': safe_max(iats) if bwd_packets else 0.0,
-                'Bwd IAT Min': safe_min(iats) if bwd_packets else 0.0,
-                'Fwd PSH Flags': float(psh_flags) if fwd_packets else 0.0,
-                'Bwd PSH Flags': 0.0,
-                'Fwd URG Flags': float(urg_flags) if fwd_packets else 0.0,
-                'Bwd URG Flags': 0.0,
-                'Fwd Header Length': float(20 * len(fwd_packets)),
-                'Bwd Header Length': float(20 * len(bwd_packets)),
-                'Fwd Packets/s': len(fwd_packets) / flow_duration if flow_duration > 0 else 0.0,
-                'Bwd Packets/s': len(bwd_packets) / flow_duration if flow_duration > 0 else 0.0,
-                'Min Packet Length': safe_min(all_lengths),
-                'Max Packet Length': safe_max(all_lengths),
-                'Packet Length Mean': safe_mean(all_lengths),
-                'Packet Length Std': safe_std(all_lengths),
-                'Packet Length Variance': float(np.var(all_lengths)) if len(all_lengths) > 1 else 0.0,
-                'FIN Flag Count': float(fin_flags),
-                'SYN Flag Count': float(syn_flags),
-                'RST Flag Count': float(rst_flags),
-                'PSH Flag Count': float(psh_flags),
-                'ACK Flag Count': float(ack_flags),
-                'URG Flag Count': float(urg_flags),
-                'CWE Flag Count': 0.0,
-                'ECE Flag Count': 0.0,
-                'Down/Up Ratio': len(bwd_packets) / len(fwd_packets) if fwd_packets else 0.0,
-                'Average Packet Size': safe_mean(all_lengths) if all_lengths else 0.0,
-                'Avg Fwd Segment Size': safe_mean(fwd_lengths) if fwd_lengths else 0.0,
-                'Avg Bwd Segment Size': safe_mean(bwd_lengths) if bwd_lengths else 0.0,
-                'Fwd Header Length.1': float(20 * len(fwd_packets)),
-                'Fwd Avg Bytes/Bulk': 0.0,
-                'Fwd Avg Packets/Bulk': 0.0,
-                'Fwd Avg Bulk Rate': 0.0,
-                'Bwd Avg Bytes/Bulk': 0.0,
-                'Bwd Avg Packets/Bulk': 0.0,
-                'Bwd Avg Bulk Rate': 0.0,
-                'Subflow Fwd Packets': float(len(fwd_packets)),
-                'Subflow Fwd Bytes': float(fwd_bytes),
-                'Subflow Bwd Packets': float(len(bwd_packets)),
-                'Subflow Bwd Bytes': float(bwd_bytes),
-                'Init_Win_bytes_forward': 29200.0 if syn_flags > 0 else 0.0,
-                'Init_Win_bytes_backward': 0.0,
-                'act_data_pkt_fwd': float(len([e for e in fwd_packets if e.get("length", 0) > 0])),
-                'min_seg_size_forward': 20.0,
-                'Active Mean': 0.0,
-                'Active Std': 0.0,
-                'Active Max': 0.0,
-                'Active Min': 0.0,
-                'Idle Mean': 0.0,
-                'Idle Std': 0.0,
-                'Idle Max': 0.0,
-                'Idle Min': 0.0
-            }
-            
-            features = [feat_dict.get(name, 0.0) for name in self.FEATURE_NAMES]
-            logger.debug("Extracted 77 features from %d packets", len(events))
-            return features
+        features = [0.0] * self.FEATURE_SIZE
         
-        except Exception as e:
-            logger.error("Feature extraction failed: %s. Returning zeros.", e)
-            return [0.0] * 77
+        # --- Basic Flow Statistics ---
+        features[0] = float(flow.get("packet_count", 0))
+        features[1] = float(flow.get("byte_count", 0))
+        features[2] = float(flow.get("duration", 0.001))
+        
+        # Byte and packet rates
+        duration = flow.get("duration", 0.001)
+        features[3] = flow.get("byte_count", 0) / duration if duration > 0 else 0
+        features[4] = flow.get("packet_count", 0) / duration if duration > 0 else 0
+        
+        # --- Protocol Analysis ---
+        protocol = flow.get("protocol", "OTHER")
+        if protocol == "TCP":
+            features[5] = 1.0
+        elif protocol == "UDP":
+            features[6] = 1.0
+        elif protocol == "ICMP":
+            features[7] = 1.0
+        else:
+            features[8] = 1.0
+        
+        # --- Port Analysis ---
+        src_port = flow.get("src_port", 0)
+        dst_port = flow.get("dst_port", 0)
+        
+        features[9] = float(src_port)
+        features[10] = float(dst_port)
+        
+        # Port categories
+        if dst_port in self.port_knowledge["well_known"]:
+            features[11] = 1.0
+        elif dst_port in self.port_knowledge["registered"]:
+            features[12] = 1.0
+        else:
+            features[13] = 1.0
+        
+        # Known service ports
+        if dst_port in self.port_knowledge["ssh"]:
+            features[14] = 1.0
+        elif dst_port in self.port_knowledge["http"] + self.port_knowledge["https"]:
+            features[15] = 1.0
+        elif dst_port in self.port_knowledge["dns"]:
+            features[16] = 1.0
+        
+        # --- Multi-flow Scanning Detection ---
+        features[17] = float(flow.get("unique_dports", 0))  # Scan detector
+        features[18] = float(flow.get("unique_sports", 0))
+        
+        # --- Flow Directionality ---
+        features[19] = 1.0 if flow.get("packet_count", 0) > 0 else 0
+        
+        # Average packet size
+        packet_count = flow.get("packet_count", 1)
+        avg_packet_size = flow.get("byte_count", 0) / packet_count if packet_count > 0 else 0
+        features[20] = avg_packet_size
+        
+        # --- Suspicious Patterns ---
+        # High port number destination (unusual)
+        if dst_port > 10000:
+            features[21] = 1.0
+        
+        # Low packet count but high bytes (potential command injection)
+        if packet_count < 5 and flow.get("byte_count", 0) > 1000:
+            features[22] = 1.0
+        
+        # Very short duration high traffic (burst)
+        if duration < 1.0 and flow.get("packet_count", 0) > 100:
+            features[23] = 1.0
+        
+        # TCP flags (if present)
+        flags = flow.get("flags", [])
+        if flags:
+            features[24] = len(flags) / 10.0  # Normalized flag diversity
+        
+        # Padding for model compatibility
+        return features[:self.FEATURE_SIZE]
+    
+    def extract_from_packets(self, packets: List[Dict]) -> List[float]:
+        """Extract features from raw packet list (fallback)"""
+        
+        if not packets:
+            return [0.0] * self.FEATURE_SIZE
+        
+        features = [0.0] * self.FEATURE_SIZE
+        
+        # Basic stats
+        features[0] = float(len(packets))
+        features[1] = sum(p.get("length", 0) for p in packets)
+        features[2] = max([p.get("length", 0) for p in packets]) if packets else 0
+        features[3] = min([p.get("length", 0) for p in packets]) if packets else 0
+        
+        # Protocol distribution
+        tcp_count = sum(1 for p in packets if p.get("protocol") == "TCP")
+        udp_count = sum(1 for p in packets if p.get("protocol") == "UDP")
+        
+        features[5] = float(tcp_count)
+        features[6] = float(udp_count)
+        features[7] = tcp_count / len(packets) if packets else 0
+        
+        # Port analysis
+        src_ports = [p.get("src_port", 0) for p in packets if p.get("src_port", 0) > 0]
+        dst_ports = [p.get("dst_port", 0) for p in packets if p.get("dst_port", 0) > 0]
+        
+        features[9] = len(set(src_ports))
+        features[10] = len(set(dst_ports))
+        
+        # High ports count (scanning indicator)
+        high_ports = sum(1 for p in dst_ports if p > 1024)
+        features[11] = float(high_ports)
+        
+        return features[:self.FEATURE_SIZE]

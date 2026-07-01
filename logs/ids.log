@@ -619,3 +619,544 @@ NameError: name 'pd' is not defined
 [2026-06-09 12:26:16] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
 [2026-06-09 12:26:16] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
 [2026-06-09 12:26:16] INFO     backend.detection.ml.network_model — NIDS: score=0.0554, attack_type='Normal Traffic'
+[2026-06-13 09:17:38] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-13 09:17:45] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-13 09:17:46] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-13 09:17:46] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-13 09:17:46] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-13 09:17:48] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-13 09:17:48] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-13 09:29:19] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-13 09:29:19] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 10.184.111.62 (timeout 10s)
+[2026-06-13 09:29:35] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-13 09:29:35] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '10.184.111.62' not found !), trying raw socket
+[2026-06-13 09:29:35] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-13 09:29:35] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-13 09:29:36] INFO     backend.detection.ml.network_model — NIDS: score=0.1197, attack_type='Normal Traffic'
+[2026-06-13 09:29:36] INFO     backend.detection.service — ▶ NIDS Result: score=0.1197, attack='Normal Traffic'
+[2026-06-13 09:29:36] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-13 09:29:36] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.120, HIDS=0.000)
+[2026-06-13 09:29:36] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-13 09:29:36] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-13 09:29:36] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0718 | Severity=LOW
+[2026-06-13 09:29:36] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-13 09:29:44] INFO     backend.scenarios.attack_generators — [NORMAL] Generating 50 normal traffic events
+[2026-06-13 09:29:44] INFO     backend.scenarios.attack_generators — [✓ NORMAL] Generated 50 benign events
+[2026-06-13 09:29:44] INFO     backend.detection.ml.network_model — NIDS: score=0.0405, attack_type='Normal Traffic'
+[2026-06-13 09:29:44] INFO     backend.detection.service — ▶ NIDS Result: score=0.0405, attack='Normal Traffic'
+[2026-06-13 09:29:44] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-13 09:29:44] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.040, HIDS=0.000)
+[2026-06-13 09:29:44] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-13 09:29:44] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-13 09:29:44] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0243 | Severity=LOW
+[2026-06-13 09:29:44] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:36] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-18 10:27:38] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-18 10:27:38] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-18 10:27:39] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-18 10:27:39] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-18 10:27:39] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-18 10:27:39] INFO     backend.scenarios.attack_generators — [NORMAL] Generating 50 normal traffic events
+[2026-06-18 10:27:39] INFO     backend.scenarios.attack_generators — [✓ NORMAL] Generated 50 benign events
+[2026-06-18 10:27:39] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:27:39] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:27:39] INFO     backend.detection.ml.network_model — NIDS: score=0.2429, attack='Normal Traffic', confidence=0.757
+[2026-06-18 10:27:39] INFO     __main__ — Normal Traffic NIDS: score=0.2429, attack=Normal Traffic
+[2026-06-18 10:27:39] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.243, HIDS=0.000)
+[2026-06-18 10:27:39] INFO     __main__ — Normal Traffic Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 10:27:39] INFO     backend.detection.ml.network_model — NIDS: score=0.2429, attack='Normal Traffic', confidence=0.757
+[2026-06-18 10:27:39] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:27:39] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:27:39] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 10:27:39] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 10:27:39] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 10:27:39] INFO     backend.alerts.alert_builder — Alert created: 9df1b1f7 | Normal | Normal Traffic | LOW
+[2026-06-18 10:27:39] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:39] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 10:27:39] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:39] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:27:39] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:27:39] INFO     backend.detection.ml.network_model — NIDS: score=0.2429, attack='Normal Traffic', confidence=0.757
+[2026-06-18 10:27:39] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generating 100 port scan events with HIGH ENTROPY
+[2026-06-18 10:27:39] INFO     backend.scenarios.attack_generators — [✓ PORT SCAN] Generated 100 port scan events (entropy=100 unique ports)
+[2026-06-18 10:27:39] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:27:39] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:27:39] INFO     backend.detection.ml.network_model — NIDS: score=0.1792, attack='Normal Traffic', confidence=0.821
+[2026-06-18 10:27:39] INFO     __main__ — Port Scan NIDS: score=0.1792, attack=Normal Traffic
+[2026-06-18 10:27:39] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.179, HIDS=0.000)
+[2026-06-18 10:27:39] INFO     __main__ — Port Scan Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 10:27:39] INFO     backend.detection.ml.network_model — NIDS: score=0.1792, attack='Normal Traffic', confidence=0.821
+[2026-06-18 10:27:39] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:27:39] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:27:39] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 10:27:39] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 10:27:39] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 10:27:39] INFO     backend.alerts.alert_builder — Alert created: c49885fd | Normal | Normal Traffic | LOW
+[2026-06-18 10:27:39] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:39] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 10:27:39] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:39] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:27:39] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:27:40] INFO     backend.detection.ml.network_model — NIDS: score=0.1792, attack='Normal Traffic', confidence=0.821
+[2026-06-18 10:27:40] INFO     backend.scenarios.attack_generators — [DDoS FLOOD] Generating 200 DDoS flood events
+[2026-06-18 10:27:40] INFO     backend.scenarios.attack_generators — [✓ DDoS FLOOD] Generated 200 flood events to 10.0.0.100:123
+[2026-06-18 10:27:40] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:27:40] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:27:40] INFO     backend.detection.ml.network_model — NIDS: score=0.2932, attack='Normal Traffic', confidence=0.707
+[2026-06-18 10:27:40] INFO     __main__ — DDoS Flood NIDS: score=0.2932, attack=Normal Traffic
+[2026-06-18 10:27:40] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.293, HIDS=0.000)
+[2026-06-18 10:27:40] INFO     __main__ — DDoS Flood Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 10:27:40] INFO     backend.detection.ml.network_model — NIDS: score=0.2932, attack='Normal Traffic', confidence=0.707
+[2026-06-18 10:27:40] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:27:40] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:27:40] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 10:27:40] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 10:27:40] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 10:27:40] INFO     backend.alerts.alert_builder — Alert created: ed7e6baf | Normal | Normal Traffic | LOW
+[2026-06-18 10:27:40] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:40] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 10:27:40] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:40] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:27:40] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:27:40] INFO     backend.detection.ml.network_model — NIDS: score=0.2932, attack='Normal Traffic', confidence=0.707
+[2026-06-18 10:27:40] INFO     backend.scenarios.attack_generators — [SSH BRUTE FORCE] Generating 50 SSH auth log lines
+[2026-06-18 10:27:40] INFO     backend.scenarios.attack_generators — [✓ SSH BRUTE FORCE] Generated 51 auth logs from 192.168.3.59
+[2026-06-18 10:27:40] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:27:40] INFO     backend.detection.ml.network_model — NIDS: score=0.0200, attack='Normal Traffic', confidence=0.980
+[2026-06-18 10:27:40] INFO     __main__ — SSH Brute Force NIDS: score=0.0200, attack=Normal Traffic
+[2026-06-18 10:27:40] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.020, HIDS=0.947
+[2026-06-18 10:27:40] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 10:27:40] INFO     __main__ — SSH Brute Force Fusion: decision=Intrusion, severity=LOW, attack=Brute Force / Unauthorized Access
+[2026-06-18 10:27:40] INFO     backend.detection.ml.network_model — NIDS: score=0.0200, attack='Normal Traffic', confidence=0.980
+[2026-06-18 10:27:40] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:27:40] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:27:40] INFO     backend.detection.service — ▶ HIDS Result: score=0.9467
+[2026-06-18 10:27:40] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.000, HIDS=0.947
+[2026-06-18 10:27:40] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 10:27:40] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-18 10:27:40] INFO     backend.alerts.alert_builder — Alert created: 6a95f877 | Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 10:27:40] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:40] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.3787 | Severity=LOW
+[2026-06-18 10:27:40] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:40] INFO     backend.scenarios.attack_generators — [HYBRID ATTACK] Generating 3-phase multi-stage attack
+[2026-06-18 10:27:40] INFO     backend.scenarios.attack_generators — [SSH BRUTE FORCE] Generating 20 SSH auth log lines
+[2026-06-18 10:27:40] INFO     backend.scenarios.attack_generators — [✓ SSH BRUTE FORCE] Generated 20 auth logs from 192.168.3.63
+[2026-06-18 10:27:40] INFO     backend.scenarios.attack_generators — [✓ HYBRID ATTACK] 3 phases: recon(30) + brute(20) + lateral(10)
+[2026-06-18 10:27:40] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:27:40] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:27:40] INFO     backend.detection.ml.network_model — NIDS: score=0.2190, attack='Normal Traffic', confidence=0.781
+[2026-06-18 10:27:40] INFO     __main__ — Hybrid Attack NIDS: score=0.2190, attack=Normal Traffic
+[2026-06-18 10:27:40] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.219, HIDS=0.977
+[2026-06-18 10:27:40] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.977)
+[2026-06-18 10:27:40] INFO     __main__ — Hybrid Attack Fusion: decision=Intrusion, severity=MEDIUM, attack=Brute Force / Unauthorized Access
+[2026-06-18 10:27:40] INFO     backend.detection.ml.network_model — NIDS: score=0.2190, attack='Normal Traffic', confidence=0.781
+[2026-06-18 10:27:40] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:27:40] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:27:41] INFO     backend.detection.service — ▶ HIDS Result: score=0.9767
+[2026-06-18 10:27:41] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.000, HIDS=0.977
+[2026-06-18 10:27:41] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.977)
+[2026-06-18 10:27:41] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-18 10:27:41] INFO     backend.alerts.alert_builder — Alert created: 98acbca8 | Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 10:27:41] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:27:41] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.3907 | Severity=LOW
+[2026-06-18 10:27:41] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:21] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-18 10:36:23] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-18 10:36:23] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-18 10:36:23] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-18 10:36:23] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-18 10:36:23] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-18 10:36:23] INFO     backend.scenarios.attack_generators — [NORMAL] Generating 50 normal traffic events
+[2026-06-18 10:36:23] INFO     backend.scenarios.attack_generators — [✓ NORMAL] Generated 50 benign events
+[2026-06-18 10:36:23] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:36:23] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:36:23] INFO     backend.detection.ml.network_model — NIDS: score=0.2352, attack='Normal Traffic', confidence=0.765
+[2026-06-18 10:36:23] INFO     __main__ — Normal Traffic NIDS: score=0.2352, attack=Normal Traffic
+[2026-06-18 10:36:23] INFO     __main__ — Normal Traffic HIDS: score=0.0000
+[2026-06-18 10:36:23] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.235, HIDS=0.000)
+[2026-06-18 10:36:23] INFO     __main__ — Normal Traffic Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 10:36:23] INFO     backend.detection.ml.network_model — NIDS: score=0.2352, attack='Normal Traffic', confidence=0.765
+[2026-06-18 10:36:23] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:36:23] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:36:23] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 10:36:23] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 10:36:23] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 10:36:23] INFO     backend.alerts.alert_builder — Alert created: a718aade | Normal | Normal Traffic | LOW
+[2026-06-18 10:36:24] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:24] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 10:36:24] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:24] INFO     __main__ — Normal Traffic Alert: Normal | Normal Traffic | LOW
+[2026-06-18 10:36:24] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generating 100 port scan events with HIGH ENTROPY
+[2026-06-18 10:36:24] INFO     backend.scenarios.attack_generators — [✓ PORT SCAN] Generated 100 port scan events (entropy=100 unique ports)
+[2026-06-18 10:36:24] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:36:24] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:36:24] INFO     __main__ — Port Scan: Network-only attack, skipping host features
+[2026-06-18 10:36:24] INFO     backend.detection.ml.network_model — NIDS: score=0.1802, attack='Normal Traffic', confidence=0.820
+[2026-06-18 10:36:24] INFO     __main__ — Port Scan NIDS: score=0.1802, attack=Normal Traffic
+[2026-06-18 10:36:24] INFO     __main__ — Port Scan: HIDS skipped (network-only attack)
+[2026-06-18 10:36:24] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.180, HIDS=0.000)
+[2026-06-18 10:36:24] INFO     __main__ — Port Scan Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 10:36:24] INFO     backend.detection.ml.network_model — NIDS: score=0.1802, attack='Normal Traffic', confidence=0.820
+[2026-06-18 10:36:24] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:36:24] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:36:24] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 10:36:24] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 10:36:24] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 10:36:24] INFO     backend.alerts.alert_builder — Alert created: ed7c8ea0 | Normal | Normal Traffic | LOW
+[2026-06-18 10:36:24] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:24] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 10:36:24] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:24] INFO     __main__ — Port Scan Alert: Normal | Normal Traffic | LOW
+[2026-06-18 10:36:24] INFO     backend.scenarios.attack_generators — [DDoS FLOOD] Generating 200 DDoS flood events
+[2026-06-18 10:36:24] INFO     backend.scenarios.attack_generators — [✓ DDoS FLOOD] Generated 200 flood events to 10.0.0.100:53
+[2026-06-18 10:36:24] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:36:24] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:36:24] INFO     __main__ — DDoS Flood: Network-only attack, skipping host features
+[2026-06-18 10:36:24] INFO     backend.detection.ml.network_model — NIDS: score=0.2932, attack='Normal Traffic', confidence=0.707
+[2026-06-18 10:36:24] INFO     __main__ — DDoS Flood NIDS: score=0.2932, attack=Normal Traffic
+[2026-06-18 10:36:24] INFO     __main__ — DDoS Flood: HIDS skipped (network-only attack)
+[2026-06-18 10:36:24] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.293, HIDS=0.000)
+[2026-06-18 10:36:24] INFO     __main__ — DDoS Flood Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 10:36:24] INFO     backend.detection.ml.network_model — NIDS: score=0.2932, attack='Normal Traffic', confidence=0.707
+[2026-06-18 10:36:24] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:36:24] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:36:24] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 10:36:24] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 10:36:24] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 10:36:24] INFO     backend.alerts.alert_builder — Alert created: c3b14684 | Normal | Normal Traffic | LOW
+[2026-06-18 10:36:25] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:25] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 10:36:25] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:25] INFO     __main__ — DDoS Flood Alert: Normal | Normal Traffic | LOW
+[2026-06-18 10:36:25] INFO     backend.scenarios.attack_generators — [SSH BRUTE FORCE] Generating 50 SSH auth log lines
+[2026-06-18 10:36:25] INFO     backend.scenarios.attack_generators — [✓ SSH BRUTE FORCE] Generated 50 auth logs from 192.168.3.125
+[2026-06-18 10:36:25] INFO     __main__ — SSH Brute Force: Host-only attack, skipping network features
+[2026-06-18 10:36:25] INFO     __main__ — SSH Brute Force: NIDS skipped (host-only attack)
+[2026-06-18 10:36:25] INFO     __main__ — SSH Brute Force HIDS: score=0.9767
+[2026-06-18 10:36:25] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.000, HIDS=0.977
+[2026-06-18 10:36:25] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.977)
+[2026-06-18 10:36:25] INFO     __main__ — SSH Brute Force Fusion: decision=Intrusion, severity=LOW, attack=Brute Force / Unauthorized Access
+[2026-06-18 10:36:25] INFO     backend.detection.ml.network_model — NIDS: score=0.0200, attack='Normal Traffic', confidence=0.980
+[2026-06-18 10:36:25] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:36:25] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:36:25] INFO     backend.detection.service — ▶ HIDS Result: score=0.9767
+[2026-06-18 10:36:25] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.000, HIDS=0.977
+[2026-06-18 10:36:25] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.977)
+[2026-06-18 10:36:25] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-18 10:36:25] INFO     backend.alerts.alert_builder — Alert created: 9c381e12 | Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 10:36:25] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:25] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.3907 | Severity=LOW
+[2026-06-18 10:36:25] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:25] INFO     __main__ — SSH Brute Force Alert: Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 10:36:25] INFO     backend.scenarios.attack_generators — [HYBRID ATTACK] Generating 3-phase multi-stage attack
+[2026-06-18 10:36:25] INFO     backend.scenarios.attack_generators — [SSH BRUTE FORCE] Generating 20 SSH auth log lines
+[2026-06-18 10:36:25] INFO     backend.scenarios.attack_generators — [✓ SSH BRUTE FORCE] Generated 21 auth logs from 192.168.2.82
+[2026-06-18 10:36:25] INFO     backend.scenarios.attack_generators — [✓ HYBRID ATTACK] 3 phases: recon(30) + brute(21) + lateral(10)
+[2026-06-18 10:36:25] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 10:36:25] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 10:36:26] INFO     backend.detection.ml.network_model — NIDS: score=0.2190, attack='Normal Traffic', confidence=0.781
+[2026-06-18 10:36:26] INFO     __main__ — Hybrid Attack NIDS: score=0.2190, attack=Normal Traffic
+[2026-06-18 10:36:26] INFO     __main__ — Hybrid Attack HIDS: score=0.9467
+[2026-06-18 10:36:26] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.219, HIDS=0.947
+[2026-06-18 10:36:26] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 10:36:26] INFO     __main__ — Hybrid Attack Fusion: decision=Intrusion, severity=MEDIUM, attack=Brute Force / Unauthorized Access
+[2026-06-18 10:36:26] INFO     backend.detection.ml.network_model — NIDS: score=0.2190, attack='Normal Traffic', confidence=0.781
+[2026-06-18 10:36:26] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 10:36:26] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 10:36:26] INFO     backend.detection.service — ▶ HIDS Result: score=0.9467
+[2026-06-18 10:36:26] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.000, HIDS=0.947
+[2026-06-18 10:36:26] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 10:36:26] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-18 10:36:26] INFO     backend.alerts.alert_builder — Alert created: 6a56f6ec | Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 10:36:26] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:26] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.3787 | Severity=LOW
+[2026-06-18 10:36:26] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 10:36:26] INFO     __main__ — Hybrid Attack Alert: Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 11:28:49] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-18 11:28:51] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-18 11:28:52] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-18 11:28:52] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-18 11:28:52] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-18 11:28:52] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-18 11:28:52] INFO     backend.scenarios.attack_generators — [NORMAL] Generating 50 normal traffic events
+[2026-06-18 11:28:52] INFO     backend.scenarios.attack_generators — [✓ NORMAL] Generated 50 benign events
+[2026-06-18 11:28:52] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:28:52] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:28:52] INFO     backend.detection.ml.network_model — NIDS: score=0.2429, attack='Normal Traffic', confidence=0.757
+[2026-06-18 11:28:52] INFO     __main__ — Normal Traffic NIDS: score=0.2429, attack=Normal Traffic
+[2026-06-18 11:28:52] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.243, HIDS=0.000)
+[2026-06-18 11:28:52] INFO     __main__ — Normal Traffic Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 11:28:52] INFO     backend.detection.ml.network_model — NIDS: score=0.2429, attack='Normal Traffic', confidence=0.757
+[2026-06-18 11:28:52] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 11:28:52] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 11:28:52] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 11:28:52] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 11:28:52] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 11:28:52] INFO     backend.alerts.alert_builder — Alert created: d3859d76 | Normal | Normal Traffic | LOW
+[2026-06-18 11:28:52] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:52] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 11:28:52] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:52] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:28:52] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:28:52] INFO     backend.detection.ml.network_model — NIDS: score=0.2429, attack='Normal Traffic', confidence=0.757
+[2026-06-18 11:28:52] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generating 100 port scan events with HIGH ENTROPY
+[2026-06-18 11:28:52] INFO     backend.scenarios.attack_generators — [✓ PORT SCAN] Generated 100 port scan events (entropy=100 unique ports)
+[2026-06-18 11:28:52] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:28:52] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:28:52] INFO     backend.detection.ml.network_model — NIDS: score=0.1802, attack='Normal Traffic', confidence=0.820
+[2026-06-18 11:28:52] INFO     __main__ — Port Scan NIDS: score=0.1802, attack=Normal Traffic
+[2026-06-18 11:28:52] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.180, HIDS=0.000)
+[2026-06-18 11:28:52] INFO     __main__ — Port Scan Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 11:28:52] INFO     backend.detection.ml.network_model — NIDS: score=0.1802, attack='Normal Traffic', confidence=0.820
+[2026-06-18 11:28:52] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 11:28:52] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 11:28:52] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 11:28:52] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 11:28:52] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 11:28:52] INFO     backend.alerts.alert_builder — Alert created: a457ac26 | Normal | Normal Traffic | LOW
+[2026-06-18 11:28:53] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:53] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 11:28:53] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:53] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:28:53] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:28:53] INFO     backend.detection.ml.network_model — NIDS: score=0.1802, attack='Normal Traffic', confidence=0.820
+[2026-06-18 11:28:53] INFO     backend.scenarios.attack_generators — [DDoS FLOOD] Generating 200 DDoS flood events
+[2026-06-18 11:28:53] INFO     backend.scenarios.attack_generators — [✓ DDoS FLOOD] Generated 200 flood events to 10.0.0.100:123
+[2026-06-18 11:28:53] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:28:53] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:28:53] INFO     backend.detection.ml.network_model — NIDS: score=0.2932, attack='Normal Traffic', confidence=0.707
+[2026-06-18 11:28:53] INFO     __main__ — DDoS Flood NIDS: score=0.2932, attack=Normal Traffic
+[2026-06-18 11:28:53] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.293, HIDS=0.000)
+[2026-06-18 11:28:53] INFO     __main__ — DDoS Flood Fusion: decision=Normal, severity=LOW, attack=Normal Traffic
+[2026-06-18 11:28:53] INFO     backend.detection.ml.network_model — NIDS: score=0.2932, attack='Normal Traffic', confidence=0.707
+[2026-06-18 11:28:53] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 11:28:53] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 11:28:53] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 11:28:53] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 11:28:53] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 11:28:53] INFO     backend.alerts.alert_builder — Alert created: c541a3c1 | Normal | Normal Traffic | LOW
+[2026-06-18 11:28:53] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:53] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 11:28:53] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:53] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:28:53] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:28:53] INFO     backend.detection.ml.network_model — NIDS: score=0.2932, attack='Normal Traffic', confidence=0.707
+[2026-06-18 11:28:53] INFO     backend.scenarios.attack_generators — [SSH BRUTE FORCE] Generating 50 SSH auth log lines
+[2026-06-18 11:28:53] INFO     backend.scenarios.attack_generators — [✓ SSH BRUTE FORCE] Generated 51 auth logs from 192.168.3.58
+[2026-06-18 11:28:53] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:28:53] INFO     backend.detection.ml.network_model — NIDS: score=0.0200, attack='Normal Traffic', confidence=0.980
+[2026-06-18 11:28:53] INFO     __main__ — SSH Brute Force NIDS: score=0.0200, attack=Normal Traffic
+[2026-06-18 11:28:53] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.020, HIDS=0.947
+[2026-06-18 11:28:53] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 11:28:53] INFO     __main__ — SSH Brute Force Fusion: decision=Intrusion, severity=LOW, attack=Brute Force / Unauthorized Access
+[2026-06-18 11:28:53] INFO     backend.detection.ml.network_model — NIDS: score=0.0200, attack='Normal Traffic', confidence=0.980
+[2026-06-18 11:28:53] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 11:28:53] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 11:28:53] INFO     backend.detection.service — ▶ HIDS Result: score=0.9467
+[2026-06-18 11:28:53] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.000, HIDS=0.947
+[2026-06-18 11:28:53] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 11:28:53] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-18 11:28:53] INFO     backend.alerts.alert_builder — Alert created: 9a111701 | Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 11:28:54] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:54] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.3787 | Severity=LOW
+[2026-06-18 11:28:54] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:54] INFO     backend.scenarios.attack_generators — [HYBRID ATTACK] Generating 3-phase multi-stage attack
+[2026-06-18 11:28:54] INFO     backend.scenarios.attack_generators — [SSH BRUTE FORCE] Generating 20 SSH auth log lines
+[2026-06-18 11:28:54] INFO     backend.scenarios.attack_generators — [✓ SSH BRUTE FORCE] Generated 21 auth logs from 192.168.1.161
+[2026-06-18 11:28:54] INFO     backend.scenarios.attack_generators — [✓ HYBRID ATTACK] 3 phases: recon(30) + brute(21) + lateral(10)
+[2026-06-18 11:28:54] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:28:54] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:28:54] INFO     backend.detection.ml.network_model — NIDS: score=0.2190, attack='Normal Traffic', confidence=0.781
+[2026-06-18 11:28:54] INFO     __main__ — Hybrid Attack NIDS: score=0.2190, attack=Normal Traffic
+[2026-06-18 11:28:54] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.219, HIDS=0.947
+[2026-06-18 11:28:54] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 11:28:54] INFO     __main__ — Hybrid Attack Fusion: decision=Intrusion, severity=MEDIUM, attack=Brute Force / Unauthorized Access
+[2026-06-18 11:28:54] INFO     backend.detection.ml.network_model — NIDS: score=0.2190, attack='Normal Traffic', confidence=0.781
+[2026-06-18 11:28:54] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 11:28:54] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 11:28:54] INFO     backend.detection.service — ▶ HIDS Result: score=0.9467
+[2026-06-18 11:28:54] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.000, HIDS=0.947
+[2026-06-18 11:28:54] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 11:28:54] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-18 11:28:54] INFO     backend.alerts.alert_builder — Alert created: d4988906 | Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 11:28:54] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:28:54] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.3787 | Severity=LOW
+[2026-06-18 11:28:54] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:37:19] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-18 11:37:21] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-18 11:37:21] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-18 11:37:21] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-18 11:37:21] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-18 11:37:22] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-18 11:37:22] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-18 11:37:56] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-18 11:37:56] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 192.168.23.128 (timeout 10s)
+[2026-06-18 11:37:59] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-18 11:37:59] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '192.168.23.128' not found !), trying raw socket
+[2026-06-18 11:37:59] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-18 11:37:59] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-18 11:37:59] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:37:59] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:37:59] INFO     backend.detection.ml.network_model — NIDS: score=0.1639, attack='Normal Traffic', confidence=0.836
+[2026-06-18 11:37:59] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 11:37:59] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 11:37:59] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-18 11:37:59] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-18 11:37:59] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-18 11:37:59] INFO     backend.alerts.alert_builder — Alert created: 18197f6b | Normal | Normal Traffic | LOW
+[2026-06-18 11:38:00] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:38:00] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-18 11:38:00] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:38:33] INFO     backend.scenarios.attack_generators — [HYBRID ATTACK] Generating 3-phase multi-stage attack
+[2026-06-18 11:38:33] INFO     backend.scenarios.attack_generators — [SSH BRUTE FORCE] Generating 20 SSH auth log lines
+[2026-06-18 11:38:33] INFO     backend.scenarios.attack_generators — [✓ SSH BRUTE FORCE] Generated 21 auth logs from 192.168.1.81
+[2026-06-18 11:38:33] INFO     backend.scenarios.attack_generators — [✓ HYBRID ATTACK] 3 phases: recon(30) + brute(21) + lateral(10)
+[2026-06-18 11:38:33] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-18 11:38:33] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-18 11:38:33] INFO     backend.detection.ml.network_model — NIDS: score=0.2235, attack='Normal Traffic', confidence=0.776
+[2026-06-18 11:38:33] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-18 11:38:33] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-18 11:38:34] INFO     backend.detection.service — ▶ HIDS Result: score=0.9467
+[2026-06-18 11:38:34] WARNING  backend.detection.fusion — STRONG signal detected: NIDS=0.000, HIDS=0.947
+[2026-06-18 11:38:34] WARNING  backend.detection.fusion — Host attack: Brute Force / Unauthorized Access (score=0.947)
+[2026-06-18 11:38:34] INFO     backend.detection.service — ▶ Fusion Result: decision=Intrusion, severity=LOW, attack='Brute Force / Unauthorized Access'
+[2026-06-18 11:38:34] INFO     backend.alerts.alert_builder — Alert created: eaa45a76 | Intrusion | Brute Force / Unauthorized Access | LOW
+[2026-06-18 11:38:34] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-18 11:38:34] INFO     backend.detection.service — DETECTION COMPLETE: Intrusion | Score=0.3787 | Severity=LOW
+[2026-06-18 11:38:34] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 09:36:41] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-06-30 09:36:44] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-06-30 09:36:45] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-06-30 09:36:45] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-06-30 09:36:45] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-06-30 09:36:45] INFO     backend.storage.db_store — AlertStore ready at /home/shashank/D_DRIVE/ResearchPaper/hybrid-IDS/logs/alerts.db
+[2026-06-30 09:36:45] INFO     backend.api.detect_api — detect_api: NIDS=77 HIDS=100
+[2026-06-30 09:37:36] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-30 09:37:36] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 10.220.86.62 (timeout 10s)
+[2026-06-30 09:37:38] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-30 09:37:38] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '10.220.86.62' not found !), trying raw socket
+[2026-06-30 09:37:38] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-30 09:37:38] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-30 09:37:38] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-30 09:37:38] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-30 09:37:38] INFO     backend.detection.ml.network_model — NIDS: score=0.1639, attack='Normal Traffic', confidence=0.836
+[2026-06-30 09:37:38] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-30 09:37:38] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-30 09:37:38] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-30 09:37:38] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-30 09:37:38] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-30 09:37:38] INFO     backend.alerts.alert_builder — Alert created: 7f750d50 | Normal | Normal Traffic | LOW
+[2026-06-30 09:37:39] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 09:37:39] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-30 09:37:39] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 09:38:03] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generating 50 port scan events with HIGH ENTROPY
+[2026-06-30 09:38:03] INFO     backend.scenarios.attack_generators — [✓ PORT SCAN] Generated 50 port scan events (entropy=50 unique ports)
+[2026-06-30 09:38:03] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-30 09:38:03] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-30 09:38:03] INFO     backend.detection.ml.network_model — NIDS: score=0.1802, attack='Normal Traffic', confidence=0.820
+[2026-06-30 09:38:03] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-30 09:38:03] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-30 09:38:03] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-30 09:38:03] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-30 09:38:03] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-30 09:38:03] INFO     backend.alerts.alert_builder — Alert created: 89511070 | Normal | Normal Traffic | LOW
+[2026-06-30 09:38:03] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 09:38:03] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-30 09:38:03] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:12:38] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-30 10:12:38] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 10.220.86.62 (timeout 10s)
+[2026-06-30 10:12:38] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-30 10:12:38] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '10.220.86.62' not found !), trying raw socket
+[2026-06-30 10:12:38] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-30 10:12:38] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-30 10:12:38] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-30 10:12:38] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-30 10:12:38] INFO     backend.detection.ml.network_model — NIDS: score=0.1639, attack='Normal Traffic', confidence=0.836
+[2026-06-30 10:12:38] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-30 10:12:38] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-30 10:12:38] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-30 10:12:38] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-30 10:12:38] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-30 10:12:38] INFO     backend.alerts.alert_builder — Alert created: 01150709 | Normal | Normal Traffic | LOW
+[2026-06-30 10:12:39] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:12:39] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-30 10:12:39] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:12:51] INFO     backend.scenarios.attack_generators — [NORMAL] Generating 50 normal traffic events
+[2026-06-30 10:12:51] INFO     backend.scenarios.attack_generators — [✓ NORMAL] Generated 50 benign events
+[2026-06-30 10:12:51] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-30 10:12:51] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-30 10:12:51] INFO     backend.detection.ml.network_model — NIDS: score=0.2724, attack='Normal Traffic', confidence=0.728
+[2026-06-30 10:12:51] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-30 10:12:51] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-30 10:12:51] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-30 10:12:51] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-30 10:12:51] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-30 10:12:51] INFO     backend.alerts.alert_builder — Alert created: b2043367 | Normal | Normal Traffic | LOW
+[2026-06-30 10:12:51] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:12:51] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-30 10:12:51] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:12:58] INFO     backend.scenarios.attack_generators — [DDoS FLOOD] Generating 50 DDoS flood events
+[2026-06-30 10:12:58] INFO     backend.scenarios.attack_generators — [✓ DDoS FLOOD] Generated 50 flood events to 10.0.0.100:123
+[2026-06-30 10:12:58] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-30 10:12:58] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-30 10:12:58] INFO     backend.detection.ml.network_model — NIDS: score=0.2734, attack='Normal Traffic', confidence=0.727
+[2026-06-30 10:12:58] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-30 10:12:58] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-30 10:12:58] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-30 10:12:58] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-30 10:12:58] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-30 10:12:58] INFO     backend.alerts.alert_builder — Alert created: 0ad32165 | Normal | Normal Traffic | LOW
+[2026-06-30 10:12:58] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:12:58] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-30 10:12:58] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:17:45] INFO     backend.api.packet_api — [PACKET API] Starting capture: 100 packets from default
+[2026-06-30 10:17:45] INFO     backend.ingestions.network_ingest — [*] Starting packet capture: 100 packets from 10.220.86.62 (timeout 10s)
+[2026-06-30 10:17:45] INFO     backend.ingestions.network_ingest — [*] Using Scapy for packet capture
+[2026-06-30 10:17:45] WARNING  backend.ingestions.network_ingest — Scapy capture failed (Interface '10.220.86.62' not found !), trying raw socket
+[2026-06-30 10:17:45] WARNING  backend.ingestions.network_ingest — [!] Using localhost simulation (no live capture available)
+[2026-06-30 10:17:45] INFO     backend.ingestions.network_ingest — [✓] Captured 10 packets
+[2026-06-30 10:17:45] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-30 10:17:45] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-30 10:17:45] INFO     backend.detection.ml.network_model — NIDS: score=0.1639, attack='Normal Traffic', confidence=0.836
+[2026-06-30 10:17:45] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-30 10:17:45] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-30 10:17:45] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-30 10:17:45] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-30 10:17:45] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-30 10:17:45] INFO     backend.alerts.alert_builder — Alert created: ee0ce4e5 | Normal | Normal Traffic | LOW
+[2026-06-30 10:17:46] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:17:46] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-30 10:17:46] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:19:34] INFO     backend.scenarios.attack_generators — [NORMAL] Generating 50 normal traffic events
+[2026-06-30 10:19:34] INFO     backend.scenarios.attack_generators — [✓ NORMAL] Generated 50 benign events
+[2026-06-30 10:19:34] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-30 10:19:34] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-30 10:19:34] INFO     backend.detection.ml.network_model — NIDS: score=0.2633, attack='Normal Traffic', confidence=0.737
+[2026-06-30 10:19:34] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-30 10:19:34] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-30 10:19:34] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-30 10:19:34] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-30 10:19:34] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-30 10:19:34] INFO     backend.alerts.alert_builder — Alert created: a347de2e | Normal | Normal Traffic | LOW
+[2026-06-30 10:19:35] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:19:35] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-30 10:19:35] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:19:53] INFO     backend.scenarios.attack_generators — [PORT SCAN] Generating 50 port scan events with HIGH ENTROPY
+[2026-06-30 10:19:53] INFO     backend.scenarios.attack_generators — [✓ PORT SCAN] Generated 50 port scan events (entropy=50 unique ports)
+[2026-06-30 10:19:53] ERROR    backend.features.network_features — Feature count mismatch: 79 != 77
+[2026-06-30 10:19:53] WARNING  backend.features.network_features — Feature extraction mismatch: 73 filled, expected 77
+[2026-06-30 10:19:53] INFO     backend.detection.ml.network_model — NIDS: score=0.1802, attack='Normal Traffic', confidence=0.820
+[2026-06-30 10:19:53] ERROR    backend.detection.service — NIDS prediction failed: too many values to unpack (expected 2). Using zero score.
+[2026-06-30 10:19:53] INFO     backend.detection.service — ▶ NIDS Result: score=0.0000, attack='Suspicious Activity'
+[2026-06-30 10:19:53] INFO     backend.detection.service — ▶ HIDS Result: score=0.0000
+[2026-06-30 10:19:53] INFO     backend.detection.fusion — No intrusion detected (NIDS=0.000, HIDS=0.000)
+[2026-06-30 10:19:53] INFO     backend.detection.service — ▶ Fusion Result: decision=Normal, severity=LOW, attack='Normal Traffic'
+[2026-06-30 10:19:53] INFO     backend.alerts.alert_builder — Alert created: ad342555 | Normal | Normal Traffic | LOW
+[2026-06-30 10:19:53] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-06-30 10:19:53] INFO     backend.detection.service — DETECTION COMPLETE: Normal | Score=0.0000 | Severity=LOW
+[2026-06-30 10:19:53] INFO     backend.detection.service — ════════════════════════════════════════════════════════════════════════════════
+[2026-07-01 13:31:42] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-07-01 13:31:45] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-07-01 13:31:45] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-07-01 13:31:45] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-07-01 13:31:45] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh

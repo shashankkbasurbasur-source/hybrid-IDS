@@ -1,34 +1,66 @@
-"""backend/alerts/alert_builder.py"""
-import uuid
-from datetime import datetime, timezone
-from backend.alerts.severity import classify_severity
+"""
+Structured Alert Generation
+"""
 
-_MITRE = {
-    "Brute Force / Unauthorized Access": "T1110 - Brute Force",
-    "Network Attack (DoS / Scan)":        "T1498 - Network DoS",
-    "Multi-Stage Hybrid Attack":          "T1021 - Remote Services",
-    "Reconnaissance / Port Scan":         "T1046 - Network Service Scanning",
-    "Suspicious Activity":                "T1071 - Application Layer Protocol",
-}
+from datetime import datetime
+from typing import Dict, List
+from backend.alerts.threat_intelligence import ThreatIntelligenceBase
 
-def build_alert(decision: str, score: float, fusion_result: dict = None) -> dict:
-    fr          = fusion_result or {}
-    attack_type = fr.get("attack_type", "None")
-    severity    = classify_severity(score, decision)
+
+def build_alert(
+    decision: str,
+    score: float,
+    attack_type: str = "Unknown",
+    domain: str = "Unknown",
+    source_ip: str = "Unknown",
+    destination_ip: str = "Unknown",
+    severity_override: str = None
+) -> Dict:
+    """Build structured security alert"""
+    
+    if decision not in ["Intrusion", "Normal"]:
+        raise ValueError("Invalid decision")
+    
+    # Determine severity
+    if severity_override:
+        severity = severity_override
+    elif decision == "Normal":
+        severity = "LOW"
+    else:
+        if score >= 0.85:
+            severity = "CRITICAL"
+        elif score >= 0.70:
+            severity = "HIGH"
+        elif score >= 0.40:
+            severity = "MEDIUM"
+        else:
+            severity = "LOW"
+    
     return {
-        "alert_id":      str(uuid.uuid4()),
-        "timestamp":     datetime.now(timezone.utc).isoformat(),
-        "type":          decision,
-        "severity":      severity,
-        "confidence":    round(score, 4),
-        "source":        "Hybrid IDS",
-        "attack_type":   attack_type,
-        "attack_domain": fr.get("attack_domain", "None"),
-        "location":      fr.get("location",      "None"),
-        "triggered_by":  fr.get("triggered_by",  []),
-        "reason":        fr.get("reason",         ["No anomaly detected"]),
-        "mitre":         _MITRE.get(attack_type, "N/A") if decision == "Intrusion" else "N/A",
-        "network_score": fr.get("network_score",  0.0),
-        "host_score":    fr.get("host_score",     0.0),
-        "final_score":   fr.get("final_score",    score),
+        "id": datetime.utcnow().isoformat(),
+        "timestamp": datetime.utcnow().isoformat(),
+        "decision": decision,
+        "score": round(score, 4),
+        "attack_type": attack_type,
+        "domain": domain,
+        "severity": severity,
+        "source_ip": source_ip,
+        "destination_ip": destination_ip,
+        "confidence": round(score, 4),
+        "source": "Hybrid IDS",
+        "status": "Active" if decision == "Intrusion" else "Resolved"
     }
+
+
+def enrich_alert_with_threat_intel(alert: Dict) -> Dict:
+    """Add threat intelligence to alert"""
+    
+    threat_analysis = ThreatIntelligenceBase.analyze_alert(
+        alert.get("attack_type", "Unknown"),
+        alert.get("score", 0),
+        alert.get("domain", "Unknown")
+    )
+    
+    alert["threat_intelligence"] = threat_analysis
+    
+    return alert
