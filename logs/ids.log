@@ -1160,3 +1160,13 @@ NameError: name 'pd' is not defined
 [2026-07-01 13:31:45] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
 [2026-07-01 13:31:45] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
 [2026-07-01 13:31:45] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-07-01 14:24:30] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-07-01 14:24:32] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-07-01 14:24:32] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-07-01 14:24:32] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-07-01 14:24:32] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
+[2026-07-02 11:42:29] INFO     backend.detection.ml.model_loader — NIDS binary model loaded
+[2026-07-02 11:42:32] INFO     backend.detection.ml.model_loader — Multi-class attack classifier loaded
+[2026-07-02 11:42:33] INFO     backend.detection.ml.model_loader — HIDS SSH model loaded
+[2026-07-02 11:42:33] INFO     backend.detection.ml.model_loader — NIDS scaler loaded
+[2026-07-02 11:42:33] INFO     backend.detection.ml.model_loader — [✓] All models loaded — HIDS mode: ssh
