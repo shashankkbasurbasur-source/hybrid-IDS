@@ -122,13 +122,13 @@ def show():
             "timestamp", "src_ip", "dst_ip", "attack_type", "confidence", "prediction"
         ]].head(20)
         
-        # Color code by prediction
+        # Color code by prediction - using map() instead of applymap()
         def color_prediction(val):
             if val == "Intrusion":
                 return 'background-color: #ffdddd'
             return 'background-color: #ddffdd'
         
-        det_df_styled = det_df.style.applymap(
+        det_df_styled = det_df.style.map(
             lambda val: color_prediction(val) if isinstance(val, str) else "",
             subset=['prediction']
         )

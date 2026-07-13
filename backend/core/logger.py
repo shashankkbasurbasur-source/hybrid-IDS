@@ -1,26 +1,42 @@
-"""backend/core/logger.py"""
-import logging, sys
+"""
+Centralized logger for Hybrid IDS.
+Every module imports get_logger(__name__) instead of using print().
+"""
+
+import logging
+import sys
 from pathlib import Path
 
-def get_logger(name: str) -> logging.Logger:
-    logger = logging.getLogger(name)
-    if logger.handlers:
-        return logger
-    logger.setLevel(logging.INFO)
-    fmt = logging.Formatter(
-        "[%(asctime)s] %(levelname)-8s %(name)s — %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S"
+LOG_DIR = Path("backend/storage/logs")
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+LOG_FILE = LOG_DIR / "hybrid_ids.log"
+
+_configured = False
+
+
+def _configure_root():
+    global _configured
+    if _configured:
+        return
+
+    formatter = logging.Formatter(
+        "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
     )
-    ch = logging.StreamHandler(sys.stdout)
-    ch.setFormatter(fmt)
-    logger.addHandler(ch)
-    try:
-        log_dir = Path(__file__).resolve().parent.parent.parent / "logs"
-        log_dir.mkdir(parents=True, exist_ok=True)
-        fh = logging.FileHandler(log_dir / "ids.log")
-        fh.setFormatter(fmt)
-        logger.addHandler(fh)
-    except Exception:
-        pass
-    logger.propagate = False
-    return logger
+
+    file_handler = logging.FileHandler(LOG_FILE)
+    file_handler.setFormatter(formatter)
+
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setFormatter(formatter)
+
+    root = logging.getLogger()
+    root.setLevel(logging.INFO)
+    root.addHandler(file_handler)
+    root.addHandler(stream_handler)
+
+    _configured = True
+
+
+def get_logger(name: str) -> logging.Logger:
+    _configure_root()
+    return logging.getLogger(name)

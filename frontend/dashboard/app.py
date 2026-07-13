@@ -83,7 +83,7 @@ if "selected_incident" not in st.session_state:
 if "auto_refresh" not in st.session_state:
     st.session_state.auto_refresh = True
 
-# ==================== SIDEBAR ====================
+# ====================   ====================
 
 with st.sidebar:
     st.title("🛡️ Hybrid IDS")
@@ -140,35 +140,35 @@ with st.sidebar:
 # ==================== PAGE ROUTING ====================
 
 if page == "System Overview":
-    from pages import system_overview
+    from page_module import system_overview
     system_overview.show()
 
 elif page == "NIDS Monitor":
-    from pages import nids_monitor
+    from page_module import nids_monitor
     nids_monitor.show()
 
 elif page == "HIDS Monitor":
-    from pages import hids_monitor
+    from page_module import hids_monitor
     hids_monitor.show()
 
 elif page == "Fusion Analysis":
-    from pages import fusion_analysis
+    from page_module import fusion_analysis
     fusion_analysis.show()
 
 elif page == "Alert Center":
-    from pages import alert_center
+    from page_module import alert_center
     alert_center.show()
 
 elif page == "Threat Intelligence":
-    from pages import threat_intelligence
+    from page_module import threat_intelligence
     threat_intelligence.show()
 
 elif page == "Investigation":
-    from pages import investigation
+    from page_module import investigation
     investigation.show()
 
 elif page == "History & Reports":
-    from pages import history_reports
+    from page_module import history_reports
     history_reports.show()
 
 # ==================== AUTO REFRESH ====================

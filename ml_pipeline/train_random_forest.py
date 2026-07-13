@@ -12,6 +12,7 @@ import pandas as pd
 import numpy as np
 import os
 import pickle
+import json
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -121,6 +122,24 @@ cols_path = os.path.join(MODEL_DIR, "network_feature_columns.pkl")
 with open(cols_path, "wb") as f:
     pickle.dump(list(X.columns), f)
 print(f"[OK] Feature columns saved: {cols_path}")
+
+feature_metadata = {
+    "feature_columns": X.columns.tolist(),   # EXACT training order
+    "feature_count": len(X.columns),
+    "model_name": "NIDS_RandomForest",
+    "algorithm": "RandomForestClassifier",
+    "training_date": pd.Timestamp.now().isoformat(),
+    "dataset": "CICIDS2017",
+    "dataset_shape": list(X.shape),
+    "scaler_version": "v1",
+}
+
+metadata_path = os.path.join(MODEL_DIR, "feature_metadata.json")
+with open(metadata_path, "w") as f:
+    json.dump(feature_metadata, f, indent=2)
+
+print(f"[✓] Feature metadata saved to: {metadata_path}")
+print(f"[✓] Feature count: {feature_metadata['feature_count']}")
 
 # ── Save metrics ──────────────────────────────────────────────────────────────
 metrics_path = os.path.join(RESULTS_DIR, "metrics_summary.csv")

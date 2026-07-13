@@ -1,6 +1,17 @@
 """
 Dashboard Data Service
-Fetches data from backend APIs and databases for dashboard display
+
+Pure data access layer. Fetches data from real backend APIs and databases.
+Does NOT generate mock data.
+
+Architecture:
+Dashboard -> data_service.py -> Backend APIs / SQLite / NIDS DB / HIDS DB / Fusion DB
+
+Every function:
+1. Queries a real data source
+2. Formats the result
+3. Returns to dashboard
+4. Does NOT fall back to random/generated data
 """
 
 import requests
@@ -13,7 +24,19 @@ logger = logging.getLogger(__name__)
 
 
 class DashboardDataService:
-    """Service to fetch dashboard data from backend"""
+    """
+    Pure service layer that fetches and formats dashboard data.
+    
+    Responsibilities:
+    - Query databases and APIs
+    - Format results for dashboard
+    - Handle retrieval errors gracefully
+    
+    Does NOT do:
+    - Generate mock data
+    - Create fake incidents/alerts
+    - Use random values
+    """
     
     def __init__(self, api_base_url: str = "http://localhost:8000/api"):
         self.api_base_url = api_base_url
@@ -22,7 +45,7 @@ class DashboardDataService:
     # ==================== SYSTEM STATUS ====================
     
     def get_system_health(self) -> Dict:
-        """Get overall system health status"""
+        """Get overall system health status from backend"""
         try:
             response = requests.get(f"{self.api_base_url}/../health", timeout=self.timeout)
             if response.status_code == 200:
@@ -30,12 +53,13 @@ class DashboardDataService:
         except Exception as e:
             logger.error(f"Error fetching system health: {e}")
         
-        return self._offline_status()
+        # Return empty status if API unavailable (caller should handle)
+        return {"status": "unavailable"}
     
     def get_capture_status(self) -> Dict:
-        """Get packet capture status"""
+        """Get packet capture status from NIDS database"""
         try:
-            # This would come from NIDS service
+            # Query real packet capture statistics
             stats = nids_db.get_capture_stats()
             return {
                 "status": "operational",
@@ -48,7 +72,7 @@ class DashboardDataService:
             return {"status": "error", "message": str(e)}
     
     def get_hids_status(self) -> Dict:
-        """Get HIDS monitoring status"""
+        """Get HIDS monitoring status from HIDS API"""
         try:
             response = requests.get(f"{self.api_base_url}/hids/status", timeout=self.timeout)
             if response.status_code == 200:
@@ -56,40 +80,16 @@ class DashboardDataService:
         except Exception as e:
             logger.error(f"Error fetching HIDS status: {e}")
         
-        return {"status": "unknown"}
-    
-    def _offline_status(self) -> Dict:
-        """Return offline status"""
-        return {
-            "status": "offline",
-            "timestamp": datetime.utcnow().isoformat()
-        }
+        return {"status": "unavailable"}
     
     # ==================== NIDS DATA ====================
     
-    def get_active_flows(self, limit: int = 100) -> List[Dict]:
-        """Get active network flows"""
-        try:
-            stats = nids_db.get_capture_stats()
-            # In production, this would come from a flows API endpoint
-            return self._fetch_active_flows(limit)
-        except Exception as e:
-            logger.error(f"Error fetching active flows: {e}")
-            return []
-    
-    def _fetch_active_flows(self, limit: int) -> List[Dict]:
-        """Fetch flows from database"""
-        try:
-            # This is a placeholder - actual implementation would query flows from DB
-            flows = []
-            # Query would get recent flows with detection status
-            return flows
-        except Exception as e:
-            logger.error(f"Error in _fetch_active_flows: {e}")
-            return []
-    
     def get_recent_packets(self, limit: int = 50) -> List[Dict]:
-        """Get recently captured packets"""
+        """
+        Get recently captured packets from NIDS database
+        
+        Query: SELECT * FROM packets ORDER BY timestamp DESC LIMIT {limit}
+        """
         try:
             packets = nids_db.get_recent_packets(limit)
             return [
@@ -108,7 +108,11 @@ class DashboardDataService:
             return []
     
     def get_nids_detections(self, limit: int = 50) -> List[Dict]:
-        """Get recent NIDS detections"""
+        """
+        Get recent NIDS detections from NIDS database
+        
+        Query: SELECT * FROM nids_detections ORDER BY timestamp DESC LIMIT {limit}
+        """
         try:
             detections = nids_db.get_recent_detections(limit)
             return [
@@ -129,7 +133,11 @@ class DashboardDataService:
             return []
     
     def get_protocol_distribution(self) -> Dict[str, int]:
-        """Get distribution of protocols in captured packets"""
+        """
+        Get distribution of protocols in recently captured packets
+        
+        Query: SELECT protocol, COUNT(*) FROM packets GROUP BY protocol
+        """
         try:
             packets = nids_db.get_recent_packets(1000)
             
@@ -144,7 +152,12 @@ class DashboardDataService:
             return {}
     
     def get_top_ips(self, limit: int = 10) -> Dict[str, List]:
-        """Get top source and destination IPs"""
+        """
+        Get top source and destination IPs from packet captures
+        
+        Query: SELECT src_ip, COUNT(*) FROM packets GROUP BY src_ip ORDER BY COUNT DESC LIMIT {limit}
+               SELECT dst_ip, COUNT(*) FROM packets GROUP BY dst_ip ORDER BY COUNT DESC LIMIT {limit}
+        """
         try:
             packets = nids_db.get_recent_packets(1000)
             
@@ -171,7 +184,7 @@ class DashboardDataService:
     # ==================== HIDS DATA ====================
     
     def get_active_sessions(self) -> List[Dict]:
-        """Get active authentication sessions"""
+        """Get active authentication sessions from HIDS API"""
         try:
             response = requests.get(
                 f"{self.api_base_url}/hids/active-sessions",
@@ -186,7 +199,7 @@ class DashboardDataService:
         return []
     
     def get_hids_detections(self, limit: int = 50) -> List[Dict]:
-        """Get recent HIDS detections"""
+        """Get recent HIDS detections from HIDS API"""
         try:
             response = requests.get(
                 f"{self.api_base_url}/hids/detections?limit={limit}",
@@ -201,25 +214,37 @@ class DashboardDataService:
         return []
     
     def get_authentication_timeline(self, hours: int = 1) -> List[Dict]:
-        """Get authentication events over time"""
+        """Get authentication events over past N hours from HIDS API"""
         try:
-            # This would query HIDS events from past N hours
             response = requests.get(
-                f"{self.api_base_url}/hids/active-sessions",
+                f"{self.api_base_url}/hids/events?hours={hours}",
                 timeout=self.timeout
             )
             if response.status_code == 200:
                 data = response.json()
-                return data.get("sessions", [])
+                return data.get("events", [])
         except Exception as e:
             logger.error(f"Error fetching authentication timeline: {e}")
         
         return []
     
     def get_failed_login_stats(self) -> Dict:
-        """Get failed login statistics"""
+        """
+        Get failed login statistics from HIDS sessions
+        
+        Aggregates: total_sessions, total_failed, total_successful, top_users, top_source_ips
+        """
         try:
             sessions = self.get_active_sessions()
+            
+            if not sessions:
+                return {
+                    "total_sessions": 0,
+                    "total_failed": 0,
+                    "total_successful": 0,
+                    "top_users": [],
+                    "top_source_ips": []
+                }
             
             stats = {
                 "total_sessions": len(sessions),
@@ -235,7 +260,7 @@ class DashboardDataService:
             return {}
     
     def _get_top_users(self, sessions: List[Dict], limit: int = 10) -> List:
-        """Get top targeted users"""
+        """Extract and rank top targeted users from sessions"""
         user_count = {}
         for session in sessions:
             users = session.get("users", [])
@@ -245,7 +270,7 @@ class DashboardDataService:
         return sorted(user_count.items(), key=lambda x: x[1], reverse=True)[:limit]
     
     def _get_top_source_ips(self, sessions: List[Dict], limit: int = 10) -> List:
-        """Get top source IPs"""
+        """Extract and rank top source IPs from sessions"""
         ip_count = {}
         for session in sessions:
             ip = session.get("source_ip")
@@ -257,7 +282,11 @@ class DashboardDataService:
     # ==================== ALERTS & INCIDENTS ====================
     
     def get_incidents(self, limit: int = 50, status: Optional[str] = None) -> List[Dict]:
-        """Get incidents with optional status filter"""
+        """
+        Get incidents from Fusion engine with optional status filter
+        
+        Query: SELECT * FROM incidents WHERE status = {status} ORDER BY timestamp DESC LIMIT {limit}
+        """
         try:
             url = f"{self.api_base_url}/alerts/incidents?limit={limit}"
             if status:
@@ -273,7 +302,16 @@ class DashboardDataService:
         return []
     
     def get_incident_detail(self, incident_id: str) -> Optional[Dict]:
-        """Get detailed information about an incident"""
+        """
+        Get detailed information about an incident
+        
+        Merges:
+        - Incident metadata
+        - Associated NIDS detections
+        - Associated HIDS detections
+        - Fusion analysis
+        - Threat intelligence
+        """
         try:
             response = requests.get(
                 f"{self.api_base_url}/alerts/incidents/{incident_id}",
@@ -287,7 +325,11 @@ class DashboardDataService:
         return None
     
     def get_alerts(self, limit: int = 50, severity: Optional[str] = None) -> List[Dict]:
-        """Get alerts with optional severity filter"""
+        """
+        Get alerts with optional severity filter
+        
+        Query: SELECT * FROM alerts WHERE severity = {severity} ORDER BY timestamp DESC LIMIT {limit}
+        """
         try:
             url = f"{self.api_base_url}/alerts/alerts?limit={limit}"
             if severity:
@@ -303,9 +345,25 @@ class DashboardDataService:
         return []
     
     def get_alert_statistics(self) -> Dict:
-        """Get alert statistics"""
+        """
+        Get alert statistics aggregated by severity
+        
+        Query: SELECT severity, COUNT(*) FROM alerts GROUP BY severity
+               SELECT status, COUNT(*) FROM alerts GROUP BY status
+        """
         try:
             alerts = nids_db.get_recent_alerts(1000)
+            
+            if not alerts:
+                return {
+                    "total_alerts": 0,
+                    "critical": 0,
+                    "high": 0,
+                    "medium": 0,
+                    "low": 0,
+                    "active": 0,
+                    "resolved": 0
+                }
             
             stats = {
                 "total_alerts": len(alerts),
@@ -325,7 +383,7 @@ class DashboardDataService:
     # ==================== THREAT INTELLIGENCE ====================
     
     def get_threat_report(self, incident_id: str) -> Optional[Dict]:
-        """Get threat intelligence report for incident"""
+        """Get threat intelligence report for incident from TI engine"""
         try:
             response = requests.get(
                 f"{self.api_base_url}/threat-intel/report/{incident_id}",
@@ -339,7 +397,7 @@ class DashboardDataService:
         return None
     
     def search_iocs(self, ioc_value: str) -> Optional[List[Dict]]:
-        """Search for incidents by IOC"""
+        """Search IOC database for matches"""
         try:
             response = requests.get(
                 f"{self.api_base_url}/threat-intel/iocs?value={ioc_value}",
@@ -356,12 +414,20 @@ class DashboardDataService:
     # ==================== STATISTICS ====================
     
     def get_dashboard_statistics(self) -> Dict:
-        """Get overall dashboard statistics"""
+        """
+        Get overall dashboard statistics
+        
+        Combines:
+        - Packets: SELECT COUNT(*) FROM packets
+        - Alerts: SELECT COUNT(*) FROM alerts (by severity)
+        - Incidents: SELECT COUNT(*) FROM incidents WHERE status = 'active'
+        - Timestamp: Current UTC time
+        """
         try:
             stats = {
                 "packets_captured": nids_db.get_capture_stats().get("total_packets", 0),
                 "alerts_total": self.get_alert_statistics(),
-                "incidents_active": len(self.get_incidents(status="active")),
+                "incidents_active": len([i for i in self.get_incidents(limit=1000) if i.get("status") == "active"]),
                 "timestamp": datetime.utcnow().isoformat()
             }
             

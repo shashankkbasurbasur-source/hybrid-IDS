@@ -9,6 +9,7 @@ from backend.intelligence.threat_knowledge_base import ThreatKnowledgeBase
 from backend.intelligence.stage_identifier import AttackStageIdentifier
 from backend.intelligence.ioc_generator import IOCGenerator
 from backend.intelligence.risk_assessor import RiskAssessor
+from typing import Optional, Dict, List
 
 
 class ThreatReporter:

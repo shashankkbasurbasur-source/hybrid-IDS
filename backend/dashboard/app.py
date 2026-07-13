@@ -1,137 +1,94 @@
-# backend/dashboard/app.py
-
-"""
-Streamlit SOC Dashboard — Hybrid IDS
-Real pipeline: file → ingest → features → API → display
-"""
+INTERFACE_API_URL = "http://127.0.0.1:8000/interfaces"
 
 import streamlit as st
-import requests
-import json
-import time
-from pathlib import Path
+from fastapi import requests
 
-API_BASE = "http://127.0.0.1:8000"
+st.sidebar.header("Network Interface")
 
-st.set_page_config(page_title="Hybrid IDS — SOC Dashboard", layout="wide", page_icon="🛡️")
-
-# ── Sidebar ─────────────────────────────────────────────────────────────────
-st.sidebar.title("🛡️ Hybrid IDS")
-st.sidebar.markdown("---")
-mode       = st.sidebar.radio("Detection mode", ["Log file", "Manual features"])
-log_file   = st.sidebar.text_input("Log file path", "sample_logs.txt")
-auto_mode  = st.sidebar.checkbox("⏵ Auto-refresh (5s)")
-run_btn    = st.sidebar.button("▶ Run detection now")
-
-st.title("🔐 Hybrid IDS — SOC Dashboard")
-st.caption("NIDS · HIDS · Fusion Engine · Real-time Threat Analysis")
-
-# ── Metric row ───────────────────────────────────────────────────────────────
-col1, col2, col3, col4, col5 = st.columns(5)
-
-def load_stats():
+@st.cache_data(ttl=60)
+def fetch_interfaces():
     try:
-        r = requests.get(f"{API_BASE}/alerts/stats", timeout=3)
-        return r.json() if r.status_code == 200 else {}
-    except Exception:
-        return {}
-
-stats = load_stats()
-col1.metric("Total Events",  stats.get("total",    "—"))
-col2.metric("🔴 Critical",   stats.get("CRITICAL", "—"))
-col3.metric("🟠 High",       stats.get("HIGH",     "—"))
-col4.metric("🟡 Medium",     stats.get("MEDIUM",   "—"))
-col5.metric("🟢 Normal",     stats.get("NORMAL",   "—"))
-
-st.markdown("---")
-
-# ── Main columns ─────────────────────────────────────────────────────────────
-left, right = st.columns([2, 1])
-
-# ── Detection function ────────────────────────────────────────────────────────
-def run_detection():
-    if mode == "Log file" and Path(log_file).exists():
-        with open(log_file, "r") as f:
-            lines = f.readlines()
-        payload = {"log_lines": lines, "source": "ssh"}
-        r = requests.post(f"{API_BASE}/ingest/logs", json=payload, timeout=10)
-        if r.status_code == 200:
-            return r.json()
-        st.error(f"Ingest API error: {r.text}")
-        return None
-
-    elif mode == "Manual features":
-        payload = {
-            "network_features": [0.05] * 78,
-            "host_features"   : [0.10] * 100,
-        }
-        r = requests.post(f"{API_BASE}/detect/", json=payload, timeout=10)
-        return r.json() if r.status_code == 200 else None
-
-    else:
-        st.warning(f"Log file not found: {log_file}")
-        return None
-
-# ── Show result ───────────────────────────────────────────────────────────────
-def show_result(result):
-    decision     = result.get("decision", "Unknown")
-    final_score  = result.get("final_score", 0)
-    nids         = result.get("network_score", 0)
-    hids         = result.get("host_score", 0)
-    attack_type  = result.get("attack_type", "None")
-    location     = result.get("location", "None")
-    severity     = result.get("severity", "LOW")
-    reason       = result.get("reason", [])
-    triggered_by = result.get("triggered_by", [])
-
-    with left:
-        if decision.lower() == "intrusion":
-            st.error(f"🚨 INTRUSION DETECTED — {severity}  |  Score: {final_score:.4f}")
-        else:
-            st.success(f"✅ Normal Traffic  |  Score: {final_score:.4f}")
-
-        c1, c2, c3 = st.columns(3)
-        c1.metric("NIDS Score",  f"{nids:.4f}")
-        c2.metric("HIDS Score",  f"{hids:.4f}")
-        c3.metric("Fusion Score", f"{final_score:.4f}")
-
-        with st.expander("🔍 Attack Analysis", expanded=True):
-            st.write(f"**Type:** {attack_type}")
-            st.write(f"**Location:** {location}")
-            st.write(f"**Severity:** {severity}")
-            st.write(f"**Triggered by:** {', '.join(triggered_by) if triggered_by else 'None'}")
-            st.write("**Reasons:**")
-            for r in reason:
-                st.write(f"  • {r}")
-
-    with right:
-        st.subheader("🚨 Alert Details")
-        alert = result.get("alert", {})
-        st.json(alert)
-
-# ── Alert history table ───────────────────────────────────────────────────────
-def show_alert_table():
-    try:
-        r = requests.get(f"{API_BASE}/alerts/?limit=50", timeout=3)
-        if r.status_code == 200:
-            alerts = r.json().get("alerts", [])
-            if alerts:
-                st.subheader("📋 Alert Log")
-                import pandas as pd
-                df = pd.DataFrame(alerts)[["id","timestamp","decision","attack_type","severity","confidence","network_score","host_score"]]
-                st.dataframe(df, use_container_width=True)
+        resp = requests.get(f"{INTERFACE_API_URL}/")
+        if resp.status_code == 200:
+            return resp.json()["interfaces"]
     except Exception:
         pass
+    return []
 
-# ── Run ───────────────────────────────────────────────────────────────────────
-if run_btn:
-    with st.spinner("Running detection pipeline..."):
-        result = run_detection()
-    if result:
-        show_result(result)
+def fetch_current():
+    try:
+        resp = requests.get(f"{INTERFACE_API_URL}/current")
+        if resp.status_code == 200:
+            return resp.json()
+        return None
+    except Exception:
+        return None
 
-show_alert_table()
+if st.sidebar.button("🔄 Refresh Interfaces"):
+    fetch_interfaces.clear()
 
-if auto_mode:
-    time.sleep(5)
-    st.rerun()
+interfaces = fetch_interfaces()
+iface_names = [i["name"] for i in interfaces]
+current = fetch_current()
+
+if not current and iface_names:
+    st.sidebar.error("No interface currently selected or reachable — pick one below.")
+
+if iface_names:
+    current_name = current["interface"]["name"] if current else None
+    default_idx = iface_names.index(current_name) if current_name in iface_names else 0
+
+    selected_iface = st.sidebar.selectbox("Select Interface", iface_names, index=default_idx)
+
+    if selected_iface != current_name:
+        with st.spinner(f"Testing capture on {selected_iface}..."):
+            sel_resp = requests.post(f"{INTERFACE_API_URL}/select", json={"name": selected_iface})
+        if sel_resp.status_code != 200:
+            detail = sel_resp.json().get("detail", "Selection failed")
+            st.sidebar.error(detail)
+            skip = st.sidebar.checkbox("Select anyway (skip capture test)")
+            if skip and st.sidebar.button("Force select"):
+                requests.post(
+                    f"{INTERFACE_API_URL}/select",
+                    json={"name": selected_iface, "skip_test": True}
+                )
+                st.rerun()
+        else:
+            current = sel_resp.json()
+            st.sidebar.success(f"{selected_iface} verified and selected ✅")
+
+    if current:
+        info = current["interface"]
+        st.sidebar.markdown(f"**Type:** {info['type']}")
+        st.sidebar.markdown(f"**IPv4:** {info['ipv4']}  ·  **Subnet:** {info['subnet']}")
+        st.sidebar.markdown(f"**Gateway:** {info['gateway']}")
+        st.sidebar.markdown(f"**MAC:** {info['mac']}")
+        st.sidebar.markdown(f"**Status:** {info['status']}")
+        st.sidebar.markdown(f"**Speed:** {info['speed_mbps']} Mbps")
+        st.sidebar.markdown(f"**Capture State:** {current['capture_state']}")
+        if current.get("state_started_at"):
+            st.sidebar.caption(f"Started: {current['state_started_at']}")
+        if current.get("last_packet_at"):
+            st.sidebar.caption(f"Last packet: {current['last_packet_at']}")
+
+        with st.sidebar.expander("Selection history"):
+            for h in reversed(current.get("history", [])):
+                st.write(f"{h['name']} — {h['selected_at']}")
+else:
+    st.sidebar.warning("No interfaces detected.")
+
+# --- Status card on main NIDS page ---
+st.markdown("### 🌐 Current Interface")
+if current:
+    info = current["interface"]
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Interface", info["name"])
+    c2.metric("Status", info["status"])
+    c3.metric("IPv4", info["ipv4"])
+    c4.metric("Speed", f"{info['speed_mbps']} Mbps")
+    st.caption(
+        f"MAC: {info['mac']} · Type: {info['type']} · Gateway: {info['gateway']} · "
+        f"Subnet: {info['subnet']} · Packets sent/recv: {info['packets_sent']}/{info['packets_received']}"
+    )
+else:
+    st.error("No interface available. Please select one from the sidebar.")

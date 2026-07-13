@@ -170,6 +170,11 @@ def get_threat_analysis(attack_type: str, attack_domain: str,
     scenario = ATTACK_SCENARIOS.get(attack_type, ATTACK_SCENARIOS["Suspicious Activity"])
     mitre = MITRE_DB.get(scenario.get("mitre_tactic", ""), {})
 
+    # Ensure mitigation_steps is always a list
+    mitigation_steps = mitre.get("mitigation") if mitre.get("mitigation") else scenario["response"].split(", ")
+    if not isinstance(mitigation_steps, list):
+        mitigation_steps = [mitigation_steps]
+
     return {
         "scenario": scenario,
         "mitre": mitre,
@@ -178,7 +183,7 @@ def get_threat_analysis(attack_type: str, attack_domain: str,
         "affected_domain": attack_domain,
         "source_ip": src_ip or "unknown",
         "indicators": scenario["indicators"],
-        "mitigation_steps": mitre.get("mitigation", []) or scenario["response"].split(", "),
+        "mitigation_steps": mitigation_steps,
         "similar_attacks": mitre.get("similar_attacks", []),
         "phase": scenario["phase"],
     }

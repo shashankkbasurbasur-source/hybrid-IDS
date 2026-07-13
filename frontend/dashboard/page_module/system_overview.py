@@ -4,6 +4,7 @@ Shows overall system health and status
 """
 
 import streamlit as st
+import plotly.graph_objects as go
 from backend.dashboard.data_service import dashboard_data_service
 from backend.dashboard.cache_manager import cache_manager
 from datetime import datetime

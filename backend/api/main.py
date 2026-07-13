@@ -9,6 +9,8 @@ from backend.api.hids_api import router as hids_router
 from backend.api.alert_api import router as alerts_router
 from backend.api.threat_intel_api import router as threat_intel_router
 from backend.ingestions.hids_ingestor import hids_ingestor
+from backend.api.intelligence_api import router as intelligence_router
+from backend.api.alert_api import router as alert_router
 
 app = FastAPI(
     title="Hybrid Intrusion Detection System v2.0",
@@ -29,6 +31,8 @@ app.include_router(detect_router, prefix="/api/detect", tags=["NIDS"])
 app.include_router(hids_router, prefix="/api/hids", tags=["HIDS"])
 app.include_router(alerts_router, prefix="/api/alerts", tags=["Alerts & Fusion"])
 app.include_router(threat_intel_router, prefix="/api/threat-intel", tags=["Threat Intelligence"])
+app.include_router(intelligence_router, prefix="/intelligence", tags=["Network Intelligence"])
+app.include_router(alert_router, prefix="", tags=["Alerts & Incidents"])
 
 
 @app.on_event("startup")

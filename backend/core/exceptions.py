@@ -1,33 +1,23 @@
-"""backend/core/exceptions.py"""
+"""
+Shared exception hierarchy for Hybrid IDS.
+"""
+
 
 class HybridIDSError(Exception):
-    pass
+    """Base class for all Hybrid IDS errors."""
 
-class FeatureError(HybridIDSError):
-    pass
 
-class FeatureSizeMismatch(FeatureError):
-    def __init__(self, expected: int, got: int, source: str = ""):
-        super().__init__(f"{source} feature size mismatch: expected {expected}, got {got}")
+class InterfaceError(HybridIDSError):
+    """Raised for interface selection/validation/disconnection problems."""
 
-class ModelLoadError(HybridIDSError):
-    pass
 
-class PredictionError(HybridIDSError):
-    pass
+class CaptureError(HybridIDSError):
+    """Raised for capture engine failures (start/stop/sniffer crashes)."""
 
-class FusionError(HybridIDSError):
-    pass
 
-class IngestionError(HybridIDSError):
-    pass
+class BufferOverflowError(HybridIDSError):
+    """Raised when the packet buffer exceeds its configured limit."""
 
-class ParserNotFound(IngestionError):
-    def __init__(self, source: str):
-        super().__init__(f"No parser registered for source: '{source}'")
-
-class AlertError(HybridIDSError):
-    pass
 
 class StorageError(HybridIDSError):
-    pass
+    """Raised for database write/read failures."""

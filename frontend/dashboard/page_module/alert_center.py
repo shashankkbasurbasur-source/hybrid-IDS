@@ -72,7 +72,7 @@ def show():
         if alert_data:
             df = pd.DataFrame(alert_data)
             
-            # Color severity column
+            # Color severity column - using map() instead of applymap()
             def color_severity(val):
                 if val == "CRITICAL":
                     return 'background-color: #ffdddd'
@@ -82,7 +82,7 @@ def show():
                     return 'background-color: #ffffcc'
                 return 'background-color: #ccffcc'
             
-            df_styled = df.style.applymap(
+            df_styled = df.style.map(
                 lambda val: color_severity(val) if isinstance(val, str) else "",
                 subset=['Severity']
             )

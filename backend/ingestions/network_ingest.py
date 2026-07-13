@@ -1,258 +1,398 @@
 """
-Live Network Packet Capture with Flow Building
+Live Network Packet Capture Engine (NIDS ingestion) — FINAL VERSION.
+
+Owns the full capture lifecycle (start/stop/pause/resume/restart), session
+tracking, packet filtering, and dispatches every packet to the Device,
+Flow, and Statistics managers. Flow completion (via FlowManager's timeout
+logic) feeds the Detection Queue, whose worker threads (DetectionPipeline,
+AlertManager) are started/stopped alongside capture but run independently
+so slow ML inference never blocks packet capture.
+
+This module should not require further architectural changes — Steps 3-7
+extend the managers/hooks it calls, not this file itself.
 """
 
-import socket
-from collections import defaultdict
-from datetime import datetime, timedelta
-from typing import List, Dict, Tuple
 import threading
+import time
 
-try:
-    from scapy.all import sniff, IP, TCP, UDP, ICMP, ARP
-    SCAPY_AVAILABLE = True
-except ImportError:
-    SCAPY_AVAILABLE = False
+from scapy.all import AsyncSniffer
 
-import psutil
+from backend.ingestions.interface_manager import interface_manager, InterfaceState
+from backend.ingestions.packet_parser import PacketParser
+from backend.ingestions.packet_buffer import PacketBuffer
+from backend.ingestions.packet_filter import packet_filter_manager
+from backend.ingestions.capture_session import CaptureSession
 
+from backend.storage.db_store import insert_packets_batch
 
-class NetworkFlow:
-    """Represents a bidirectional network flow"""
-    
-    def __init__(self, src_ip: str, dst_ip: str, src_port: int, dst_port: int, protocol: str):
-        self.src_ip = src_ip
-        self.dst_ip = dst_ip
-        self.src_port = src_port
-        self.dst_port = dst_port
-        self.protocol = protocol
-        
-        self.packet_count = 0
-        self.byte_count = 0
-        self.packets = []
-        self.start_time = datetime.now()
-        self.last_packet_time = self.start_time
-        
-        self.flags = set()
-        self.destinations = set()
-        self.sources = set()
-        
-    def add_packet(self, packet_data: Dict):
-        """Add packet to flow"""
-        self.packet_count += 1
-        self.byte_count += packet_data.get("length", 0)
-        self.packets.append(packet_data)
-        self.last_packet_time = datetime.now()
-        
-        if packet_data.get("flags"):
-            self.flags.add(packet_data["flags"])
-        
-        self.destinations.add(packet_data.get("dst_ip", ""))
-        self.sources.add(packet_data.get("src_ip", ""))
-    
-    def duration(self) -> float:
-        """Flow duration in seconds"""
-        return (self.last_packet_time - self.start_time).total_seconds()
-    
-    def is_active(self, timeout: int = 30) -> bool:
-        """Check if flow is still active"""
-        return (datetime.now() - self.last_packet_time).total_seconds() < timeout
+from backend.detection.devices.device_manager import device_manager
+from backend.detection.flows.flow_manager import flow_manager
+from backend.detection.stats.statistic_manager import statistics_manager
+from backend.detection.pipeline_hooks import detection_pipeline, alert_manager
+
+from backend.core.exceptions import CaptureError
+from backend.core.logger import get_logger
+
+from backend.detection.protocols.protocol_analyzer import protocol_analyzer
+from backend.detection.stats.network_statistics_manager import network_statistics_manager
+from backend.detection.queues.feature_extraction_queue import feature_extraction_queue
+from backend.storage.db_store import mark_devices_offline
+
+logger = get_logger(__name__)
 
 
-class FlowBuilder:
-    """Builds bidirectional flows from packets"""
-    
-    def __init__(self, flow_timeout: int = 30):
-        self.flows = {}
-        self.flow_timeout = flow_timeout
-        self.lock = threading.Lock()
-    
-    def get_flow_key(self, src_ip: str, dst_ip: str, src_port: int, 
-                     dst_port: int, protocol: str) -> str:
-        """Create bidirectional flow key"""
-        ips = tuple(sorted([src_ip, dst_ip]))
-        ports = tuple(sorted([src_port, dst_port]))
-        return f"{ips[0]}:{ips[1]}:{ports[0]}:{ports[1]}:{protocol}"
-    
-    def add_packet(self, packet_data: Dict) -> str:
-        """Add packet to flow, return flow key"""
-        with self.lock:
-            flow_key = self.get_flow_key(
-                packet_data["src_ip"],
-                packet_data["dst_ip"],
-                packet_data["src_port"],
-                packet_data["dst_port"],
-                packet_data["protocol"]
-            )
-            
-            if flow_key not in self.flows:
-                self.flows[flow_key] = NetworkFlow(
-                    packet_data["src_ip"],
-                    packet_data["dst_ip"],
-                    packet_data["src_port"],
-                    packet_data["dst_port"],
-                    packet_data["protocol"]
-                )
-            
-            self.flows[flow_key].add_packet(packet_data)
-            return flow_key
-    
-    def get_completed_flows(self) -> List[Tuple[str, NetworkFlow]]:
-        """Get flows that have timed out"""
-        with self.lock:
-            completed = [
-                (key, flow) for key, flow in self.flows.items()
-                if not flow.is_active(self.flow_timeout)
-            ]
-            
-            for key, _ in completed:
-                del self.flows[key]
-            
-            return completed
-    
-    def get_active_flows(self) -> Dict[str, NetworkFlow]:
-        """Get currently active flows"""
-        with self.lock:
-            return dict(self.flows)
+class CaptureStatus:
+    IDLE = "IDLE"
+    RUNNING = "RUNNING"
+    PAUSED = "PAUSED"
+    STOPPED = "STOPPED"
+    ERROR = "ERROR"
 
 
 class NetworkIngestor:
-    """Live network packet ingestion with flow building"""
-    
-    def __init__(self, interface: str = None, packet_count: int = None):
+    """
+    Central capture engine. One instance shared across the app
+    (see `network_ingestor` singleton at the bottom of this file).
+    """
+
+    FLUSH_INTERVAL_SECONDS = 1.0
+    STATS_SNAPSHOT_INTERVAL_SECONDS = 5.0
+    BUFFER_MAX_SIZE = 50000
+
+    def __init__(self):
+        self._sniffer = None
+        self._parser = PacketParser()
+        self._buffer = PacketBuffer(max_size=self.BUFFER_MAX_SIZE)
+
+        self._interface_name = None
+        self._interface_ipv4 = None
+
+        self._session = None
+        self._status = CaptureStatus.IDLE
+
+        self._paused = threading.Event()   # set = paused, packets dropped at callback
+        self._stop_flush = threading.Event()
+        self._flush_thread = None
+
+        self._error_message = None
+        self._lock = threading.RLock()
+
+        self._last_stats_snapshot = time.monotonic()
+
+    # =========================================================
+    # Direction classification
+    # =========================================================
+    def _classify_direction(self, event: dict) -> str:
         """
-        Args:
-            interface: Network interface (eth0, wlan0, etc.)
-            packet_count: Max packets to capture (None = continuous)
+        Classifies traffic relative to the capturing host's own IP.
+        Falls back to 'unknown' if we don't know our own address yet.
         """
-        self.interface = interface or self._get_default_interface()
-        self.packet_count = packet_count
-        self.flow_builder = FlowBuilder(flow_timeout=30)
-        self.captured_packets = []
-        self.is_capturing = False
+        local_ip = self._interface_ipv4
+        if not local_ip or local_ip == "N/A":
+            return "unknown"
+
+        src_ip = event.get("src_ip")
+        dst_ip = event.get("dst_ip")
+
+        if src_ip == local_ip:
+            return "outgoing"
+        if dst_ip == local_ip:
+            return "incoming"
+        return "internal"
+
+    # =========================================================
+    # Sniffer callback — MUST be fast, no I/O, never raises
+    # =========================================================
+    def _on_packet(self, packet):
         
-        if not SCAPY_AVAILABLE:
-            raise RuntimeError("Scapy is required for packet capture. Install with: pip install scapy")
-    
-    def _get_default_interface(self) -> str:
-        """Auto-detect the primary network interface"""
+        if self._paused.is_set():
+            return  # paused: drop silently, don't buffer, don't count
+
+        event = self._parser.parse(packet, self._interface_name, self._session.session_id)
+
+        if event.get("parse_error"):
+            statistics_manager.update(event)
+            return  # counted as a parsing error, never propagated further
+
+        event["direction"] = self._classify_direction(event)
+
+        # Post-parse filtering (protocol / IP / port). BPF filtering already
+        # happened at the kernel level before we ever got here, if configured.
+        if not packet_filter_manager.passes(event):
+            return
+
+        accepted = self._buffer.add(event)
+        if not accepted:
+            statistics_manager.record_drop()
+            return
+
+        # Architecture hooks — always called, so later steps never need to
+        # touch this callback again.
         try:
-            interfaces = psutil.net_if_stats()
-            for iface, stats in interfaces.items():
-                if stats.isup and iface not in ["lo", "docker0"]:
-                    return iface
-        except:
-            pass
-        return "eth0"
-    
-    def _parse_packet(self, packet) -> Dict:
-        """Convert raw packet to structured event"""
-        event = {
-            "timestamp": datetime.now().isoformat(),
-            "src_ip": "0.0.0.0",
-            "dst_ip": "0.0.0.0",
-            "src_port": 0,
-            "dst_port": 0,
-            "protocol": "OTHER",
-            "length": len(packet),
-            "ttl": 0,
-            "flags": None,
-            "info": ""
-        }
-        
-        try:
-            if IP in packet:
-                event["src_ip"] = packet[IP].src
-                event["dst_ip"] = packet[IP].dst
-                event["ttl"] = packet[IP].ttl
-            
-            if TCP in packet:
-                event["protocol"] = "TCP"
-                event["src_port"] = packet[TCP].sport
-                event["dst_port"] = packet[TCP].dport
-                event["flags"] = int(packet[TCP].flags)
-                event["info"] = f"TCP {packet[TCP].sport}->{packet[TCP].dport}"
-            
-            elif UDP in packet:
-                event["protocol"] = "UDP"
-                event["src_port"] = packet[UDP].sport
-                event["dst_port"] = packet[UDP].dport
-                event["info"] = f"UDP {packet[UDP].sport}->{packet[UDP].dport}"
-            
-            elif ICMP in packet:
-                event["protocol"] = "ICMP"
-                event["info"] = f"ICMP Type:{packet[ICMP].type}"
-            
-            elif ARP in packet:
-                event["protocol"] = "ARP"
-                event["info"] = f"ARP {packet[ARP].op}"
-        
+            device_manager.update(event)
+            flow_manager.update(event)
+            statistics_manager.update(event)
+            protocol_analyzer.update(event) 
         except Exception as e:
-            event["error"] = str(e)
-        
-        return event
-    
-    def capture_live(self, duration: int = 30):
-        """Capture packets for specified duration"""
-        print(f"[NIDS] Capturing on interface: {self.interface} for {duration}s")
-        
-        self.is_capturing = True
-        self.captured_packets = []
-        
-        def packet_callback(packet):
-            if not self.is_capturing:
-                return False
-            
-            event = self._parse_packet(packet)
-            self.captured_packets.append(event)
-            
-            # Add to flow builder
-            self.flow_builder.add_packet(event)
-        
+            logger.error(f"Hook update failed: {e}")
+
+        interface_manager.mark_packet_received()
+
+
+    # =========================================================
+    # Background flush loop
+    # =========================================================
+    def _flush_loop(self):
+        while not self._stop_flush.is_set():
+            time.sleep(self.FLUSH_INTERVAL_SECONDS)
+            self._flush()
+            flow_manager.check_timeouts()  # drives flow completion -> detection_queue
+            self._maybe_snapshot_stats()
+            self._watchdog()
+        self._flush()  # final flush when the loop is told to stop
+
+    def _flush(self):
+        batch = self._buffer.drain()
+        if not batch:
+            return
+
         try:
-            sniff(
-                prn=packet_callback,
-                iface=self.interface,
-                timeout=duration,
-                store=False
+            insert_packets_batch(batch)
+        except Exception as e:
+            self._error_message = f"Database write failure: {e}"
+            logger.error(self._error_message)
+
+        device_manager.flush()
+        flow_manager.flush()
+        protocol_analyzer.flush() 
+
+    def _maybe_snapshot_stats(self):
+        now = time.monotonic()
+        if now - self._last_stats_snapshot < self.STATS_SNAPSHOT_INTERVAL_SECONDS:
+            return
+        self._last_stats_snapshot = now
+
+        statistics_manager.snapshot(
+            session_id=self._session.session_id if self._session else None,
+            active_flows=flow_manager.active_flow_count(),
+            active_devices=device_manager.active_device_count(),
+        )
+        network_statistics_manager.build_snapshot(   # NEW
+            session_id=self._session.session_id if self._session else None
+        )
+        try:
+            mark_devices_offline(threshold_seconds=120)   # NEW — Module 12
+        except Exception as e:
+            logger.error(f"Failed to mark stale devices offline: {e}")
+
+    def _watchdog(self):
+        """
+        Detects if the sniffer thread died unexpectedly (e.g. interface
+        unplugged mid-capture) and performs the same guaranteed graceful
+        shutdown sequence as an explicit stop() call.
+        """
+        if self._sniffer is None:
+            return
+
+        is_alive = getattr(self._sniffer, "running", False)
+        if is_alive or self._status != CaptureStatus.RUNNING:
+            return
+
+        self._error_message = (
+            f"Capture on '{self._interface_name}' stopped unexpectedly "
+            "(interface may have disconnected)."
+        )
+        logger.error(self._error_message)
+
+        self._status = CaptureStatus.ERROR
+        interface_manager.set_state(InterfaceState.ERROR)
+
+        self._graceful_shutdown_sequence(final_status="ERROR")
+        self._sniffer = None
+
+    # =========================================================
+    # Guaranteed graceful shutdown sequence
+    # Used by both stop() and the watchdog's error path, so flows/devices/
+    # stats/session are ALWAYS finalized no matter how capture ends.
+    # =========================================================
+    def _graceful_shutdown_sequence(self, final_status: str):
+        try:
+            self._flush()
+            flow_manager.force_flush_all()   # expire + enqueue all remaining flows
+            device_manager.flush()
+            statistics_manager.snapshot(
+                session_id=self._session.session_id if self._session else None,
+                active_flows=0,
+                active_devices=device_manager.active_device_count(),
             )
-        except PermissionError:
-            raise RuntimeError(f"Root privileges required for packet capture on {self.interface}")
+        except Exception as e:
+            logger.error(f"Error during graceful shutdown flush: {e}")
         finally:
-            self.is_capturing = False
-        
-        return self.captured_packets
-    
-    def get_active_flows_snapshot(self) -> List[Dict]:
-        """Get current active flows as feature-ready structures"""
-        flows = self.flow_builder.get_active_flows()
-        
-        flow_summaries = []
-        for flow_key, flow in flows.items():
-            flow_summaries.append({
-                "flow_key": flow_key,
-                "src_ip": flow.src_ip,
-                "dst_ip": flow.dst_ip,
-                "protocol": flow.protocol,
-                "packet_count": flow.packet_count,
-                "byte_count": flow.byte_count,
-                "duration": flow.duration(),
-                "unique_dports": len(flow.destinations),
-                "unique_sports": len(flow.sources),
-                "flags": list(flow.flags)
-            })
-        
-        return flow_summaries
-    
-    def get_capture_stats(self) -> Dict:
-        """Get current capture statistics"""
+            self._finalize_session(status=final_status)
+            detection_pipeline.stop()
+            alert_manager.stop()
+            feature_extraction_queue.stop_worker() 
+
+    def _finalize_session(self, status: str):
+        if self._session is None:
+            return
+        stats = statistics_manager.as_dict()
+        self._session.finalize(
+            total_packets=stats["total_packets"],
+            total_bytes=stats["total_bytes"],
+            status=status,
+        )
+
+    # =========================================================
+    # Capture control
+    # =========================================================
+    def start(self):
+        with self._lock:
+            if self._status == CaptureStatus.RUNNING:
+                raise CaptureError("Capture is already running")
+
+            current = interface_manager.current()  # raises if interface invalid/gone
+            self._interface_name = current["interface"]["name"]
+            self._interface_ipv4 = current["interface"]["ipv4"]
+
+            statistics_manager.reset()
+            self._buffer.drain()  # clear any stale data from a previous run
+            self._error_message = None
+            self._paused.clear()
+            self._stop_flush.clear()
+            self._last_stats_snapshot = time.monotonic()
+
+            self._session = CaptureSession(self._interface_name)
+            self._session.persist_start()
+
+            sniffer_kwargs = {
+                "iface": self._interface_name,
+                "prn": self._on_packet,
+                "store": False,
+            }
+            bpf = packet_filter_manager.get_bpf_filter()
+            if bpf:
+                sniffer_kwargs["filter"] = bpf
+
+            self._sniffer = AsyncSniffer(**sniffer_kwargs)
+
+            try:
+                self._sniffer.start()
+            except (OSError, PermissionError, RuntimeError) as e:
+                self._sniffer = None
+                self._status = CaptureStatus.ERROR
+                interface_manager.set_state(InterfaceState.ERROR)
+                raise CaptureError(
+                    f"Failed to start capture on '{self._interface_name}': {e}"
+                )
+
+            self._flush_thread = threading.Thread(target=self._flush_loop, daemon=True)
+            self._flush_thread.start()
+
+            # Start the decoupled detection/alert queue workers alongside capture
+            detection_pipeline.start()
+            alert_manager.start()
+            feature_extraction_queue.start_worker()
+
+            self._status = CaptureStatus.RUNNING
+            interface_manager.set_state(InterfaceState.CAPTURING)
+
+            logger.info(
+                f"Capture started on {self._interface_name} "
+                f"(session={self._session.session_id}, bpf={bpf or 'none'})"
+            )
+
+            return self.status()
+
+    def pause(self):
+        with self._lock:
+            if self._status != CaptureStatus.RUNNING:
+                raise CaptureError("Capture is not running; cannot pause")
+
+            self._paused.set()
+            self._status = CaptureStatus.PAUSED
+            interface_manager.set_state(InterfaceState.PAUSED)
+
+            logger.info(f"Capture paused (session={self._session.session_id})")
+            return self.status()
+
+    def resume(self):
+        with self._lock:
+            if self._status != CaptureStatus.PAUSED:
+                raise CaptureError("Capture is not paused; cannot resume")
+
+            self._paused.clear()
+            self._status = CaptureStatus.RUNNING
+            interface_manager.set_state(InterfaceState.CAPTURING)
+
+            logger.info(f"Capture resumed (session={self._session.session_id})")
+            return self.status()
+
+    def stop(self):
+        with self._lock:
+            if self._sniffer is None and self._status not in (
+                CaptureStatus.RUNNING, CaptureStatus.PAUSED
+            ):
+                raise CaptureError("Capture is not running")
+
+            try:
+                if self._sniffer:
+                    self._sniffer.stop()
+            except Exception as e:
+                logger.warning(f"Sniffer stop raised (likely already dead): {e}")
+            finally:
+                self._sniffer = None
+
+            self._stop_flush.set()
+            if self._flush_thread:
+                self._flush_thread.join(timeout=5)
+
+            # Guaranteed graceful shutdown — flows/devices/stats/session
+            # are always finalized, and queue workers always stopped.
+            self._graceful_shutdown_sequence(final_status="STOPPED")
+
+            self._status = CaptureStatus.STOPPED
+            interface_manager.set_state(InterfaceState.STOPPED)
+
+            logger.info(f"Capture stopped (session={self._session.session_id if self._session else 'n/a'})")
+
+            return self.status()
+
+    def restart(self):
+        with self._lock:
+            if self._status in (CaptureStatus.RUNNING, CaptureStatus.PAUSED):
+                self.stop()
+            return self.start()
+
+    # =========================================================
+    # Status / statistics for API + dashboard
+    # =========================================================
+    def status(self):
+        is_running = self._sniffer is not None and getattr(self._sniffer, "running", False)
+        stats = statistics_manager.as_dict()
+
         return {
-            "packets_captured": len(self.captured_packets),
-            "interface": self.interface,
-            "is_capturing": self.is_capturing,
-            "active_flows": len(self.flow_builder.flows),
-            "tcp_count": sum(1 for p in self.captured_packets if p["protocol"] == "TCP"),
-            "udp_count": sum(1 for p in self.captured_packets if p["protocol"] == "UDP"),
-            "icmp_count": sum(1 for p in self.captured_packets if p["protocol"] == "ICMP"),
-            "arp_count": sum(1 for p in self.captured_packets if p["protocol"] == "ARP"),
+            "is_running": is_running,
+            "status": self._status,
+            "interface": self._interface_name,
+            "session_id": self._session.session_id if self._session else None,
+            "buffer_size": self._buffer.size(),
+            "buffer_dropped": self._buffer.dropped_count(),
+            "error": self._error_message,
+            **stats,
         }
+
+    def live_statistics(self):
+        stats = statistics_manager.as_dict()
+        stats["packets_per_sec"] = (
+            round(stats["total_packets"] / stats["duration_seconds"], 2)
+            if stats["duration_seconds"] > 0 else 0
+        )
+        stats["active_flows"] = flow_manager.active_flow_count()
+        stats["active_devices"] = device_manager.active_device_count()
+        stats["session_id"] = self._session.session_id if self._session else None
+        return stats
+
+
+# Single shared instance used across the whole app
+network_ingestor = NetworkIngestor()
