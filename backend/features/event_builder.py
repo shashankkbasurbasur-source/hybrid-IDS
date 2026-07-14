@@ -4,7 +4,7 @@ Groups related authentication events into sessions
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from collections import defaultdict
 import hashlib
 
@@ -137,5 +137,3 @@ class EventBuilder:
             "sessions_active": len(self.sessions)
         }
 
-
-from typing import Tuple

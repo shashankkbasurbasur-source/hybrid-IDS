@@ -1,6 +1,10 @@
 import uuid
+import time
 from datetime import datetime
 from backend.hids.alerts.incident_logger import log_incident
+
+_last_dispatch_by_ip = {}
+ALERT_COOLDOWN_SECONDS = 60
 
 _RECOMMENDATIONS = {
     "Brute Force": "Lock or rate-limit the source IP; enforce account lockout after repeated failures.",
@@ -16,10 +20,16 @@ _RECOMMENDATIONS = {
 
 def build_and_dispatch_alert(source_ip, probability, attack_type, severity, mitre,
                               feature_vector, auth_score=None, syscall_score=None):
+    now = time.monotonic()
+    last = _last_dispatch_by_ip.get(source_ip)
+    if last is not None and (now - last) < ALERT_COOLDOWN_SECONDS:
+        return None  # suppress duplicate alert for same source within cooldown
+    _last_dispatch_by_ip[source_ip] = now
+
     alert = {
         "id": str(uuid.uuid4()),
         "timestamp": datetime.utcnow().isoformat(),
-        "source": "HIDS",
+        "source": "Hybrid IDS",
         "source_ip": source_ip,
         "attack_type": attack_type,
         "severity": severity,
@@ -28,7 +38,7 @@ def build_and_dispatch_alert(source_ip, probability, attack_type, severity, mitr
         "syscall_score": round(float(syscall_score), 4) if syscall_score is not None else None,
         "mitre_technique": mitre.get("technique"),
         "mitre_tactic": mitre.get("tactic"),
-        "recommendation": _RECOMMENDATIONS.get(attack_type, "Review the flagged session manually."),
+        "recommendation": _RECOMMENDATIONS.get(attack_type, "Review the flagged incident manually."),
     }
     log_incident(alert, feature_vector=feature_vector)
     return alert

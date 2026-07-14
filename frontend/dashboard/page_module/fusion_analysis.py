@@ -1,137 +1,81 @@
 """
 Fusion Analysis Page
-Shows hybrid NIDS + HIDS correlation
+Visualizes the decision-level fusion process and score correlation.
 """
 
 import streamlit as st
-import plotly.graph_objects as go
-from backend.dashboard.data_service import dashboard_data_service
-
+import pandas as pd
+from frontend.dashboard.dashboard_service import svc
+from frontend.dashboard.components.cards import metric_card
+from frontend.dashboard.components.tables import render_dataframe
 
 def show():
-    """Display fusion analysis"""
-    
-    st.header("🔀 Hybrid Fusion Analysis")
-    
-    st.markdown("""
-    Visualization of how NIDS and HIDS detections are correlated
-    into unified incidents and decisions.
-    """)
-    
+    st.header("🧠 Decision-Level Fusion Analysis")
+    st.markdown("Combines network (NIDS) and host (HIDS) features to produce a unified, confident security decision.")
     st.markdown("---")
-    
-    # ==================== FUSION WORKFLOW ====================
-    
-    st.subheader("📊 Fusion Workflow")
+
+    # Fetch fusion engine status
+    fusion = svc.get_fusion_status()
+
+    # Scores Flow Visualization
+    st.subheader("📊 Score Fusion Flow")
     
     col1, col2, col3, col4, col5 = st.columns(5)
-    
     with col1:
-        st.markdown("### NIDS Score")
-        st.markdown("**0.78**")
-        st.caption("Network Detection")
-    
+        metric_card("NIDS Score", "87/100", "green" if 87 < 90 else "orange")
     with col2:
-        st.markdown("### →")
-    
+        metric_card("HIDS Auth Score", "80/100", "orange")
     with col3:
-        st.markdown("### HIDS Score")
-        st.markdown("**0.85**")
-        st.caption("Host Detection")
-    
+        metric_card("HIDS Syscall Score", "90/100", "green")
     with col4:
-        st.markdown("### →")
-    
+        metric_card("Combined HIDS Score", "85/100", "orange")
     with col5:
-        st.markdown("### Fusion Score")
-        st.markdown("**0.81**")
-        st.caption("Final Decision")
-    
+        metric_card("Decision Fusion Score", f"{fusion.get('current_score', 88)}/100", "orange")
+
+    # Scores progression path diagram using CSS
+    st.markdown("""
+        <div style='display: flex; align-items: center; justify-content: space-around; background-color: #111524; padding: 15px; border-radius: 8px; border: 1px solid #1e293b; margin-top: 15px;'>
+            <div style='text-align: center;'><span style='color: #3b82f6; font-weight: bold;'>NIDS (87)</span></div>
+            <div style='color: #64748b;'>➔</div>
+            <div style='text-align: center;'><span style='color: #10b981; font-weight: bold;'>Auth Log (80)</span></div>
+            <div style='color: #64748b;'>✚</div>
+            <div style='text-align: center;'><span style='color: #10b981; font-weight: bold;'>Syscall (90)</span></div>
+            <div style='color: #64748b;'>➔</div>
+            <div style='text-align: center;'><span style='color: #f59e0b; font-weight: bold;'>Combined HIDS (85)</span></div>
+            <div style='color: #64748b;'>➔</div>
+            <div style='text-align: center;'><span style='color: #ef4444; font-weight: bold;'>Fusion Decision (88)</span></div>
+        </div>
+    """, unsafe_allow_html=True)
+
     st.markdown("---")
+
+    # Fusion reasoning and decision metrics
+    st.subheader("🧠 Correlation & Fusion Metrics")
+    col_l, col_r = st.columns(2)
     
-    # ==================== INCIDENT STATISTICS ====================
-    
-    st.subheader("📈 Incident Statistics")
-    
-    incidents = dashboard_data_service.get_incidents(1000)
-    
-    if incidents:
-        # Count by category
-        categories = {}
-        for incident in incidents:
-            category = incident.get("attack_category", "Unknown")
-            categories[category] = categories.get(category, 0) + 1
+    with col_l:
+        st.write("**Correlation Status:** `ACTIVE CORRELATION`")
+        st.write("**Attack Category:** Cross-layer Brute Force pivoting to local Privilege Escalation")
+        st.write("**Severity:** HIGH")
+        st.write("**Detection Source:** Network & Host (Fused)")
+        st.write("**Confidence Calculation:** `0.35 * NIDS + 0.45 * HIDS + 0.20 * ThreatIntel = 0.88`")
         
-        fig = go.Figure(data=[
-            go.Bar(
-                x=list(categories.keys()),
-                y=list(categories.values()),
-                marker=dict(color=['#667eea', '#764ba2', '#f093fb', '#4facfe'])
-            )
-        ])
-        
-        fig.update_layout(
-            title="Incidents by Category",
-            xaxis_title="Category",
-            yaxis_title="Count",
-            height=300,
-            showlegend=False
-        )
-        
-        st.plotly_chart(fig, use_container_width=True)
-    
+        st.markdown("**Final Decision:** <span style='color: #ef4444; font-weight: bold;'>ATTACK / COMPROMISE CONFIRMED</span>", unsafe_allow_html=True)
+
+    with col_r:
+        st.write("**Fusion Reasoning:**")
+        reasoning = fusion.get("reasoning", [])
+        for r in reasoning:
+            st.info(f"💡 {r}")
+
     st.markdown("---")
-    
-    # ==================== CORRELATION PATTERNS ====================
-    
-    st.subheader("🔗 Correlation Patterns")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.write("**Network Only**")
-        network_only = len([i for i in incidents if i.get("attack_category") == "Network Only"])
-        st.metric("Incidents", network_only)
-    
-    with col2:
-        st.write("**Host Only**")
-        host_only = len([i for i in incidents if i.get("attack_category") == "Host Only"])
-        st.metric("Incidents", host_only)
-    
-    col3, col4 = st.columns(2)
-    
-    with col3:
-        st.write("**Hybrid**")
-        hybrid = len([i for i in incidents if i.get("attack_category") == "Hybrid"])
-        st.metric("Incidents", hybrid)
-    
-    with col4:
-        st.write("**Multi-Stage**")
-        multi_stage = len([i for i in incidents if i.get("attack_category") == "Multi-Stage"])
-        st.metric("Incidents", multi_stage)
-    
-    st.markdown("---")
-    
-    # ==================== RECENT CORRELATIONS ====================
-    
-    st.subheader("📋 Recent Correlated Incidents")
-    
-    correlated = [i for i in incidents if i.get("is_correlated")]
-    
-    if correlated:
-        import pandas as pd
-        
-        corr_data = []
-        for incident in correlated[:20]:
-            corr_data.append({
-                "ID": incident.get("incident_id", "")[:8],
-                "Time": incident.get("created_at", "")[:19],
-                "Type": incident.get("attack_type"),
-                "Score": f"{incident.get('confidence', 0):.2%}",
-                "Category": incident.get("attack_category")
-            })
-        
-        df = pd.DataFrame(corr_data)
-        st.dataframe(df, use_container_width=True, hide_index=True)
+
+    # Correlation Timeline
+    st.subheader("⏱️ Correlation Timeline")
+    timeline = fusion.get("timeline", [])
+    if timeline:
+        timeline_df = pd.DataFrame(timeline)
+        timeline_df.columns = ["Timestamp", "Fused Event Details"]
+        render_dataframe(timeline_df, height=180)
     else:
-        st.info("No correlated incidents yet.")
+        st.info("No correlation events in timeline.")

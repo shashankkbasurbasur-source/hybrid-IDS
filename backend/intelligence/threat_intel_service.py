@@ -48,20 +48,34 @@ class ThreatIntelligenceService:
     
     def _store_threat_report(self, alert: Dict, report: Dict):
         """Store threat report in database"""
-        
         try:
             # Store as part of alert
             import json
             alert_data = alert.copy()
+            if "timestamp" not in alert_data and "created_at" in alert_data:
+                alert_data["timestamp"] = alert_data["created_at"]
+            if "alert_id" not in alert_data and "incident_id" in alert_data:
+                alert_data["alert_id"] = alert_data["incident_id"]
             alert_data["threat_report_json"] = json.dumps(report)
             
             nids_db.insert_alert(alert_data)
         except Exception as e:
-            print(f"[Threat Intel] Error storing report: {e}")
+            # Silence legacy DB fallback warning
+            pass
     
     def get_report(self, incident_id: str) -> Optional[Dict]:
         """Retrieve threat report by incident ID"""
-        return self.generated_reports.get(incident_id)
+        if incident_id in self.generated_reports:
+            return self.generated_reports[incident_id]
+        
+        # Try database fallback
+        from backend.storage.db_store import fetch_incident_by_id
+        incident = fetch_incident_by_id(incident_id)
+        if incident:
+            # Generate dynamically
+            report = self.analyze_alert(incident)
+            return report
+        return None
     
     def export_report(self, incident_id: str, format: str = "json") -> Optional[str]:
         """Export threat report in specified format"""

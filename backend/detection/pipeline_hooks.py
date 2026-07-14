@@ -85,55 +85,22 @@ class FeatureExtractionWorker:
     def stop(self):
         feature_extraction_queue.stop_worker()
 
+# backend/detection/pipeline_hooks.py — PredictionWorker.process(), replace body with:
 class PredictionWorker:
+    def __init__(self):
+        from backend.detection.nids_engine import NIDSDetectionEngine
+        self.nids_engine = NIDSDetectionEngine()  # single instance, loaded once
+
     def process(self, item: dict):
         flow = item["flow"]
-        features = item["features"]
-        vector_hash = item.get("vector_hash")
+        # NIDSDetectionEngine.predict_flow() IS the standardized detection object —
+        # {'flow_id','prediction','binary_score','confidence','attack_type', ...}
+        nids_detection = self.nids_engine.predict_flow(flow)
 
-        try:
-            model_output = model_manager.predict(features)
-        except ModelLoadError as e:
-            logger.error(f"Model prediction failed for flow {flow.get('flow_key')}: {e}")
-            performance_monitor.record_drop()
-            return
-        except Exception as e:
-            logger.error(f"Unexpected prediction error for flow {flow.get('flow_key')}: {e}")
-            performance_monitor.record_drop()
-            return
+        from backend.detection.hybrid_fusion_engine import hybrid_fusion_engine
+        hybrid_fusion_engine.submit_nids_detection(nids_detection, flow)
 
-        decision = decision_engine.decide(model_output, flow)
-
-        prediction_record = {
-            "prediction_id": str(uuid.uuid4()),
-            "flow_id": flow.get("flow_id"),
-            "flow_key": flow.get("flow_key"),
-            "model_name": model_output["model_name"],
-            "model_version": model_output["model_version"],
-            "confidence": model_output["confidence"],
-            "prediction": decision["decision"],
-            "attack_type": decision["attack_type"],
-            "probability": model_output["probability"],
-            "severity": decision["severity"],
-            "feature_version": FEATURE_VERSION,
-            "feature_vector_hash": vector_hash,
-            "inference_time_ms": model_output["inference_time_ms"],
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-        }
-
-        try:
-            insert_prediction(prediction_record)
-        except Exception as e:
-            logger.error(f"Failed to store prediction {prediction_record['prediction_id']}: {e}")
-
-        performance_monitor.record_prediction(model_output["inference_time_ms"])
-
-        logger.info(
-            f"Prediction complete: {prediction_record['prediction_id']} "
-            f"({decision['decision']}, {decision['severity']}, conf={model_output['confidence']:.3f})"
-        )
-
-        alert_queue.enqueue({**prediction_record, "flow": flow})
+        performance_monitor.record_prediction(0.0)
 
     def start(self):
         detection_queue.start_worker(self.process)

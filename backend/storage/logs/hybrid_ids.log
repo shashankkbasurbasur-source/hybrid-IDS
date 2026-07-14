@@ -23,3 +23,128 @@
 2026-07-11 14:35:12,690 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-4 tables + migrations complete)
 2026-07-11 20:01:14,386 | INFO     | backend.detection.features.features_metadata | Feature metadata loaded: 77 features from models/network_feature_columns.pkl
 2026-07-11 20:01:14,394 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-4 tables + migrations complete)
+2026-07-14 23:11:37,327 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:11:40,335 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:11:40,381 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:11:40,403 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:11:40,404 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:12:14,214 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:12:14,465 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:12:14,483 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:12:14,483 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:12:14,484 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:13:51,933 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:13:52,183 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:13:52,195 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:13:52,195 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:13:52,195 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:14:17,991 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:14:18,199 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:14:18,213 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:14:18,213 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:14:18,213 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:14:18,975 | INFO     | backend.storage.db_store | Migrated alerts table: added column 'prediction_id'
+2026-07-14 23:14:19,024 | INFO     | backend.storage.db_store | Migrated alerts table: added column 'flow_id'
+2026-07-14 23:14:19,073 | INFO     | backend.storage.db_store | Migrated alerts table: added column 'flow_key'
+2026-07-14 23:14:19,123 | INFO     | backend.storage.db_store | Migrated alerts table: added column 'risk_level'
+2026-07-14 23:14:19,172 | INFO     | backend.storage.db_store | Migrated alerts table: added column 'source'
+2026-07-14 23:14:19,221 | INFO     | backend.storage.db_store | Migrated alerts table: added column 'incident_id'
+2026-07-14 23:14:19,270 | INFO     | backend.storage.db_store | Migrated alerts table: added column 'correlation_key'
+2026-07-14 23:14:19,271 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-14 23:14:41,984 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:14:42,175 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:14:42,185 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:14:42,185 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:14:42,185 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:14:42,191 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-14 23:14:58,282 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:14:58,481 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:14:58,494 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:14:58,494 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:14:58,494 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:14:58,501 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-14 23:46:11,761 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:46:12,011 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:46:12,021 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:46:12,021 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:46:12,021 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:46:12,029 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-14 23:56:16,911 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:56:17,315 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:56:17,343 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:56:17,347 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:56:17,348 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:56:17,395 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-14 23:56:57,197 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:56:57,682 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:56:57,706 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:56:57,708 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:56:57,709 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:56:57,725 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-14 23:57:13,705 | INFO     | backend.detection.incidents.incident_manager | Incident created: 55382332-66a5-4023-959d-7c47db04d5dd (Brute Force SSH (Forensics) from 192.168.1.150)
+2026-07-14 23:59:49,333 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-14 23:59:49,739 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-14 23:59:49,764 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-14 23:59:49,764 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-14 23:59:49,765 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-14 23:59:49,776 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-15 00:00:30,446 | INFO     | backend.detection.incidents.incident_manager | Incident created: f9987d0d-f8f8-40da-94ea-cb088022743a (Brute Force SSH (Forensics) from 192.168.1.150)
+2026-07-15 00:00:30,453 | ERROR    | backend.detection.queues.threat_intel_queue | [Threat Intel] Error generating report for f9987d0d-f8f8-40da-94ea-cb088022743a: '<' not supported between instances of 'NoneType' and 'float'
+2026-07-15 00:01:18,851 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-15 00:01:19,209 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-15 00:01:19,230 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-15 00:01:19,230 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-15 00:01:19,231 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-15 00:01:19,243 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-15 00:01:32,454 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-15 00:01:32,835 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-15 00:01:32,869 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-15 00:01:32,870 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-15 00:01:32,870 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-15 00:01:32,886 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-15 00:01:43,868 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-15 00:01:44,287 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-15 00:01:44,308 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-15 00:01:44,308 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-15 00:01:44,308 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-15 00:01:44,321 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-15 00:13:30,895 | INFO     | backend.detection.incidents.incident_manager | Incident created: 5e54718e-73ee-4fb8-9b10-f6b925a2e895 (Brute Force SSH (Forensics) from 192.168.1.150)
+2026-07-15 00:13:30,955 | INFO     | backend.detection.queues.threat_intel_queue | [Threat Intel] Incident 5e54718e-73ee-4fb8-9b10-f6b925a2e895 successfully enriched with MITRE mapping and response playbook.
+2026-07-15 00:14:32,179 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-15 00:14:32,542 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-15 00:14:32,557 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-15 00:14:32,557 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-15 00:14:32,558 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-15 00:14:32,568 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-15 00:17:52,354 | INFO     | backend.detection.incidents.incident_manager | Incident created: c4266389-5844-4ef9-8904-c08bb9d1adec (Brute Force SSH (Forensics) from 192.168.1.150)
+2026-07-15 00:17:52,414 | INFO     | backend.detection.queues.threat_intel_queue | [Threat Intel] Incident c4266389-5844-4ef9-8904-c08bb9d1adec successfully enriched with MITRE mapping and response playbook.
+2026-07-15 00:18:12,242 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-15 00:18:12,591 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-15 00:18:12,609 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-15 00:18:12,610 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-15 00:18:12,610 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-15 00:18:12,620 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-15 00:18:25,086 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-15 00:18:25,362 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-15 00:18:25,375 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-15 00:18:25,376 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-15 00:18:25,376 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-15 00:18:25,384 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-15 00:26:35,899 | INFO     | backend.detection.incidents.incident_manager | Incident created: f57e259d-bccd-471c-a3b5-d1589d533c9a (Brute Force SSH (Forensics) from 192.168.1.150)
+2026-07-15 00:26:36,352 | INFO     | backend.detection.queues.threat_intel_queue | [Threat Intel] Incident f57e259d-bccd-471c-a3b5-d1589d533c9a successfully enriched with MITRE mapping and response playbook.
+2026-07-15 00:57:56,572 | INFO     | backend.detection.incidents.incident_manager | Incident f57e259d-bccd-471c-a3b5-d1589d533c9a transitioned: NEW -> ACKNOWLEDGED (by analyst)
+2026-07-15 01:01:53,227 | INFO     | backend.detection.incidents.incident_manager | Incident f57e259d-bccd-471c-a3b5-d1589d533c9a transitioned: ACKNOWLEDGED -> INVESTIGATING (by analyst)
+2026-07-15 01:09:34,196 | INFO     | backend.detection.incidents.incident_manager | Incident f57e259d-bccd-471c-a3b5-d1589d533c9a transitioned: INVESTIGATING -> RESOLVED (by analyst)
+2026-07-15 01:10:52,611 | INFO     | backend.detection.incidents.incident_manager | Incident f57e259d-bccd-471c-a3b5-d1589d533c9a transitioned: RESOLVED -> CLOSED (by analyst)
+2026-07-15 01:16:51,290 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-15 01:16:51,667 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-15 01:16:51,701 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-15 01:16:51,702 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-15 01:16:51,702 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-15 01:16:51,712 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)
+2026-07-15 01:17:29,598 | INFO     | backend.detection.ml.model_loader | NIDS binary model loaded
+2026-07-15 01:17:30,135 | INFO     | backend.detection.ml.model_loader | Multi-class attack classifier loaded
+2026-07-15 01:17:30,163 | INFO     | backend.detection.ml.model_loader | HIDS SSH model loaded
+2026-07-15 01:17:30,164 | INFO     | backend.detection.ml.model_loader | NIDS scaler loaded
+2026-07-15 01:17:30,165 | INFO     | backend.detection.ml.model_loader | [✓] All models loaded — HIDS mode: ssh
+2026-07-15 01:17:30,181 | INFO     | backend.storage.db_store | Database schema initialized (Steps 1-5 tables + migrations complete)

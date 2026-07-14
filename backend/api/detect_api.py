@@ -8,6 +8,7 @@ from typing import List, Optional
 from datetime import datetime
 
 from backend.detection.service import run_hybrid_detection
+from backend.storage.db_store import fetch_latest_network_statistics, fetch_flows, fetch_recent_packets, fetch_protocol_statistics, count_packets
 
 router = APIRouter()
 
@@ -81,3 +82,27 @@ def health_check():
         "service": "Hybrid IDS Detection API",
         "timestamp": datetime.utcnow().isoformat()
     }
+
+@router.get("/status")
+def get_nids_status():
+    stats = fetch_latest_network_statistics() or {}
+    total_packets = count_packets()
+    return {
+        "status": "operational" if total_packets > 0 else "idle",
+        "packets_captured": total_packets,
+        "active_flows": stats.get("active_flows", 0),
+        "last_update": stats.get("timestamp", datetime.utcnow().isoformat())
+    }
+
+@router.get("/flows")
+def get_nids_flows(limit: int = 50):
+    return {"flows": fetch_flows(limit)}
+
+@router.get("/packets")
+def get_nids_packets(limit: int = 50):
+    return {"packets": fetch_recent_packets(limit)}
+
+@router.get("/protocols")
+def get_protocols():
+    stats = fetch_protocol_statistics()
+    return {row["protocol"]: row["packets"] for row in stats} if stats else {}

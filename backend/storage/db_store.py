@@ -255,7 +255,21 @@ CREATE TABLE IF NOT EXISTS incidents (
     updated_at TEXT,
     closed_at TEXT,
     analyst TEXT,
-    fusion_type TEXT DEFAULT 'NIDS_ONLY'
+    fusion_type TEXT DEFAULT 'NIDS_ONLY',
+    mitre_tactic TEXT,
+    mitre_technique TEXT,
+    confidence REAL,
+    nids_score REAL,
+    auth_score REAL,
+    syscall_score REAL,
+    fusion_score REAL,
+    notes TEXT,
+    risk_assessment TEXT,
+    immediate_response TEXT,
+    containment TEXT,
+    recovery TEXT,
+    long_term_recommendations TEXT,
+    fusion_reasoning TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_incidents_status ON incidents(status);
@@ -297,6 +311,31 @@ CREATE INDEX IF NOT EXISTS idx_relations_alert ON incident_relations(alert_id);
 """
 
 
+def _migrate_incidents_table(conn):
+    """Extends the incidents table with missing fields."""
+    existing_cols = {row[1] for row in conn.execute("PRAGMA table_info(incidents)").fetchall()}
+    new_columns = {
+        "mitre_tactic": "TEXT",
+        "mitre_technique": "TEXT",
+        "confidence": "REAL",
+        "nids_score": "REAL",
+        "auth_score": "REAL",
+        "syscall_score": "REAL",
+        "fusion_score": "REAL",
+        "notes": "TEXT",
+        "risk_assessment": "TEXT",
+        "immediate_response": "TEXT",
+        "containment": "TEXT",
+        "recovery": "TEXT",
+        "long_term_recommendations": "TEXT",
+        "fusion_reasoning": "TEXT",
+    }
+    for col, col_type in new_columns.items():
+        if col not in existing_cols:
+            conn.execute(f"ALTER TABLE incidents ADD COLUMN {col} {col_type}")
+            logger.info(f"Migrated incidents table: added column '{col}'")
+
+
 def _migrate_alerts_table(conn):
     """Extends the Step-2 `alerts` table with fields Step 5 needs."""
     existing_cols = {row[1] for row in conn.execute("PRAGMA table_info(alerts)").fetchall()}
@@ -313,6 +352,7 @@ def _migrate_alerts_table(conn):
         if col not in existing_cols:
             conn.execute(f"ALTER TABLE alerts ADD COLUMN {col} {col_type}")
             logger.info(f"Migrated alerts table: added column '{col}'")
+
 
 
 # Add to init_db(): conn.executescript(SCHEMA_STEP5), _migrate_alerts_table(conn)
@@ -381,6 +421,7 @@ def init_db():
         _migrate_flows_table(conn)
         _migrate_predictions_table(conn)
         _migrate_alerts_table(conn)
+        _migrate_incidents_table(conn)
 
         conn.commit()
     logger.info("Database schema initialized (Steps 1-5 tables + migrations complete)")
@@ -772,6 +813,13 @@ def fetch_dead_letters(limit: int = 100):
 # Alerts (Step 5)
 # =========================================================
 def insert_alert(alert: dict):
+    full_alert = {
+        "alert_id": None, "timestamp": None, "severity": None, "confidence": None,
+        "source_ip": None, "dest_ip": None, "protocol": None, "attack_type": None,
+        "status": None, "prediction_id": None, "flow_id": None, "flow_key": None,
+        "risk_level": None, "source": None, "incident_id": None, "correlation_key": None
+    }
+    full_alert.update(alert)
     conn = get_connection()
     with _write_lock:
         conn.execute("""
@@ -782,7 +830,7 @@ def insert_alert(alert: dict):
             VALUES (:alert_id, :timestamp, :severity, :confidence, :source_ip, :dest_ip, :protocol,
                     :attack_type, :status, :prediction_id, :flow_id, :flow_key, :risk_level,
                     :source, :incident_id, :correlation_key)
-        """, alert)
+        """, full_alert)
         conn.commit()
 
 
@@ -842,14 +890,15 @@ def fetch_alert_severity_distribution():
 # Incidents (Step 5)
 # =========================================================
 def create_incident(incident: dict):
+    if not incident:
+        return
     conn = get_connection()
+    cols = ", ".join(incident.keys())
+    placeholders = ", ".join(f":{k}" for k in incident.keys())
     with _write_lock:
-        conn.execute("""
-            INSERT INTO incidents
-            (incident_id, title, status, severity, risk_level, attack_type,
-             source_ip, dest_ip, alert_count, created_at, updated_at, analyst, fusion_type)
-            VALUES (:incident_id, :title, :status, :severity, :risk_level, :attack_type,
-                    :source_ip, :dest_ip, :alert_count, :created_at, :updated_at, :analyst, :fusion_type)
+        conn.execute(f"""
+            INSERT INTO incidents ({cols})
+            VALUES ({placeholders})
         """, incident)
         conn.commit()
 

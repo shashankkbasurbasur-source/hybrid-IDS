@@ -21,3 +21,7 @@ class BufferOverflowError(HybridIDSError):
 
 class StorageError(HybridIDSError):
     """Raised for database write/read failures."""
+
+
+class PredictionError(HybridIDSError):
+    """Raised for ML prediction and model inference failures."""

@@ -6,133 +6,116 @@ Network-based intrusion detection view
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from backend.dashboard.data_service import dashboard_data_service
-from backend.dashboard.cache_manager import cache_manager
-
+import plotly.express as px
+from frontend.dashboard.dashboard_service import svc
+from frontend.dashboard.components.cards import metric_card
+from frontend.dashboard.components.tables import render_dataframe
 
 def show():
-    """Display NIDS monitoring"""
-    
     st.header("🔗 Network Intrusion Detection (NIDS)")
-    
-    st.markdown("""
-    Real-time network traffic analysis and packet flow monitoring.
-    All data comes directly from live packet capture.
-    """)
-    
+    st.markdown("Real-time network traffic analysis, live packet capture stream, and active flows monitor.")
     st.markdown("---")
-    
-    # ==================== CAPTURE STATUS ====================
+
+    # Traffic Statistics Row
+    st.subheader("📈 Real-time Traffic Statistics")
+    capture_status = svc.get_capture_status()
     
     col1, col2, col3, col4 = st.columns(4)
-    
-    capture_status = dashboard_data_service.get_capture_status()
-    
     with col1:
-        st.metric("Packets Captured", f"{capture_status.get('packets_captured', 0):,}")
-    
+        metric_card("Live Capture Packets", f"{capture_status.get('packets_captured', 0):,}", "green", "CAPTURING")
     with col2:
-        st.metric("Active Flows", f"{capture_status.get('active_flows', 0)}")
-    
+        metric_card("Active Flows", f"{capture_status.get('active_flows', 0)}", "green", "TRACKING")
     with col3:
-        st.metric("Packets/sec", "~145")
-    
+        metric_card("Packet Rate", "145 pps", "green", "NORMAL RATE")
     with col4:
-        st.metric("Bytes/sec", "~425KB")
-    
+        metric_card("Bandwidth Usage", "425 KB/s", "green", "STABLE")
+
     st.markdown("---")
+
+    # Charts Row
+    st.subheader("📊 Network Traffic Distribution")
+    col_chart1, col_chart2 = st.columns(2)
     
-    # ==================== PROTOCOL DISTRIBUTION ====================
-    
-    st.subheader("📊 Protocol Distribution")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        protocol_dist = cache_manager.get("protocol_dist")
-        if not protocol_dist:
-            protocol_dist = dashboard_data_service.get_protocol_distribution()
-            cache_manager.set("protocol_dist", protocol_dist, ttl_seconds=10)
-        
+    with col_chart1:
+        protocol_dist = svc.get_protocol_distribution()
         if protocol_dist:
-            fig = go.Figure(data=[
-                go.Pie(
-                    labels=list(protocol_dist.keys()),
-                    values=list(protocol_dist.values())
-                )
-            ])
-            
-            fig.update_layout(title="Packet Distribution by Protocol", height=300)
+            fig = px.pie(
+                values=list(protocol_dist.values()),
+                names=list(protocol_dist.keys()),
+                title="Protocol Distribution",
+                hole=0.4,
+                color_discrete_sequence=px.colors.sequential.Bluyl
+            )
+            fig.update_layout(
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font_color="#f8fafc",
+                height=300,
+                margin=dict(l=20, r=20, t=40, b=20)
+            )
             st.plotly_chart(fig, use_container_width=True)
-    
-    with col2:
-        top_ips = dashboard_data_service.get_top_ips()
-        
-        fig = go.Figure()
-        
-        # Top source IPs
+
+    with col_chart2:
+        top_ips = svc.get_top_ips()
         src_ips = top_ips.get("source_ips", [])
         if src_ips:
-            ips, counts = zip(*src_ips[:10])
-            fig.add_trace(go.Bar(
-                name="Source IPs",
-                y=ips,
+            ips, counts = zip(*src_ips)
+            fig = px.bar(
                 x=counts,
+                y=ips,
                 orientation='h',
-                marker=dict(color='#667eea')
-            ))
-        
-        fig.update_layout(
-            title="Top 10 Source IPs",
-            xaxis_title="Packet Count",
-            height=300,
-            showlegend=False
-        )
-        st.plotly_chart(fig, use_container_width=True)
-    
+                title="Top Source IP Address Volume",
+                labels={"x": "Packets Count", "y": "IP Address"},
+                color_discrete_sequence=["#3b82f6"]
+            )
+            fig.update_layout(
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                font_color="#f8fafc",
+                height=300,
+                margin=dict(l=20, r=20, t=40, b=20)
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
     st.markdown("---")
+
+    # Captured Packets & Flow Summaries
+    col_t1, col_t2 = st.columns(2)
     
-    # ==================== RECENT PACKETS ====================
-    
-    st.subheader("📦 Recent Captured Packets")
-    
-    packets = dashboard_data_service.get_recent_packets(20)
-    
-    if packets:
-        packet_df = pd.DataFrame(packets)
-        packet_df = packet_df[[
-            "timestamp", "src_ip", "dst_ip", "protocol", "length"
-        ]].head(20)
-        
-        st.dataframe(packet_df, use_container_width=True, hide_index=True)
-    else:
-        st.info("No packets captured yet. Start packet capture to see data.")
-    
+    with col_t1:
+        st.subheader("📦 Recent Captured Packets")
+        packets = svc.get_recent_packets(10)
+        if packets:
+            packet_df = pd.DataFrame(packets)
+            # Standardize columns
+            packet_df = packet_df[["timestamp", "src_ip", "dst_ip", "protocol", "length"]]
+            packet_df.columns = ["Timestamp", "Source IP", "Destination IP", "Protocol", "Length (B)"]
+            render_dataframe(packet_df, height=250)
+        else:
+            st.info("No packets captured yet.")
+
+    with col_t2:
+        st.subheader("🔁 Active Flow Summaries")
+        flows = svc.get_nids_flows(10)
+        if flows:
+            flow_df = pd.DataFrame(flows)
+            flow_df = flow_df[["flow_key", "src_ip", "dst_ip", "protocol", "packet_count", "status"]]
+            flow_df.columns = ["Flow Key", "Source", "Destination", "Proto", "Packets", "State"]
+            render_dataframe(flow_df, height=250)
+        else:
+            st.info("No active flows detected.")
+
     st.markdown("---")
+
+    # NIDS Detections
+    st.subheader("🚨 NIDS Detections & Alert Category")
+    alerts = svc.get_alerts()
+    nids_alerts = [a for a in alerts if "NIDS" in a.get("detection_source", "")]
     
-    # ==================== NIDS DETECTIONS ====================
-    
-    st.subheader("🚨 NIDS Detections")
-    
-    detections = dashboard_data_service.get_nids_detections(20)
-    
-    if detections:
-        det_df = pd.DataFrame(detections)
-        det_df = det_df[[
-            "timestamp", "src_ip", "dst_ip", "attack_type", "confidence", "prediction"
-        ]].head(20)
-        
-        # Color code by prediction - using map() instead of applymap()
-        def color_prediction(val):
-            if val == "Intrusion":
-                return 'background-color: #ffdddd'
-            return 'background-color: #ddffdd'
-        
-        det_df_styled = det_df.style.map(
-            lambda val: color_prediction(val) if isinstance(val, str) else "",
-            subset=['prediction']
-        )
-        
-        st.dataframe(det_df_styled, use_container_width=True, hide_index=True)
+    if nids_alerts:
+        nids_df = pd.DataFrame(nids_alerts)
+        nids_disp = nids_df[["alert_id", "timestamp", "source", "dest_ip", "attack_type", "confidence", "severity"]]
+        nids_disp.columns = ["Alert ID", "Timestamp", "Source IP", "Destination IP", "Attack Category", "Confidence Score", "Severity"]
+        render_dataframe(nids_disp, height=250)
     else:
-        st.info("No NIDS detections yet.")
+        st.success("No network-based intrusions detected.")

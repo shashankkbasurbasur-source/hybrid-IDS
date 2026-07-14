@@ -49,12 +49,12 @@ class RiskAssessor:
         
         return {
             "business_risk": {
-                "level": business_risk["level"],
+                "level": business_risk["level"].value if isinstance(business_risk["level"], RiskLevel) else str(business_risk["level"]),
                 "factors": business_risk["factors"],
                 "impact": business_risk["impact"]
             },
             "operational_risk": {
-                "level": operational_risk["level"],
+                "level": operational_risk["level"].value if isinstance(operational_risk["level"], RiskLevel) else str(operational_risk["level"]),
                 "factors": operational_risk["factors"]
             },
             "asset_impact": {
@@ -63,7 +63,7 @@ class RiskAssessor:
                 "data_at_risk": asset_impact["data_at_risk"]
             },
             "overall_risk": {
-                "level": overall_risk,
+                "level": overall_risk.value if isinstance(overall_risk, RiskLevel) else str(overall_risk),
                 "score": self._risk_to_score(overall_risk),
                 "priority": self._determine_priority(overall_risk, confidence)
             }

@@ -15,18 +15,18 @@ router = APIRouter()
 
 class ThreatReportResponse(BaseModel):
     report_id: str
-    incident_id: str
+    alert_id: str
     attack_type: str
     attack_stage: str
     severity: str
     confidence: float
 
 
-@router.get("/report/{incident_id}")
-def get_threat_report(incident_id: str):
+@router.get("/report/{alert_id}")
+def get_threat_report(alert_id: str):
     """Get threat intelligence report for incident"""
     
-    report = threat_intel_service.get_report(incident_id)
+    report = threat_intel_service.get_report(alert_id)
     
     if not report:
         raise HTTPException(status_code=404, detail="Report not found")
@@ -34,17 +34,17 @@ def get_threat_report(incident_id: str):
     return report
 
 
-@router.get("/report/{incident_id}/export")
-def export_threat_report(incident_id: str, format: str = Query("json", regex="^(json|text|html)$")):
+@router.get("/report/{alert_id}/export")
+def export_threat_report(alert_id: str, format: str = Query("json", regex="^(json|text|html)$")):
     """Export threat report in specified format"""
     
-    exported = threat_intel_service.export_report(incident_id, format)
+    exported = threat_intel_service.export_report(alert_id, format)
     
     if not exported:
         raise HTTPException(status_code=404, detail="Report not found")
     
     return {
-        "incident_id": incident_id,
+        "alert_id": alert_id,
         "format": format,
         "data": exported,
         "timestamp": datetime.utcnow().isoformat()

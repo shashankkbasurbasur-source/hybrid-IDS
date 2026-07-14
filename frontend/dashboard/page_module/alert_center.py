@@ -1,165 +1,57 @@
 """
 Alert Center Page
-Incident management and alert viewing
+Central queue for all alerts (NIDS, HIDS, Manual Upload).
+No alert should bypass this page.
 """
 
 import streamlit as st
 import pandas as pd
-from datetime import datetime
-from backend.dashboard.data_service import dashboard_data_service
-
+from frontend.dashboard.dashboard_service import svc
+from frontend.dashboard.components.badges import severity_badge
+from frontend.dashboard.components.tables import render_dataframe
 
 def show():
-    """Display alert center"""
-    
-    st.header("🚨 Alert Center")
-    
-    st.markdown("""
-    Real-time incident management dashboard.
-    View, filter, and manage security alerts.
-    """)
-    
+    st.header("🚨 Alert Center (Central SOC Queue)")
+    st.markdown("Central queue containing every alert generated anywhere in the system (NIDS, HIDS Authentication, HIDS Syscall, and Forensic Log Uploads).")
+    st.markdown("---")
+
+    # Filters Row
+    col_f1, col_f2, col_f3 = st.columns(3)
+    with col_f1:
+        status_filter = st.selectbox("Filter Status", ["active", "investigated", "all"], index=0)
+    with col_f2:
+        source_filter = st.selectbox("Filter Detection Source", ["All Sources", "NIDS Flow", "HIDS Authentication", "HIDS Syscall", "Uploaded Authentication Log"], index=0)
+    with col_f3:
+        limit = st.slider("Max Display Limit", 10, 100, 50)
+
     st.markdown("---")
     
-    # ==================== FILTERS ====================
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        severity_filter = st.multiselect(
-            "Severity",
-            ["CRITICAL", "HIGH", "MEDIUM", "LOW"],
-            default=["CRITICAL", "HIGH"]
-        )
-    
-    with col2:
-        status_filter = st.multiselect(
-            "Status",
-            ["active", "acknowledged", "resolved"],
-            default=["active"]
-        )
-    
-    with col3:
-        limit = st.slider("Show last N alerts", 10, 500, 50)
-    
-    st.markdown("---")
-    
-    # ==================== ALERTS TABLE ====================
-    
-    st.subheader("📋 Active Incidents")
-    
-    incidents = dashboard_data_service.get_incidents(limit)
-    
-    if incidents:
-        alert_data = []
-        for incident in incidents:
-            # Apply filters
-            if incident.get("severity") not in severity_filter:
-                continue
-            if incident.get("status") not in status_filter:
-                continue
-            
-            alert_data.append({
-                "ID": incident.get("incident_id", "")[:8],
-                "Time": incident.get("created_at", "")[:19],
-                "Type": incident.get("attack_type"),
-                "Severity": incident.get("severity"),
-                "Status": incident.get("status"),
-                "Confidence": f"{incident.get('confidence', 0):.1%}",
-                "Source": incident.get("source_ips", [""])[0] if incident.get("source_ips") else "?"
+    # We fetch alerts from dashboard service
+    alerts = svc.get_incidents(limit=limit, status=status_filter)
+
+    # Filter by detection source if selected
+    if source_filter != "All Sources":
+        alerts = [a for a in alerts if a.get("detection_source") == source_filter]
+
+    if alerts:
+        data = []
+        for a in alerts:
+            data.append({
+                "Alert ID": a.get("alert_id"),
+                "Timestamp": a.get("timestamp", a.get("created_at", ""))[:19],
+                "Source IP": a.get("source"),
+                "Dest IP": a.get("dest_ip", "10.0.0.5"),
+                "Severity": a.get("severity", "MEDIUM"),
+                "Confidence Score": f"{a.get('confidence', 0.0):.2%}",
+                "Attack Type": a.get("attack_type", "Unknown"),
+                "Detection Source": a.get("detection_source", "Unknown"),
+                "Status": "INVESTIGATED" if a.get("alert_id") in svc.investigated_ids else "OPEN"
             })
+            
+        df = pd.DataFrame(data)
+        render_dataframe(df)
         
-        if alert_data:
-            df = pd.DataFrame(alert_data)
-            
-            # Color severity column - using map() instead of applymap()
-            def color_severity(val):
-                if val == "CRITICAL":
-                    return 'background-color: #ffdddd'
-                elif val == "HIGH":
-                    return 'background-color: #ffe6cc'
-                elif val == "MEDIUM":
-                    return 'background-color: #ffffcc'
-                return 'background-color: #ccffcc'
-            
-            df_styled = df.style.map(
-                lambda val: color_severity(val) if isinstance(val, str) else "",
-                subset=['Severity']
-            )
-            
-            st.dataframe(df_styled, use_container_width=True, hide_index=True)
-            
-            # Incident detail selector
-            st.markdown("---")
-            st.subheader("📌 Incident Details")
-            
-            selected_id = st.selectbox(
-                "Select incident to view details",
-                [row['ID'] for _, row in df.iterrows()],
-                key="incident_selector"
-            )
-            
-            if selected_id:
-                # Find full incident ID
-                full_id = None
-                for incident in incidents:
-                    if incident.get("incident_id", "")[:8] == selected_id:
-                        full_id = incident.get("incident_id")
-                        break
-                
-                if full_id:
-                    show_incident_details(full_id)
-        else:
-            st.info("No incidents match selected filters.")
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.info("💡 **Operator Tip:** Copy any Alert ID from the table above and head to the **Investigation** page to review logs and mark the alert as Investigated.")
     else:
-        st.info("No alerts generated yet. Start NIDS/HIDS monitoring to see alerts.")
-
-
-def show_incident_details(incident_id: str):
-    """Show detailed incident information"""
-    
-    incident = dashboard_data_service.get_incident_detail(incident_id)
-    
-    if not incident:
-        st.error("Incident not found")
-        return
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.metric("Decision", incident.get("decision"))
-    
-    with col2:
-        st.metric("Severity", incident.get("severity"))
-    
-    with col3:
-        st.metric("Confidence", f"{incident.get('confidence', 0):.1%}")
-    
-    st.markdown("---")
-    
-    st.write("**Evidence:**")
-    
-    # NIDS Evidence
-    if incident.get("nids_detection"):
-        with st.expander("Network Detection"):
-            nids = incident["nids_detection"]
-            st.write(f"**Type:** {nids.get('attack_type')}")
-            st.write(f"**Source:** {nids.get('src_ip')}")
-            st.write(f"**Destination:** {nids.get('dst_ip')}")
-            st.write(f"**Confidence:** {nids.get('confidence'):.1%}")
-    
-    # HIDS Evidence
-    if incident.get("hids_detection"):
-        with st.expander("Host Detection"):
-            hids = incident["hids_detection"]
-            st.write(f"**Type:** {hids.get('attack_type')}")
-            st.write(f"**Source IP:** {hids.get('source_ip')}")
-            st.write(f"**User:** {hids.get('username')}")
-            st.write(f"**Failed Attempts:** {hids.get('failed_attempts')}")
-            st.write(f"**Confidence:** {hids.get('confidence'):.1%}")
-    
-    # Reasoning
-    if incident.get("reasoning"):
-        with st.expander("Detection Reasoning"):
-            for reason in incident["reasoning"]:
-                st.write(f"• {reason}")
+        st.success("🟢 Central Queue Clear. No active alerts found matching the active filters.")

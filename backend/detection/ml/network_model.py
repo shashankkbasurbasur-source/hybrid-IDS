@@ -29,45 +29,25 @@ def _expected_features() -> int:
         return 77  # Default to CICIDS
 
 
-def predict_network(features: list) -> Tuple[float, str, float]:
+# backend/detection/ml/network_model.py — fix predict_network signature drift
+def predict_network(features: list) -> float:
     """
-    Predict network threat with classification.
-    
-    Args:
-        features: 77-dim feature vector
-    
-    Returns:
-        (score: float, attack_type: str, confidence: float)
+    Kept as a single-float return for legacy callers (service.py, packet_api.py).
+    Full classification (attack_type, confidence) is now obtained via
+    NIDSDetectionEngine.predict_flow(), which is the canonical entry point
+    used by the Fusion Engine (see section 3). This function stays thin
+    on purpose — one probability, nothing else.
     """
-    try:
-        n_expected = _expected_features()
-        vec = list(features)
-        
-        # Align to expected size
-        if len(vec) > n_expected:
-            vec = vec[:n_expected]
-        elif len(vec) < n_expected:
-            vec = vec + [0.0] * (n_expected - len(vec))
-        
-        arr = np.array(vec, dtype=np.float32).reshape(1, -1)
-        
-        # Apply scaler
-        if models.scaler is not None:
-            arr = models.scaler.transform(arr)
-        
-        # Get NIDS score
-        proba = models.nids_model.predict_proba(arr)[0]
-        score = float(proba[1]) if len(proba) > 1 else 0.0
-        
-        # Classify attack type
-        classifier = AttackClassifier()
-        class_id, attack_type, confidence = classifier.classify(score, features)
-        
-        logger.info("NIDS: score=%.4f, attack='%s', confidence=%.3f",
-                   score, attack_type, confidence)
-        
-        return score, attack_type, confidence
-    
-    except Exception as e:
-        logger.error("NIDS prediction failed: %s", e)
-        raise PredictionError(f"NIDS prediction failed: {e}") from e
+    n_expected = _expected_features()
+    vec = list(features)
+    if len(vec) > n_expected:
+        vec = vec[:n_expected]
+    elif len(vec) < n_expected:
+        vec = vec + [0.0] * (n_expected - len(vec))
+
+    arr = np.array(vec, dtype=np.float32).reshape(1, -1)
+    if models.scaler is not None:
+        arr = models.scaler.transform(arr)
+
+    proba = models.nids_model.predict_proba(arr)[0]
+    return float(proba[1]) if len(proba) > 1 else 0.0

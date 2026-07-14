@@ -48,6 +48,7 @@ class IncidentManager:
             "attack_type": alert["attack_type"],
             "source_ip": alert["source_ip"],
             "dest_ip": alert["dest_ip"],
+            "confidence": alert.get("confidence", 0.85),
             "alert_count": 1,
             "created_at": now,
             "updated_at": now,

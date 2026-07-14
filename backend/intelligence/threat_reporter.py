@@ -246,7 +246,9 @@ class ThreatReporter:
     def _build_confidence_assessment(self, alert: Dict) -> Dict:
         """Build confidence assessment"""
         
-        confidence = alert.get("confidence", 0.0)
+        confidence = alert.get("confidence")
+        if confidence is None:
+            confidence = 0.0
         
         if confidence >= 0.8:
             confidence_level = "High"

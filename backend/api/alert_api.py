@@ -41,20 +41,24 @@ def alert_severity_distribution():
 # -----------------------------
 @router.get("/incidents")
 def get_incidents(limit: int = 100, status: str = None):
-    return {"incidents": fetch_incidents(limit, status)}
+    incidents = fetch_incidents(limit, status)
+    for inc in incidents:
+        inc["alert_id"] = inc.pop("incident_id", None)
+    return {"incidents": incidents}
 
 
-@router.get("/incidents/{incident_id}")
-def get_incident(incident_id: str):
-    incident = fetch_incident_by_id(incident_id)
+@router.get("/incidents/{alert_id}")
+def get_incident(alert_id: str):
+    incident = fetch_incident_by_id(alert_id)
     if not incident:
-        raise HTTPException(status_code=404, detail=f"Incident '{incident_id}' not found")
+        raise HTTPException(status_code=404, detail=f"Alert '{alert_id}' not found")
 
+    incident["alert_id"] = incident.pop("incident_id", None)
     return {
         **incident,
-        "alerts": fetch_incident_alerts(incident_id),
-        "history": fetch_incident_history(incident_id),
-        "notes": fetch_incident_notes(incident_id),
+        "alerts": fetch_incident_alerts(alert_id),
+        "history": fetch_incident_history(alert_id),
+        "notes": fetch_incident_notes(alert_id),
     }
 
 
@@ -67,48 +71,48 @@ class AssignRequest(BaseModel):
     analyst: str
 
 
-@router.post("/incident/{incident_id}/ack")
-def acknowledge_incident(incident_id: str, actor: str = "analyst"):
+@router.post("/incident/{alert_id}/ack")
+def acknowledge_incident(alert_id: str, actor: str = "analyst"):
     try:
-        return incident_manager.acknowledge(incident_id, actor)
+        return incident_manager.acknowledge(alert_id, actor)
     except IncidentTransitionError as e:
         raise HTTPException(status_code=409, detail=str(e))
 
 
-@router.post("/incident/{incident_id}/investigate")
-def investigate_incident(incident_id: str, actor: str = "analyst"):
+@router.post("/incident/{alert_id}/investigate")
+def investigate_incident(alert_id: str, actor: str = "analyst"):
     try:
-        return incident_manager.investigate(incident_id, actor)
+        return incident_manager.investigate(alert_id, actor)
     except IncidentTransitionError as e:
         raise HTTPException(status_code=409, detail=str(e))
 
 
-@router.post("/incident/{incident_id}/resolve")
-def resolve_incident(incident_id: str, actor: str = "analyst"):
+@router.post("/incident/{alert_id}/resolve")
+def resolve_incident(alert_id: str, actor: str = "analyst"):
     try:
-        return incident_manager.resolve(incident_id, actor)
+        return incident_manager.resolve(alert_id, actor)
     except IncidentTransitionError as e:
         raise HTTPException(status_code=409, detail=str(e))
 
 
-@router.post("/incident/{incident_id}/close")
-def close_incident(incident_id: str, actor: str = "analyst"):
+@router.post("/incident/{alert_id}/close")
+def close_incident(alert_id: str, actor: str = "analyst"):
     try:
-        return incident_manager.close(incident_id, actor)
+        return incident_manager.close(alert_id, actor)
     except IncidentTransitionError as e:
         raise HTTPException(status_code=409, detail=str(e))
 
 
-@router.post("/incident/{incident_id}/note")
-def add_incident_note(incident_id: str, request: NoteRequest):
-    if fetch_incident_by_id(incident_id) is None:
-        raise HTTPException(status_code=404, detail=f"Incident '{incident_id}' not found")
-    return incident_manager.add_note(incident_id, request.note, request.analyst)
+@router.post("/incident/{alert_id}/note")
+def add_incident_note(alert_id: str, request: NoteRequest):
+    if fetch_incident_by_id(alert_id) is None:
+        raise HTTPException(status_code=404, detail=f"Alert '{alert_id}' not found")
+    return incident_manager.add_note(alert_id, request.note, request.analyst)
 
 
-@router.post("/incident/{incident_id}/assign")
-def assign_incident(incident_id: str, request: AssignRequest):
-    if fetch_incident_by_id(incident_id) is None:
-        raise HTTPException(status_code=404, detail=f"Incident '{incident_id}' not found")
-    incident_manager.assign_analyst(incident_id, request.analyst)
-    return fetch_incident_by_id(incident_id)
+@router.post("/incident/{alert_id}/assign")
+def assign_incident(alert_id: str, request: AssignRequest):
+    if fetch_incident_by_id(alert_id) is None:
+        raise HTTPException(status_code=404, detail=f"Alert '{alert_id}' not found")
+    incident_manager.assign_analyst(alert_id, request.analyst)
+    return fetch_incident_by_id(alert_id)

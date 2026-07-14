@@ -59,6 +59,7 @@ class HIDSDetector:
     def _current_syscall_window_events(self):
         return [e for _, e in self._syscall_window]
 
+   # backend/hids/detection/detector.py — process_live_auth_event(), replace the alert-building tail:
     def process_live_auth_event(self, event, syscall_score=None):
         ip = event.get("ip")
         if not ip:
@@ -85,17 +86,22 @@ class HIDSDetector:
         last = self._last_alert_at.get(ip)
         if last is not None and (now - last) < self.alert_cooldown_seconds:
             return None
-
-        mitre = map_attack(attack_type)
-        severity = severity_for(unified_score)
-
-        alert = build_and_dispatch_alert(
-            source_ip=ip, probability=unified_score, attack_type=attack_type,
-            severity=severity, mitre=mitre, feature_vector=vector,
-            auth_score=auth_score, syscall_score=syscall_score,
-        )
         self._last_alert_at[ip] = now
-        return alert
+
+        # STANDARDIZED HIDS DETECTION OBJECT — forwarded to Fusion Engine, not an alert.
+        hids_detection = {
+            "source_ip": ip,
+            "auth_score": round(float(auth_score), 4),
+            "syscall_score": round(float(syscall_score), 4) if syscall_score is not None else None,
+            "confidence": round(float(unified_score), 4),
+            "attack_type": attack_type,
+            "feature_vector": vector,
+            "timestamp": datetime.utcnow().isoformat(),
+        }
+
+        from backend.detection.hybrid_fusion_engine import hybrid_fusion_engine
+        hybrid_fusion_engine.submit_hids_detection(hids_detection)
+        return hids_detection
 
     def run_live(self, auth_source, syscall_source=None):
         import threading
